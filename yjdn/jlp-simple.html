@@ -1,7 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
+  <head>        
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Y!API NLP demo forms</title>
     <style>
@@ -10,22 +9,22 @@
     <script>
       const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
       function method2url(method) {
-	  let cs = method.split('.');
-	  let m = cs[1].match(/^((.)(.+))service$/);
-	  if (m[1].length <= 3) cs[1] = m[1].toUpperCase();
-	  else cs[1] = m[2].toUpperCase() + m[3];
-	  return 'https://jlp.yahooapis.jp/' + cs[1] + 'Service/V2/' + cs[2];
+          let cs = method.split('.');
+          let m = cs[1].match(/^((.)(.+))service$/);
+          if (m[1].length <= 3) cs[1] = m[1].toUpperCase();
+          else cs[1] = m[2].toUpperCase() + m[3];
+          return 'https://jlp.yahooapis.jp/' + cs[1] + 'Service/V2/' + cs[2];
       }
       function analyze() {
           const request = document.querySelector("#input-json").value;
-	  const json = JSON.parse(request);
-	  const end_point = method2url(json['method']);
-	  const url = end_point + "?appid=" + encodeURIComponent(APPID);
+          const json = JSON.parse(request);
+          const end_point = method2url(json['method']);
+          const url = end_point + "?appid=" + encodeURIComponent(APPID);
           fetch(url, {
-	      method: 'POST',
-	      header: {'Content-Type': 'application/json'},
-	      body: request,
-	      mode: 'cors'
+              method: 'POST',
+              header: {'Content-Type': 'application/json'},
+              body: request,
+              mode: 'cors'
           }).then(res => res.json()).then(obj =>
               document.querySelector("#output-json").value = JSON.stringify(obj, null, 4)
           ).catch(console.error);
