@@ -84,13 +84,13 @@
       の <a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/kousei/v2/kousei.html">校正支援</a> のデモです。
     </div>
     <div class="section">
-      <textarea id="input-text" placeholder="入力テキストパネル">矢張りセキュリティーで食べれるのかが問題なる。
+      <textarea id="input-text" placeholder="入力テキスト">矢張りセキュリティーで食べれるのかが問題なる。
 しかし一週年記念で蟀谷が痛い。</textarea>
       <button onclick="do_kousei()">校正開始</button>
       <div id="output-view">出力操作パネル</div>
       <button onclick="reset_checkboxes(true)">一括承認</button>
       <button onclick="reset_checkboxes(false)">承認リセット</button>
-      <textarea id="output-text" placeholder="出力テキストパネル"></textarea>
+      <textarea id="output-text" placeholder="出力テキスト"></textarea>
       <button onclick="navigator.clipboard.writeText(document.getElementById('output-text').value)">コピー</button>
     </div>
   </body>
