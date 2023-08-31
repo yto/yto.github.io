@@ -3,13 +3,13 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>テキスト解析WebAPI 校正支援デモ</title>
+    <title>テキスト解析WebAPI 校正支援APIデモ</title>
     <style>
       * { box-sizing: border-box; }
       body { margin: 0; padding: 0 1rem 2rem 1rem; }
       .section { margin-top: 1rem; }
       textarea { margin-top: 1rem; width: 100%; height: 8rem; font-size: large; }
-      #output-view { border: dashed 2px gray; padding: 1rem; margin-top: 1rem; }
+      #view { border: dashed 2px gray; padding: 1rem; margin-top: 1rem; }
       del { background-color: #fcd; text-decoration: none; }
       ins { background-color: #bfb; text-decoration: none; color: gray; }
     </style>
@@ -36,25 +36,25 @@
           const text = document.querySelector("#input-text").value;
           const obj = await kousei_webapi(text);
           if (!obj) return;
-          make_html_view(text, obj);
-          convert_html_view_to_text();
+          make_view(text, obj);
+          convert_view_to_text();
       }
 
-      function make_html_view(text, obj) {
+      function make_view(text, obj) {
           [...obj.result.suggestions].reverse().forEach(s => {
               const pre = text.substring(0, parseInt(s.offset));
               const post = text.substring(parseInt(s.offset) + parseInt(s.length));
-              text = pre + '<span title="' + s.rule + (s.note ? ' : ' + s.note : '') + '"><del>' + s.word +
-                  '</del><ins contenteditable="true">' + (s.suggestion ? s.suggestion : s.word) +
-                  '</ins><input type="checkbox"></span>' + post;
+              const note = s.rule + (s.note ? ' : ' + s.note : '');
+              const sug = s.suggestion ? s.suggestion : s.word;
+              text = `${pre}<span title="${note}"><del>${s.word}</del><ins>${sug}</ins>` +
+                  `<input type="checkbox"></span>${post}`;
           });
-          document.querySelector("#output-view").innerHTML = text.replaceAll('\n', '<br>\n');
-          Array.from(document.querySelectorAll("#output-view span")).forEach(e => {
-              e.querySelector('del').addEventListener('click', () =>
-                  e.querySelector('input').checked && e.querySelector('input').click());
-              e.querySelector('ins').addEventListener('click', () =>
-                  e.querySelector('input').checked || e.querySelector('input').click());
-              e.querySelector('ins').addEventListener('input', () => convert_html_view_to_text());
+          document.querySelector("#view").innerHTML = text.replaceAll('\n', '<br>\n');
+          Array.from(document.querySelectorAll("#view span")).forEach(e => {
+              e.querySelector('del').addEventListener('click', () => set_checkbox(e, false));
+              e.querySelector('ins').addEventListener('click', () => set_checkbox(e, true));
+              e.querySelector('ins').addEventListener('input', () => convert_view_to_text());
+              e.querySelector('ins').contentEditable = true;
               e.querySelector('input').addEventListener('change', () => change_suggestion_style(e));
           });
       }
@@ -62,23 +62,24 @@
       function change_suggestion_style(e) {
           e.querySelector('del').style.color = e.querySelector('input').checked ? "gray" : "black";
           e.querySelector('ins').style.color = e.querySelector('input').checked ? "black" : "gray";
-          convert_html_view_to_text();
+          convert_view_to_text();
       }
 
-      function convert_html_view_to_text() {
-          const tree = document.querySelector("#output-view").cloneNode(true);
+      function convert_view_to_text() {
+          const tree = document.querySelector("#view").cloneNode(true);
           Array.from(tree.querySelectorAll('span')).forEach(e =>
               e.querySelector(e.querySelector('input').checked ? 'del' : 'ins').remove());
           document.querySelector("#output-text").value = tree.textContent;
       }
 
-      function reset_checkboxes(checked) {
-          Array.from(document.querySelectorAll('input[type="checkbox"]')).forEach(e => e.checked != checked && e.click());
-      }
+      const set_checkboxes = (checked) =>
+            Array.from(document.querySelectorAll('#view span')).forEach(e => set_checkbox(e, checked));
+      const set_checkbox = (e, checked) =>
+            (e.querySelector('input').checked != checked) && e.querySelector('input').click();
     </script>
   </head>
   <body>
-    <h1>テキスト解析WebAPI 校正支援デモ</h1>
+    <h1>テキスト解析WebAPI 校正支援APIデモ</h1>
     <div class="section">
       <a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/">テキスト解析 - Yahoo!デベロッパーネットワーク</a>
       の <a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/kousei/v2/kousei.html">校正支援</a> のデモです。
@@ -87,11 +88,38 @@
       <textarea id="input-text" placeholder="入力テキスト">矢張りセキュリティーで食べれるのかが問題なる。
 しかし一週年記念で蟀谷が痛い。</textarea>
       <button onclick="do_kousei()">校正開始</button>
-      <div id="output-view">出力操作パネル</div>
-      <button onclick="reset_checkboxes(true)">一括承認</button>
-      <button onclick="reset_checkboxes(false)">承認リセット</button>
+      <div id="view">出力操作パネル</div>
+      <button onclick="set_checkboxes(true)">一括承認</button>
+      <button onclick="set_checkboxes(false)">承認リセット</button>
       <textarea id="output-text" placeholder="出力テキスト"></textarea>
       <button onclick="navigator.clipboard.writeText(document.getElementById('output-text').value)">コピー</button>
     </div>
   </body>
 </html>
+
+<!--
+
+- 「入力テキスト」エリア
+  - 校正したいテキストを貼り付ける
+  - 「校正開始」ボタンを押す
+  - 「出力操作パネル」に結果が出力される
+- 「出力操作パネル」
+  - 校正支援 API による指摘箇所の入ったテキストが表示される
+  - 指摘箇所
+    - ピンク背景がオリジナル文字列
+      - 校正支援 API に指摘された文字列である
+      - クリックすると指摘が否認される（オリジナル文字列が採用される）
+    - グリーン背景が変更候補文字列
+      - 変更候補がない場合はオリジナル文字列が表示される
+      - クリックすると指摘が承認される（変更候補が採用される）
+      -  変更候補文字列は編集可能
+    - 承認と否認の切り替えはチェックボックスでも可能
+    - 指摘箇所にマウスカーソルをあてると、指摘理由がポップアップされる
+  - 出力操作パネルの下にあるボタン
+    - 「一括承認」ボタンはすべてを承認
+    - 「承認リセット」ボタンはすべてを否認
+- 「出力テキスト」エリア
+  - 「出力操作パネル」の中身に連動した、校正後のテキスト（最終結果）が表示される
+  - 「コピー」ボタンでクリップボードにコピーできる
+
+-->
