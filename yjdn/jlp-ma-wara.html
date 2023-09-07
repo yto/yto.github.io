@@ -35,14 +35,14 @@
           conv_wara(obj['result']['tokens']);
       }
       function conv_wara(obj) {
-	  obj.push(['','','','EOS']);
-	  const re = new RegExp('名詞|未定義語|接頭辞|接尾辞');
-	  const tokens = obj.reduce((a, b) => {
- 	      if (! b[3].match(re) && a[a.length-1][3].match(re)) a.push(['(笑)','','','']);
-	      a.push(b);
-	      return a;
-	  }, [['','','','TOS']]);
-	  document.querySelector("#output-text").value = tokens.map(x => x[0]).join("");
+          obj.push(['','','','EOS']);
+          const re = new RegExp('名詞|未定義語|接頭辞|接尾辞');
+          const tokens = obj.reduce((a, b) => {
+              if (! b[3].match(re) && a[a.length-1][3].match(re)) a.push(['(笑)','','','']);
+              a.push(b);
+              return a;
+          }, [['','','','TOS']]);
+          document.querySelector("#output-text").value = tokens.map(x => x[0]).join("");
       }
       </script>
   </head>
@@ -64,16 +64,16 @@
       <span class="sample-input">日本国民は、恒久の平和を念願し、人間相互の関係を支配する崇高な理想を深く自覚するのであって、平和を愛する諸国民の公正と信義に信頼して、われらの安全と生存を保持しようと決意した。</span>(<a target="_blank" href="https://raw.githubusercontent.com/yto/my-script/master/nkkp.txt">日本国憲法</a>)
       <ul>
         <li>テキスト入力エリアに文章を入力し「変換」ボタンを押します
-	<li>名詞連続の最後に「(笑)」が挿入され、不謹慎でイラッとする文章ができあがります
-	  <ul>
-	    <li>名詞連続には未定義語・接頭辞・接尾辞も含みます
-	  </ul>
-	<li>2007年にリリースした「テキスト変換(笑)」のリニューアル版です
-	  <ul>
-	    <li>当時のリリース報告記事: <a target="_blank" href="https://chalow.net/2007-12-02-2.html">テキスト変換(笑)を堂々公開(笑)</a>
-	    <li>旧版は MeCab を使っていました
-	    <li>本デモ（新版）のリリース報告記事: [comming soon]
-	  </ul>
+        <li>名詞連続の最後に「(笑)」が挿入され、不謹慎でイラッとする文章ができあがります
+          <ul>
+            <li>名詞連続には未定義語・接頭辞・接尾辞も含みます
+          </ul>
+        <li>2007年にリリースした「テキスト変換(笑)」のリニューアル版です
+          <ul>
+            <li>当時のリリース報告記事: <a target="_blank" href="https://chalow.net/2007-12-02-2.html">テキスト変換(笑)を堂々公開(笑)</a>
+            <li>旧版は MeCab を使っていました
+            <li>本デモ（新版）のリリース報告記事: [comming soon]
+          </ul>
       </ul>
     </div>
     <style>
