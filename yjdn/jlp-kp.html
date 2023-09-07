@@ -6,13 +6,16 @@
     <title>テキスト解析Web API キーフレーズ抽出デモ</title>
     <style>
       * { box-sizing: border-box; }
-      textarea, div { width: 100%; margin-top: 1rem; padding: 0.5rem; }
+      textarea, div { width: 100%; margin-top: 1rem; padding: 0.5rem; font-size: 1rem; }
       #view { border: dashed 2px gray; }
     </style>
     <script>
-      const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      const ClientID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      // このファイルを参考にテキスト解析 Web API を利用する場合も含め、ClientID は自分で取得したものを設定してください。
+      // 取得手順: https://developer.yahoo.co.jp/start/
+
       async function yapikp(query) {
-          const url = "https://jlp.yahooapis.jp/KeyphraseService/V2/extract" + "?appid=" + encodeURIComponent(APPID);
+          const url = "https://jlp.yahooapis.jp/KeyphraseService/V2/extract" + "?appid=" + encodeURIComponent(ClientID);
           const res = await fetch(url, {
               method: 'POST',
               mode: 'cors',
@@ -26,8 +29,8 @@
           return res.json();
       }
       async function do_henkan() {
-          const text = document.querySelector("#input-text").value;
           document.querySelector("#view").innerHTML = '';
+          const text = document.querySelector("#input-text").value;
           const obj = await yapikp(text);
           if (!obj || !obj['result'] || !obj['result']['phrases']) return;
           make_view(text, obj['result']['phrases']);
@@ -57,8 +60,8 @@
       <br>
       入力サンプル:
       <span class="sample-input">東京ミッドタウンから国立新美術館まで歩いて5分で着きます。</span> /
-      <span class="sample-input">竹千代は数え6歳で今川氏への人質として駿府へ送られることとなる。しかし、駿府への護送の途中に立ち寄った田原城で義母の父・戸田康光の裏切りにより、尾張国の織田信秀へ送られた。</span> /
-      <span class="sample-input">日本国民は、正当に選挙された国会における代表者を通じて行動し、われらとわれらの子孫のために、諸国民との協和による成果と、わが国全土にわたって自由のもたらす恵沢を確保し、政府の行為によって再び戦争の惨禍が起ることのないようにすることを決意し、ここに主権が国民に存することを宣言し、この憲法を確定する。</span>
+      <span class="sample-input">竹千代は数え6歳で今川氏への人質として駿府へ送られることとなる。しかし、駿府への護送の途中に立ち寄った田原城で義母の父・戸田康光の裏切りにより、尾張国の織田信秀へ送られた。</span>(<a target="_blank" href="https://ja.wikipedia.org/wiki/%E5%BE%B3%E5%B7%9D%E5%AE%B6%E5%BA%B7">Wikipedia</a>) /
+      <span class="sample-input">日本国民は、正当に選挙された国会における代表者を通じて行動し、われらとわれらの子孫のために、諸国民との協和による成果と、わが国全土にわたって自由のもたらす恵沢を確保し、政府の行為によって再び戦争の惨禍が起ることのないようにすることを決意し、ここに主権が国民に存することを宣言し、この憲法を確定する。</span>(<a target="_blank" href="https://raw.githubusercontent.com/yto/my-script/master/nkkp.txt">日本国憲法</a>)
     </div>
     <style>
       .document { background-color: #f0f0f0; font-size: small; padding: 0.5rem; margin: 1rem 0; }

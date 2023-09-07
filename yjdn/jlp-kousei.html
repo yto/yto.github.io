@@ -14,12 +14,12 @@
       ins { background-color: #bfb; text-decoration: none; color: gray; }
     </style>
     <script>
-      const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
-      // APPID は動作確認用のものです。このファイルをDLして使う場合は自分で取得して設定してください
-      // 手順: https://developer.yahoo.co.jp/start/
+      const ClientID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      // このファイルを参考にテキスト解析 Web API を利用する場合も含め、ClientID は自分で取得したものを設定してください。
+      // 取得手順: https://developer.yahoo.co.jp/start/
 
       async function kousei_webapi(text) {
-          const url = 'https://jlp.yahooapis.jp/KouseiService/V2/kousei?appid=' + encodeURIComponent(APPID);
+          const url = 'https://jlp.yahooapis.jp/KouseiService/V2/kousei?appid=' + encodeURIComponent(ClientID);
           return await fetch(url, {
               method: 'POST',
               body: JSON.stringify({

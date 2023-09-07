@@ -6,13 +6,16 @@
     <title>テキスト解析Web API かな漢字変換デモ</title>
     <style>
       * { box-sizing: border-box; }
-      input, div { width: 100%; margin-top: 1rem; padding: 0.5rem; }
+      input, div { width: 100%; margin-top: 1rem; padding: 0.5rem; font-size: 1rem; }
       #view { border: dashed 2px gray; }
     </style>
     <script>
-      const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      const ClientID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      // このファイルを参考にテキスト解析 Web API を利用する場合も含め、ClientID は自分で取得したものを設定してください。
+      // 取得手順: https://developer.yahoo.co.jp/start/
+
       async function yapikkh(query) {
-          const url = "https://jlp.yahooapis.jp/JIMService/V2/conversion" + "?appid=" + encodeURIComponent(APPID);
+          const url = "https://jlp.yahooapis.jp/JIMService/V2/conversion" + "?appid=" + encodeURIComponent(ClientID);
           const res = await fetch(url, {
               method: 'POST',
               mode: 'cors',
@@ -31,7 +34,7 @@
           return res.json();
       }
       async function yapifuri(query) {
-          const url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana" + "?appid=" + encodeURIComponent(APPID);
+          const url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana" + "?appid=" + encodeURIComponent(ClientID);
           const res = await fetch(url, {
               method: 'POST',
               mode: 'cors',
@@ -45,9 +48,9 @@
           return res.json();
       }
       async function do_henkan(reconv_flag) {
-          let text = document.querySelector("#input-text").value;
           document.querySelector("#view").innerHTML = '';
           document.querySelector("#output-text").value = '';
+          let text = document.querySelector("#input-text").value;
           if (reconv_flag) {
               const obj = await yapifuri(text);
               if (!obj || !obj['result']['word']) return;
