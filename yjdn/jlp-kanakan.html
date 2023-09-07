@@ -21,11 +21,11 @@
                   "jsonrpc" : "2.0",
                   "method" : "jlp.jimservice.conversion",
                   "params" : {
-		      "q" : query,
-		      "mode" : "kanakanji",
-		      "format" : "roman",
-		      "dictionary": ["base", "name", "place", "zip", "symbol"]
-		  }
+                      "q" : query,
+                      "mode" : "kanakanji",
+                      "format" : "roman",
+                      "dictionary": ["base", "name", "place", "zip", "symbol"]
+                  }
               }),
           });
           return res.json();
@@ -47,31 +47,31 @@
       async function do_henkan(reconv_flag) {
           let text = document.querySelector("#input-text").value;
           document.querySelector("#view").innerHTML = '';
-	  document.querySelector("#output-text").value = '';
-	  if (reconv_flag) {
+          document.querySelector("#output-text").value = '';
+          if (reconv_flag) {
               const obj = await yapifuri(text);
               if (!obj || !obj['result']['word']) return;
               text = obj['result']['word'].map(x => x['furigana'] || x['surface']).join("");
-	  }
+          }
           const obj = await yapikkh(text);
           if (!obj || !obj['result']) return;
           make_view(text, obj);
-	  convert_view_to_text();
+          convert_view_to_text();
       }
       function make_view(text, obj) {
           const hstr = obj['result']['segment'].map(x => {
-	      if (x['candidate'].length == 1) return x['candidate'][0];
-	      else return `<select onchange="convert_view_to_text()">` + 
-		  x['candidate'].map(c => `<option value=${c}>${c}</option>`).join("") +
-		  `</select>`;
-	  }).join("");
+              if (x['candidate'].length == 1) return x['candidate'][0];
+              else return `<select onchange="convert_view_to_text()">` + 
+                  x['candidate'].map(c => `<option value=${c}>${c}</option>`).join("") +
+                  `</select>`;
+          }).join("");
           document.querySelector("#view").innerHTML = hstr.replaceAll('\n', '<br>\n');
       }
       function convert_view_to_text() {
-	  document.querySelector("#output-text").value = 
-		Array.from(document.querySelector("#view").childNodes).map(
-		    e => e.hasAttribute ? e.value : e.textContent
-		).join("");
+          document.querySelector("#output-text").value = 
+                Array.from(document.querySelector("#view").childNodes).map(
+                    e => e.hasAttribute ? e.value : e.textContent
+                ).join("");
       }
     </script>
   </head>
@@ -83,32 +83,43 @@
     <div id="view">変換候補選択パネル</div>
     <input id="output-text" placeholder="テキスト出力エリア">
     <button onclick="navigator.clipboard.writeText(document.getElementById('output-text').value)">コピー</button>
+
     <!-- ドキュメント FROM HERE -->
-    <div style="background-color: #f0f0f0; font-size: small; padding: 0.5rem;">
+    <div class="document">
       <a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/">テキスト解析 Web API</a>
       の「<a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/jim/v2/conversion.html">かな漢字変換</a>」のデモです。
       <br>
-      入力サンプル:
-      <b>kyouhaamedesu</b> / <b>とうきょうとっきょきょかきょく</b> / <b>なら尖端化学技術大学院大学</b> (再変換用)
+      入力サンプル: <span class="sample-input">kyouhaamedesu.</span> /
+      <span class="sample-input">とうきょうとっきょきょかきょく</span> /
+      <span class="sample-input">なら尖端化学技術大学院大学</span> (再変換用)
       <ul>
-	<li>かな漢字変換
-	  <ul>
-	    <li>「テキスト入力エリア」に変換したいテキスト（ひらがなかローマ字）を入力し「かな漢字変換」ボタンでかな漢字変換を行う
-	  </ul>
-	<li>再変換
-	  <ul>
-	    <li>「テキスト入力エリア」にかな漢字混じり文を入力し「再変換」ボタンで再度かな漢字変換を行う
-	    <li>内部では「<a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/furigana/v2/furigana.html">ルビ振り</a>」で一度ひらがな文に変換後かな漢字変換を行なっている
-	  </ul>
-	<li>変換候補の選択
-	  <ul>
-	    <li>「変換候補選択パネル」に変換候補が表示される
-	    <li>プルダウンメニューで変換候補から適切なものを選択する
-	    <li>「テキスト出力エリア」に最終的な変換結果が表示される
-	    <li>「コピー」ボタンでクリップボードにコピーできる
-	  </ul>
+        <li>かな漢字変換
+          <ul>
+            <li>「テキスト入力エリア」に変換したいテキスト（ひらがなかローマ字）を入力し「かな漢字変換」ボタンでかな漢字変換を行う
+          </ul>
+        <li>再変換
+          <ul>
+            <li>「テキスト入力エリア」にかな漢字混じり文を入力し「再変換」ボタンで再度かな漢字変換を行う
+            <li>内部では「<a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/furigana/v2/furigana.html">ルビ振り</a>」で一度ひらがな文に変換後かな漢字変換を行なっている
+          </ul>
+        <li>変換候補の選択
+          <ul>
+            <li>「変換候補選択パネル」に変換候補が表示される
+            <li>プルダウンメニューで変換候補から適切なものを選択する
+            <li>「テキスト出力エリア」に最終的な変換結果が表示される
+            <li>「コピー」ボタンでクリップボードにコピーできる
+          </ul>
       </ul>
     </div>
+    <style>
+      .document { background-color: #f0f0f0; font-size: small; padding: 0.5rem; margin: 1rem 0; }
+      .sample-input { color: blue; cursor: pointer; }
+    </style>
+    <script>
+      Array.from(document.querySelectorAll(".sample-input")).forEach(e =>
+          e.addEventListener('click', () => document.querySelector("#input-text").value = e.textContent));
+    </script>
     <!-- ドキュメント TO HERE -->
+
   </body>
 </html>
