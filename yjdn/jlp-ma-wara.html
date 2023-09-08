@@ -32,17 +32,16 @@
           const text = document.querySelector("#input-text").value;
           const obj = await yapima(text);
           if (!obj || !obj['result'] || !obj['result']['tokens']) return;
-          conv_wara(obj['result']['tokens']);
+          document.querySelector("#output-text").value = conv_wara(obj['result']['tokens']);
       }
       function conv_wara(obj) {
           obj.push(['','','','EOS']);
           const re = new RegExp('名詞|未定義語|接頭辞|接尾辞');
-          const tokens = obj.reduce((a, b) => {
+          return obj.reduce((a, b) => {
               if (! b[3].match(re) && a[a.length-1][3].match(re)) a.push(['(笑)','','','']);
               a.push(b);
               return a;
-          }, [['','','','TOS']]);
-          document.querySelector("#output-text").value = tokens.map(x => x[0]).join("");
+          }, [['','','','TOS']]).map(x => x[0]).join("");
       }
       </script>
   </head>
@@ -72,7 +71,7 @@
           <ul>
             <li>当時のリリース報告記事: <a target="_blank" href="https://chalow.net/2007-12-02-2.html">テキスト変換(笑)を堂々公開(笑)</a>
             <li>旧版は MeCab を使っていました
-            <li>本デモ（新版）のリリース報告記事: [comming soon]
+            <li>本デモ（新版）のリリース報告記事: <a target="_blank" href="https://chalow.net/2023-09-07-1.html">テキスト変換(笑)を堂々リニューアル公開(笑)</a>
           </ul>
       </ul>
     </div>
