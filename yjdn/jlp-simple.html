@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>        
+  <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Y!API NLP demo forms</title>
     <style>
       textarea { width: 95%; height: 15rem; display: block; }
     </style>
     <script>
-      const APPID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
+      const ClientID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
       function method2url(method) {
           let cs = method.split('.');
           let m = cs[1].match(/^((.)(.+))service$/);
@@ -19,10 +19,9 @@
           const request = document.querySelector("#input-json").value;
           const json = JSON.parse(request);
           const end_point = method2url(json['method']);
-          const url = end_point + "?appid=" + encodeURIComponent(APPID);
+          const url = end_point + "?appid=" + encodeURIComponent(ClientID);
           fetch(url, {
               method: 'POST',
-              header: {'Content-Type': 'application/json'},
               body: request,
               mode: 'cors'
           }).then(res => res.json()).then(obj =>
@@ -35,5 +34,10 @@
     <textarea id="input-json" placeholder="入力 JSON"></textarea>
     <button onclick="analyze()">解析する</button>
     <textarea id="output-json" placeholder="解析結果 JSON"></textarea>
+    <div style="text-align: right">
+      <!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
+      <span style="margin:15px 15px 15px 15px"><a href="https://developer.yahoo.co.jp/sitemap/">Web Services by Yahoo! JAPAN</a></span>
+      <!-- End Yahoo! JAPAN Web Services Attribution Snippet -->
+    </div>
   </body>
 </html>
