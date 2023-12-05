@@ -32,7 +32,7 @@
           document.querySelector("#view").innerHTML = '';
           const text = document.querySelector("#input-text").value;
           const obj = await yapikp(text);
-	  if (! obj?.result?.tokens) return;
+	  if (! obj?.result?.phrases) return;
           make_view(text, obj['result']['phrases']);
       }
       function make_view(text, obj) {
