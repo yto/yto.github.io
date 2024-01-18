@@ -34,6 +34,7 @@
         <option value="DA">日本語係り受け解析</option>
         <option value="Keyphrase">キーフレーズ抽出</option>
         <option value="NLU">自然言語理解</option>
+        <option value="NER">固有表現抽出</option>
       </select>
       <p>
       &darr;
@@ -56,7 +57,7 @@
           if (e.currentTarget.value) {
               document.querySelector("#input-json").value = JSON.stringify(sample_req[e.currentTarget.value], null, 4);
               const url = method2url(sample_req[e.currentTarget.value]['method']);
-	      end_point = url;
+              end_point = url;
           }
       });
       document.getElementById('prity').addEventListener('change', () => dodo());
@@ -66,7 +67,8 @@
           let m = cs[1].match(/^((.)(.+))service$/);
           if (m[1].length <= 3) cs[1] = m[1].toUpperCase();
           else cs[1] = m[2].toUpperCase() + m[3];
-          return 'https://jlp.yahooapis.jp/' + cs[1] + 'Service/V2/' + cs[2];
+          const version = cs[1].startsWith('NER') ? 1 : 2;
+          return `https://jlp.yahooapis.jp/${cs[1]}Service/V${version}/${cs[2]}`;
       }
 
       async function post_jlp(url, request) {
@@ -79,12 +81,12 @@
 
       async function dodo() {
           const req = document.querySelector("#input-json").value;
-	  try {
+          try {
               let json = JSON.parse(req);
               end_point = method2url(json['method']);
-	  } catch(e) {
-	      return;
-	  }
+          } catch(e) {
+              return;
+          }
           const url = end_point + "?appid=" + encodeURIComponent(ClientID);
           console.log(url);
 
@@ -92,10 +94,10 @@
           console.log(obj);
 
           document.querySelector("#output-json").value = "";
-	  if (obj) {
+          if (obj) {
               const indent = document.getElementById('prity').checked ? 4 : 0;
               document.querySelector("#output-json").value = JSON.stringify(obj, null, indent);
-	  }
+          }
       }
     </script>
 
@@ -165,6 +167,14 @@
               "method" : "jlp.nluservice.analyze",
               "params" : {
                   "q" : "新宿の天気"
+              }
+          },
+          'NER' : {
+              "id": "1234-1",
+              "jsonrpc" : "2.0",
+              "method" : "jlp.nerservice.extract",
+              "params" : {
+                  "q" : "Xデータ株式会社の加藤さんは、10時に東京駅に到着しました。"
               }
           },
       };
