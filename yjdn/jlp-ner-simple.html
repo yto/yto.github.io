@@ -11,8 +11,7 @@
     </style>
     <script>
       const ClientID = 'gUxspU.xg66pvU6W5OJMz0vH10FYB.FT4sWcQomZrtmPD6sG.14VlAuMdCGoBuIeMyOpRtlJBlc-';
-      // このファイルを参考にテキスト解析 Web API を利用する場合も含め、ClientID は自分で取得したものを設定してください。
-      // 取得手順: https://developer.yahoo.co.jp/start/
+      //const ClientID = 'あなたの Client ID（アプリケーション ID）';
 
       async function yapiner(query) {
           const url = "https://jlp.yahooapis.jp/NERService/V1/extract?appid=" + encodeURIComponent(ClientID);
@@ -55,38 +54,6 @@
     <textarea id="input-text" placeholder="入力エリア"></textarea>
     <button onclick="do_henkan()">実行</button>
     <div id="view">出力エリア</div>
-
-    <!-- ドキュメント FROM HERE -->
-    <div class="document">
-      <a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/">テキスト解析 Web API</a>
-      の「<a target="_blank" href="https://developer.yahoo.co.jp/webapi/jlp/ner/v1/index.html">固有表現抽出</a>」のデモです。
-      <br>
-      入力サンプル:
-      <span class="sample-input">六本木駅（東京メトロ）から国立新美術館まで歩いて5分で着きます。</span> /
-      <span class="sample-input">Xデータ株式会社の加藤さんは、10時に東京駅に到着しました。</span> /
-      <span class="sample-input">竹千代は数え6歳で今川氏への人質として駿府へ送られることとなる。しかし、駿府への護送の途中に立ち寄った田原城で義母の父・戸田康光の裏切りにより、尾張国の織田信秀へ送られた。</span>(<a target="_blank" href="https://ja.wikipedia.org/wiki/%E5%BE%B3%E5%B7%9D%E5%AE%B6%E5%BA%B7">Wikipedia</a>) /
-      <ul>
-        <li>テキスト中の固有表現に自動でハイパーリンクを張ります
-        <li>対応する固有表現の種類は
-          ORGANIZATION（組織名）, PERSON（人名）, LOCATION（地名）, ARTIFACT（固有物名）
-          の4つです
-          <ul>
-            <li>この Web API では他に DATE, TIME, MONEY, PERCENT も扱えますがこのデモでは用いません
-          </ul>
-        <li>LOCATION には <a target="_blank" href="https://map.yahoo.co.jp/">Yahoo!マップ</a>のキーワード検索、
-          ORGANIZATION, PERSON, ARTIFACT には<a target="_blank" href="https://ja.wikipedia.org/">ウィキペディア</a>のキーワード検索へのリンクが張られます
-      </ul>
-
-    </div>
-    <style>
-      .document { background-color: #f0f0f0; font-size: small; padding: 0.5rem; margin: 1rem 0; }
-      .sample-input { color: blue; cursor: pointer; }
-    </style>
-    <script>
-      [...document.querySelectorAll(".sample-input")].forEach(e =>
-          e.addEventListener('click', () => document.querySelector("#input-text").value = e.textContent));
-    </script>
-    <!-- ドキュメント TO HERE -->
 
     <div style="text-align: right">
       <!-- Begin Yahoo! JAPAN Web Services Attribution Snippet -->
