@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>tekitof sample page: keyword filter</title>
+    <style>
+      .box { border: solid 1px gray; margin: 2px; padding: 2px; }
+      .lang[data-lang="ja"] { color: red; font-size: 50%; font-weight: bold; }
+      .lang[data-lang="en"] { color: blue; font-size: 50%; font-weight: bold; }
+      .number { color: white; background-color: gray; padding: 1px; }
+      body > div { border-top: solid 1px gray; padding-top: 1rem; padding-bottom: 1rem; }
+    </style>
+    <script src="tekitof.js"></script>
+    <script>
+      let tktf;
+      document.addEventListener('DOMContentLoaded', () => {
+          tktf = new Tekitof(document.querySelector('.text-list'));
+          document.getElementById('search_button').addEventListener('click', () =>
+              tktf.filter_keyword('*', document.getElementById('search_keyword').value));
+          document.getElementById('search_keyword').addEventListener('keydown', () =>
+              (event.key === 'Enter') && document.getElementById('search_button').click());
+          document.getElementById('reset_button').addEventListener('click', () => {
+              document.getElementById('search_keyword').value = '';
+              tktf.filter_reset();
+          });
+          document.getElementById('reverse_button').addEventListener('click', () =>
+              tktf.filter_reverse());
+      });
+    </script>
+  </head>
+  <body>
+    <h1>キーワードフィルター</h1>
+    <div>
+      <input id="search_keyword" type="text" placeholder="keyword">
+      <button id="search_button">検索</button>
+      <button id="reverse_button">反転</button>
+      <button id="reset_button">リセット</button>
+    </div>
+    <div class="text-list">
+      <div class="box">
+        <span class="number" data-number="1">1</span>
+        <span class="lang" data-lang="ja">日本語</span>
+        <span class="line">公務員を選定し、及びこれを罷免することは、国民固有の権利である。</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="1">1</span>
+        <span class="lang" data-lang="en">英語</span>
+        <span class="line">The people have the inalienable right to choose their public officials and to dismiss them.</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="2">2</span>
+        <span class="lang" data-lang="ja">日本語</span>
+        <span class="line">すべて公務員は、全体の奉仕者であつて、一部の奉仕者ではない。</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="2">2</span>
+        <span class="lang" data-lang="en">英語</span>
+        <span class="line">All public officials are servants of the whole community and not of any group thereof.</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="3">3</span>
+        <span class="lang" data-lang="ja">日本語</span>
+        <span class="line">公務員の選挙については、成年者による普通選挙を保障する。</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="3">3</span>
+        <span class="lang" data-lang="en">英語</span>
+        <span class="line">Universal adult suffrage is guaranteed with regard to the election of public officials.</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="4">4</span>
+        <span class="lang" data-lang="ja">日本語</span>
+        <span class="line">すべて選挙における投票の秘密は、これを侵してはならない。</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="4">4</span>
+        <span class="lang" data-lang="en">英語</span>
+        <span class="line">In all elections, secrecy of the ballot shall not be violated.</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="5">5</span>
+        <span class="lang" data-lang="ja">日本語</span>
+        <span class="line">選挙人は、その選択に関し公的にも私的にも責任を問はれない。</span>
+      </div>
+      <div class="box">
+        <span class="number" data-number="5">5</span>
+        <span class="lang" data-lang="en">英語</span>
+        <span class="line">A voter shall not be answerable, publicly or privately, for the choice he has made.</span>
+      </div>
+    </div>
+  <body>
+</html>
