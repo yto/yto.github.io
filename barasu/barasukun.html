@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>低かぶり複数回グルーピングツール「バラすくん」</title>
+    <style>
+      textarea {
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 16px;
+      }
+      input, button {
+          font-size: 16px;
+      }
+      textarea { width: 100%; margin-top: 0.5em; }
+      .buttons { margin-top: 1em; }
+      .buttons button { margin-right: 0.5em; }
+    </style>
+  </head>
+  <body>
+    <h1>低かぶり複数回グルーピングツール「バラすくん」</h1>
+
+    <p>
+      グループ分けを複数回やるときになるべく同じ人とかぶらないように振り分けるやつです。
+      <br>
+      LLMに作ってもらいました。<a href="https://github.com/yto/yto.github.io/">仕様書（兼プロンプト）はこちら</a>。
+    </p>
+
+    
+    <label for="input">参加者（履歴付き）:</label><br>
+    <textarea id="input" rows="15" oninput="updateParticipantCount()"></textarea><br>
+
+    <label>参加者数:</label> <span id="participantCount">0</span><br>
+    <label for="groupCount">グループ数（1〜26）:</label>
+    <input type="number" id="groupCount" value="3" min="1" max="26"><br>
+
+    <div class="buttons">
+      <button onclick="assignGroups()">グループ分け実行</button>
+      <button onclick="cancelLastRound()">1ステップ戻る</button>
+    </div>
+
+    <h2>グループ表示</h2>
+    <textarea id="groupOutput" rows="10" readonly></textarea>
+
+    <h2>統計情報</h2>
+    <textarea id="statsOutput" rows="15" readonly></textarea>
+
+    <script>
+      // 初期サンプル参加者
+      const defaultParticipants = [
+          "Cat", "Lion", "Pig", "Fox", "Tiger",
+          "Duck", "Wolf", "Cow", "Bear", "Dog", "Owl"
+      ];
+
+      // 初期入力セット＆人数更新
+      window.onload = () => {
+          const input = document.getElementById("input");
+          input.value = defaultParticipants.join("\n");
+          updateParticipantCount(); // ← 人数を更新
+      };
+
+      // 参加者データを名前と履歴に分けて構造化
+      function parseEntry(entry) {
+          const name = entry.split('#')[0];
+          const history = entry.match(/#\d+[A-Z]/g) || [];
+          return { name, history };
+      }
+
+      // 履歴から現在の回数を取得
+      function getCurrentRound(entries) {
+          let max = 0;
+          for (const e of entries) {
+              for (const h of e.history) {
+                  const n = parseInt(h.slice(1));
+                  if (n > max) max = n;
+              }
+          }
+          return max + 1;
+      }
+
+      // またかよ数を算出するマップを作成（履歴末尾は無視）
+      function getCoOccurrenceMap(entries, ignoreLast = true) {
+          const map = {};
+          const histories = {};
+          for (const e of entries) {
+              histories[e.name] = ignoreLast ? e.history.slice(0, -1) : e.history;
+              map[e.name] = {};
+          }
+          for (const a of entries) {
+              for (const b of entries) {
+                  if (a.name === b.name) continue;
+                  const overlap = histories[a.name].filter(h => histories[b.name].includes(h));
+                  map[a.name][b.name] = overlap.length;
+              }
+          }
+          return map;
+      }
+
+      // グループ分けの実行（仕様のロジックに従う）
+      function assignGroups() {
+          const input = document.getElementById("input");
+          const raw = input.value.trim().split(/\r?\n/).filter(Boolean);
+          let entries = raw.map(parseEntry);
+          const round = getCurrentRound(entries);
+          const groupCount = Math.min(parseInt(document.getElementById("groupCount").value), 26);
+          const groupNames = Array.from({ length: groupCount }, (_, i) => String.fromCharCode(65 + i));
+          const groups = Object.fromEntries(groupNames.map(g => [g, []]));
+          const coMap = getCoOccurrenceMap(entries);
+
+          if (round === 1) {
+              const shuffled = [...entries].sort(() => Math.random() - 0.5);
+              shuffled.forEach((e, i) => {
+                  const g = groupNames[i % groupCount];
+                  groups[g].push(e);
+              });
+          } else {
+              // 「P人を所属グループでソートしたリストを作る」
+              entries.sort((a, b) => {
+                  const ga = a.history.at(-1)?.match(/#\d+([A-Z])/)?.[1] || '';
+                  const gb = b.history.at(-1)?.match(/#\d+([A-Z])/)?.[1] || '';
+                  return ga.localeCompare(gb);
+              });
+
+              for (const p of entries) {
+                  const empty = groupNames.find(g => groups[g].length === 0);
+                  if (empty) {
+                      groups[empty].push(p);
+                      continue;
+                  }
+
+                  const minSize = Math.min(...groupNames.map(g => groups[g].length));
+                  const candidates = groupNames.filter(g => groups[g].length === minSize);
+
+                  let minMK = Infinity;
+                  let selected = candidates[0];
+                  for (const g of candidates) {
+                      const mk = groups[g].reduce((acc, q) => acc + (coMap[p.name][q.name] || 0), 0);
+                      if (mk < minMK) {
+                          minMK = mk;
+                          selected = g;
+                      }
+                  }
+                  groups[selected].push(p);
+              }
+          }
+
+          const updated = groupNames.flatMap(g => groups[g].map(e => `${e.name}${e.history.join('')}#${round}${g}`));
+          input.value = updated.join("\n");
+          updateParticipantCount();
+          showGroups();
+          showStats();
+      }
+
+      function cancelLastRound() {
+          const input = document.getElementById("input");
+          const updated = input.value.trim().split(/\r?\n/).map(line => line.replace(/#\d+[A-Z]$/, '')).sort();
+          input.value = updated.join("\n");
+          updateParticipantCount();
+          showGroups();
+          showStats();
+      }
+
+      // グループを表示（末尾の履歴でグループ判断）
+      function showGroups() {
+          const raw = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean);
+          const groups = {};
+          for (const line of raw) {
+              const match = line.match(/#(\d+)([A-Z])$/);
+              if (!match) continue;
+              const group = match[2];
+              const name = line.split('#')[0];
+              if (!groups[group]) groups[group] = [];
+              groups[group].push(name);
+          }
+          const display = Object.keys(groups).sort().map(g => `${g} ${groups[g].join(' ')}`).join("\n");
+          document.getElementById("groupOutput").value = display;
+      }
+
+      // またかよ数と平均を表示（末尾の履歴は除外）
+      function showStats() {
+          const raw = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean);
+          const entries = raw.map(parseEntry);
+          const coMap = getCoOccurrenceMap(entries, true);
+          const groupMap = {};
+          for (const e of entries) {
+              const last = e.history.at(-1)?.match(/#(\d+)([A-Z])/);
+              if (!last) continue;
+              const g = last[2];
+              if (!groupMap[g]) groupMap[g] = [];
+              groupMap[g].push(e.name);
+          }
+
+          const lines = [];
+          for (const g of Object.keys(groupMap).sort()) {
+              const members = groupMap[g];
+              let total = 0;
+              for (const m of members) {
+                  const mk = members.reduce((sum, other) => sum + (m !== other ? (coMap[m][other] || 0) : 0), 0);
+                  lines.push(`${m}: MK=${mk}`);
+                  total += mk;
+              }
+              lines.push(`Group ${g}: MA=${(total / members.length).toFixed(2)}`);
+              lines.push('');
+          }
+          document.getElementById("statsOutput").value = lines.join("\n");
+      }
+
+      function updateParticipantCount() {
+          const count = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean).length;
+          document.getElementById("participantCount").textContent = count;
+      }
+    </script>
+  </body>
+</html>
