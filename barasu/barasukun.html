@@ -33,7 +33,8 @@
 
     <label>参加者数:</label> <span id="participantCount">0</span><br>
     <label for="groupCount">グループ数（1〜26）:</label>
-    <input type="number" id="groupCount" value="3" min="1" max="26"><br>
+    <input type="number" id="groupCount" value="3" min="1" max="26" oninput="updateGroupSizeHint()">
+    <span id="groupSizeHint"></span>
 
     <div class="buttons">
       <button onclick="assignGroups()">グループ分け実行</button>
@@ -209,6 +210,26 @@
       function updateParticipantCount() {
           const count = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean).length;
           document.getElementById("participantCount").textContent = count;
+          updateGroupSizeHint(); // ← これを追加！
+      }
+
+      function updateGroupSizeHint() {
+          const count = parseInt(document.getElementById("participantCount").textContent);
+          const groupCount = parseInt(document.getElementById("groupCount").value);
+          const span = document.getElementById("groupSizeHint");
+          
+          if (!groupCount || groupCount < 1) {
+              span.textContent = '';
+              return;
+          }
+          
+          const min = Math.floor(count / groupCount);
+          const max = Math.ceil(count / groupCount);
+          if (min === max) {
+              span.textContent = `（1グループあたり${min}人）`;
+          } else {
+              span.textContent = `（1グループあたり${min}〜${max}人）`;
+          }
       }
     </script>
   </body>
