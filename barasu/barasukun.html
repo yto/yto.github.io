@@ -44,8 +44,29 @@
 
     <div class="buttons">
       <button onclick="assignGroups()">グループ分け実行</button>
-      <button onclick="cancelLastRound()">1ステップ戻る</button>
+      <button onclick="undoHistory()">⬅️ 1ステップ戻る</button>
+      <button onclick="redoHistory()">➡️ 1ステップ進む</button>
     </div>
+    <details class="buttons">
+      <summary>補助機能を表示</summary>
+      <div style="margin-top: 0.5em;">
+        <button onclick="formatInputText()">1行1エントリ化</button>
+        <button onclick="filterParticipants()">参加者更新</button>
+      </div>
+    </details>
+    <script>
+      function formatInputText() {
+	  const input = document.getElementById("input");
+	  const raw = input.value;
+	  const normalized = raw.replace(/[\uFEFF\u200B\u2060\u00A0]/g, '')  // 不可視文字を削除
+	  const entries = normalized.split(/ {2,}/).map(s => s.trim()).filter(Boolean);
+	  input.value = entries.join("\n");
+	  updateParticipantCount();
+	  showGroups();
+	  showStats();
+	  showToast("テキストを整形しました");
+      }
+    </script>
 
     <h2>グループ表示</h2>
     <div class="options">
@@ -66,6 +87,9 @@
     <textarea id="statsOutput" rows="15" readonly></textarea>
 
     <script>
+      let history = [];
+      let currentHistoryIndex = -1;
+
       // 初期サンプル参加者
       const defaultParticipants = [
           "Cat", "Lion", "Pig", "Fox", "Tiger",
@@ -171,15 +195,7 @@
           updateParticipantCount();
           showGroups();
           showStats();
-      }
-
-      function cancelLastRound() {
-          const input = document.getElementById("input");
-          const updated = input.value.trim().split(/\r?\n/).map(line => line.replace(/#\d+[A-Z]$/, '')).sort();
-          input.value = updated.join("\n");
-          updateParticipantCount();
-          showGroups();
-          showStats();
+          pushToHistory()
       }
 
       // グループを表示（末尾の履歴でグループ判断）
@@ -245,6 +261,7 @@
           const count = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean).length;
           document.getElementById("participantCount").textContent = count;
           updateGroupSizeHint(); // ← これを追加！
+          pushToHistory()
       }
 
       function updateGroupSizeHint() {
@@ -287,6 +304,86 @@
                   toast.style.display = "none";
               }, 300); // fade out duration
           }, 1200); // visible duration
+      }
+
+      function filterParticipants() {
+          const input = document.getElementById("input");
+          const lines = input.value.trim().split(/\r?\n/).filter(Boolean);
+
+          // --- 履歴なしの行が1つもないなら処理中止 ---
+          const hasPlain = lines.some(line => !/#\d+[A-Z]/.test(line));
+          if (!hasPlain) {
+              showToast("履歴なしの参加者がいないため、更新フィルターは実行されません。");
+              return;
+          }
+
+          const nameToEntries = {};
+          for (const line of lines) {
+              const name = line.split('#')[0];
+              if (!nameToEntries[name]) nameToEntries[name] = [];
+              nameToEntries[name].push(line);
+          }
+          
+          const output = [];
+          
+          for (const name in nameToEntries) {
+              const entries = nameToEntries[name];
+              const hasHistory = entries.some(line => /#\d+[A-Z]/.test(line));
+              const hasPlain = entries.some(line => !/#\d+[A-Z]/.test(line));
+
+              if (entries.length > 1 && hasHistory) {
+                  // 重複あり → 履歴ありだけ残す
+                  output.push(...entries.filter(line => /#\d+[A-Z]/.test(line)));
+              } else if (entries.length === 1) {
+                  // 一意の場合
+                  if (!/#\d+[A-Z]/.test(entries[0])) {
+                      output.push(entries[0]); // 履歴なし → 残す
+                  }
+                  // 履歴ありだけ → 残さない（幽霊）
+              }
+          }
+
+          input.value = output.join("\n");
+          updateParticipantCount();
+          showGroups();
+          showStats();
+          showToast("更新フィルターを実行しました");
+          pushToHistory()
+      }
+
+      function pushToHistory() {
+          const text = document.getElementById("input").value;
+          // 変更がないなら記録しない
+          if (history[currentHistoryIndex] === text) return;
+
+          // 1つ先以降の履歴は破棄（Redoスタックを消す）
+          history = history.slice(0, currentHistoryIndex + 1);
+          history.push(text);
+          currentHistoryIndex++;
+      }
+      function undoHistory() {
+          if (currentHistoryIndex > 0) {
+              currentHistoryIndex--;
+              document.getElementById("input").value = history[currentHistoryIndex];
+              updateParticipantCount();
+              showGroups();
+              showStats();
+              showToast("1ステップ戻しました");
+          } else {
+              showToast("これ以上戻れません");
+          }
+      }
+      function redoHistory() {
+          if (currentHistoryIndex < history.length - 1) {
+              currentHistoryIndex++;
+              document.getElementById("input").value = history[currentHistoryIndex];
+              updateParticipantCount();
+              showGroups();
+              showStats();
+              showToast("1ステップ進めました");
+          } else {
+              showToast("これ以上進めません");
+          }
       }
     </script>
 
