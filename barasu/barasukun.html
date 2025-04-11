@@ -9,13 +9,20 @@
           width: 100%;
           box-sizing: border-box;
           font-size: 16px;
+          margin-top: 0.5em;
       }
-      input, button {
+      input, button, select {
           font-size: 16px;
       }
-      textarea { width: 100%; margin-top: 0.5em; }
-      .buttons { margin-top: 1em; }
-      .buttons button { margin-right: 0.5em; }
+      .buttons {
+          margin-top: 1em;
+      }
+      .buttons button {
+          margin-right: 0.5em;
+      }
+      .options {
+          margin: 0.5em 0;
+      }
     </style>
   </head>
   <body>
@@ -27,7 +34,6 @@
       LLMに作ってもらいました。<a href="https://github.com/yto/yto.github.io/tree/main/barasu">仕様書（兼プロンプト）はこちら</a>。
     </p>
 
-    
     <label for="input">参加者（履歴付き）:</label><br>
     <textarea id="input" rows="15" oninput="updateParticipantCount()"></textarea><br>
 
@@ -42,6 +48,18 @@
     </div>
 
     <h2>グループ表示</h2>
+    <div class="options">
+      <label><input type="checkbox" id="showGroupLabel" checked onchange="showGroups()"> グループ名表示</label><br>
+      <label>セパレータ:
+        <select id="separatorSelect" onchange="showGroups()">
+          <option value=" ">スペース</option>
+          <option value=",">カンマ</option>
+          <option value="  ">ダブルスペース</option>
+          <option value="\t">タブ</option>
+        </select>
+      </label>
+    </div>
+    <button onclick="copyGroupOutput()">コピー</button>
     <textarea id="groupOutput" rows="10" readonly></textarea>
 
     <h2>統計情報</h2>
@@ -168,6 +186,8 @@
       function showGroups() {
           const raw = document.getElementById("input").value.trim().split(/\r?\n/).filter(Boolean);
           const groups = {};
+
+          // 履歴の末尾からグループ名を抽出して分類
           for (const line of raw) {
               const match = line.match(/#(\d+)([A-Z])$/);
               if (!match) continue;
@@ -176,7 +196,19 @@
               if (!groups[group]) groups[group] = [];
               groups[group].push(name);
           }
-          const display = Object.keys(groups).sort().map(g => `${g} ${groups[g].join(' ')}`).join("\n");
+
+          // グループ名の表示・非表示を切り替え
+          const showLabel = document.getElementById("showGroupLabel").checked;
+
+          // セパレータを取得し、\t は明示的に変換
+          const sepValue = document.getElementById("separatorSelect").value;
+          const separator = sepValue === "\\t" ? "\t" : sepValue;
+
+          // グループごとの表示行を組み立て
+          const display = Object.keys(groups).sort().map(g => {
+              return (showLabel ? g + separator : '') + groups[g].join(separator);
+          }).join("\n");
+
           document.getElementById("groupOutput").value = display;
       }
 
@@ -233,6 +265,50 @@
               span.textContent = `（1グループあたり${min}〜${max}人）`;
           }
       }
+
+      function copyGroupOutput() {
+          const textarea = document.getElementById("groupOutput");
+          navigator.clipboard.writeText(textarea.value).then(() => {
+              showToast("コピーしました！");
+          }).catch(err => {
+              showToast("コピーに失敗しました");
+          });
+      }
+
+      function showToast(message) {
+          const toast = document.getElementById("toast");
+          toast.textContent = message;
+          toast.style.display = "block";
+          toast.style.opacity = "0.9";
+
+          setTimeout(() => {
+              toast.style.opacity = "0";
+              setTimeout(() => {
+                  toast.style.display = "none";
+              }, 300); // fade out duration
+          }, 1200); // visible duration
+      }
     </script>
+
+    <style>
+      div#toast {
+          display: none;
+          position: fixed;
+          bottom: 1em;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #333;
+          color: #fff;
+          padding: 0.5em 1em;
+          border-radius: 5px;
+          font-size: 14px;
+          opacity: 0.9;
+          z-index: 9999;
+          transition: opacity 0.3s ease;
+      }
+    </style>
+    <div id="toast">
+      コピーしました！
+    </div>
   </body>
 </html>
