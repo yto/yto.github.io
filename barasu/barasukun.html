@@ -56,15 +56,15 @@
     </details>
     <script>
       function formatInputText() {
-	  const input = document.getElementById("input");
-	  const raw = input.value;
-	  const normalized = raw.replace(/[\uFEFF\u200B\u2060\u00A0]/g, '')  // 不可視文字を削除
-	  const entries = normalized.split(/ {2,}/).map(s => s.trim()).filter(Boolean);
-	  input.value = entries.join("\n");
-	  updateParticipantCount();
-	  showGroups();
-	  showStats();
-	  showToast("テキストを整形しました");
+          const input = document.getElementById("input");
+          const raw = input.value;
+          const normalized = raw.replace(/[\uFEFF\u200B\u2060\u00A0]/g, '')  // 不可視文字を削除
+          const entries = normalized.split(/ {2,}/).map(s => s.trim()).filter(Boolean);
+          input.value = entries.join("\n");
+          updateParticipantCount();
+          showGroups();
+          showStats();
+          showToast("テキストを整形しました");
       }
     </script>
 
@@ -159,12 +159,11 @@
               });
           } else {
               // 「P人を所属グループでソートしたリストを作る」
+              entries = entries.sort(() => Math.random() - 0.5);
               entries.sort((a, b) => {
                   const ga = a.history.at(-1)?.match(/#\d+([A-Z])/)?.[1] || '';
                   const gb = b.history.at(-1)?.match(/#\d+([A-Z])/)?.[1] || '';
-                  //return ga.localeCompare(gb);
-                  // 逆順にする (グループAの1番目の人が固定されてしまうため)
-                  return gb.localeCompare(ga);
+                  return ga.localeCompare(gb);
               });
 
               for (const p of entries) {
