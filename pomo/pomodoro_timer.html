@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>もくもくポモドーロタイマー</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    #container { display: grid; grid-template-columns: auto 5px auto; grid-template-rows: auto; height: 100vh; }
+    .splitter-vertical { background: #f8f8f8; cursor: col-resize; width: 5px; z-index: 10; }
+    .splitter-horizontal { background: #f8f8f8; cursor: row-resize; height: 5px; width: 100%; z-index: 1000; }
+    /* 自由記述エリア */
+    #freePane { position: relative; overflow: auto; padding: 10px; }
+    #editableContent { min-height: 100%; padding: 5px; }
+    #editableContent:focus { outline: none; }
+    #editableContent img.selected { outline: 2px solid blue; }
+    #toolbar {
+        display: none;
+        position: absolute;
+        bottom: 10px; left: 10px; right: 10px;
+        background: #f0f0f0;
+        border: 1px solid #999;
+        padding: 5px;
+        flex-wrap: wrap; gap: 2px;
+        align-items: center;
+        z-index: 20;
+        user-select: none;
+    }
+    #toolbar button {
+        padding: 0px 5px;
+    }
+    /* 右側 */
+    #rightGrid { display: grid; grid-template-rows: auto 5px auto; grid-template-columns: 1fr; height: 100%; }
+    /* YouTubeエリア */
+    #youtubeArea, #timerArea {
+        border-bottom: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        /* フォントを動的に調整するので、transform は使用しない */
+    }
+    #youtubeArea {
+        margin: 0;
+        padding: 0;
+    }
+    #videoForms {
+        position: absolute;
+        bottom: 60px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.7);
+        border: 1px solid #888;
+        border-radius: 10px;
+        display: none;
+        font-size: small;
+        z-index: 10;
+    }
+    #youtubeArea:hover #videoForms {
+        display: block;
+    }
+    #videoForms form {
+        margin: 5px;
+    }
+    #videoFrame {
+        display: block;
+        width: 100%;
+        border: none;
+    }
+
+    /* タイマーエリア */
+    #timerArea { border-bottom: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #modeLabel { margin-bottom: 5px; }
+    #timerDisplay { margin-bottom: 10px; font-weight: bold; color: #aaa; }
+    #timerSlider { width: 80%; margin-bottom: 10px; }
+    #timerArea.work {
+        /* background-color: #FFF5E5; オレンジ系の薄い背景 */
+        background-color: #FFFFFF;
+        color: #333;
+    }
+    #timerArea.break {
+        background-color: #E6FFEA; /* ミントグリーン系の薄い背景 */
+        color: #333;
+    }
+  </style>
+</head>
+<body>
+<div id="container">
+  <div id="freePane">
+    <div id="editableContent" title="ダブルクリックして編集開始"><p>ダブルクリックして編集開始</p></div>
+    <div id="toolbar">
+      <button data-cmd="bold" style="font-weight: bold">Bold</button>
+      <button data-cmd="italic" style="font-style: italic;">Italic</button>
+      <button data-cmd="underline" style="text-decoration: underline;">Underline</button>
+      &nbsp;
+      <button data-cmd="justifyLeft">Left┄</button>
+      <button data-cmd="justifyCenter">┄Center┄</button>
+      <button data-cmd="justifyRight">┄Right</button>
+      &nbsp;
+      <button data-cmd="removeFormat">文字装飾クリア</button>
+      &nbsp;
+      <span>文字サイズ変更</span>
+      <select id="fontSizeSelect">
+        <option value="1"></option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+      &nbsp;
+      <button id="imgZoomInBtn">画像拡大</button>
+      <button id="imgZoomOutBtn">画像縮小</button>
+      &nbsp;
+      <button id="closeToolbar">閉じる</button>
+    </div>
+  </div>
+  <div class="splitter-vertical" id="splitV"></div>
+  <div id="rightGrid">
+    <div id="youtubeArea">
+      <div id="videoForms">
+        <form id="workVideoForm">
+          作業時動画 <input type="text" id="workVideoURL" placeholder="YouTube URL を入力して Enter" size="30">
+        </form>
+        <form id="breakVideoForm">
+          休憩時動画 <input type="text" id="breakVideoURL" placeholder="YouTube URL を入力して Enter" size="30">
+        </form>
+      </div>
+      <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    <div class="splitter-horizontal" id="splitH"></div>
+    <div id="timerArea" class="work">
+      <div id="modeLabel">作業時間</div>
+      <select id="cycleSelect" style="margin:0 8px;">
+        <option value="25-5">25分作業／5分休憩</option>
+        <option value="50-10">50分作業／10分休憩</option>
+        <option value="45-5">45分作業／5分休憩</option>
+        <option value="90-10">90分作業／10分休憩</option>
+        <option value="52-17">52分作業／17分休憩</option>
+        <option value="12-3">12分作業／3分休憩</option>
+        <option value="5-1">5分作業／1分休憩</option>
+      </select>
+      <div id="startupPopup" style="display:none; position:absolute; left:50%; transform:translateX(-50%); background:rgba(200,0,0,0.7); color:white; padding: 0.5em; z-index:30;">
+        数字をクリックしてスタート！
+      </div>
+      <div id="timerDisplay" title="クリックで一時停止／再開">00:00</div>
+      <input type="range" id="timerSlider" min="0" max="1500" value="1500">
+    </div>
+  </div>
+</div>
+<script>
+  //// スプリッター設定
+
+  // 左右分割
+  const container = document.getElementById('container');
+  const splitV = document.getElementById('splitV');
+  let isDraggingV = false;
+  splitV.addEventListener('mousedown', () => {
+      isDraggingV = true;
+      document.body.style.cursor = 'col-resize';
+      document.getElementById('videoFrame').style.pointerEvents = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+      if (!isDraggingV) return;
+      const total = container.clientWidth;
+      const w1 = e.clientX;
+      const w3 = total - w1 - splitV.clientWidth;
+      if (w1 >= 0 && w3 > 100) container.style.gridTemplateColumns = `${w1}px 5px ${w3}px`;
+  });
+  document.addEventListener('mouseup', () => {
+      isDraggingV = false;
+      document.body.style.cursor = '';
+      localStorage.setItem('splitCols', container.style.gridTemplateColumns);
+      document.getElementById('videoFrame').style.pointerEvents = 'auto';
+  });
+  // 上下分割
+  const rightGrid = document.getElementById('rightGrid');
+  const splitH = document.getElementById('splitH');
+  let isDraggingH = false;
+  splitH.addEventListener('mousedown', () => {
+      isDraggingH = true;
+      document.body.style.cursor = 'row-resize';
+      document.getElementById('videoFrame').style.pointerEvents = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+      if (!isDraggingH) return;
+      const rect = rightGrid.getBoundingClientRect();
+      const h1 = e.clientY - rect.top;
+      const h3 = rect.height - h1 - splitH.clientHeight;
+      if (h1 >= 0 && h3 >= 0) rightGrid.style.gridTemplateRows = `${h1}px 5px ${h3}px`;
+  });
+  document.addEventListener('mouseup', () => {
+      isDraggingH = false;
+      document.body.style.cursor = '';
+      localStorage.setItem('splitRows', rightGrid.style.gridTemplateRows);
+      document.getElementById('videoFrame').style.pointerEvents = 'auto';
+  });
+  // 復元
+  window.addEventListener('DOMContentLoaded', () => {
+      // 保存済みの列幅を復元
+      const savedCols = localStorage.getItem('splitCols');
+      if (savedCols) container.style.gridTemplateColumns = savedCols;
+      // 保存済みの行高を復元
+      const savedRows = localStorage.getItem('splitRows');
+      if (savedRows) rightGrid.style.gridTemplateRows = savedRows;
+  });
+
+
+  //// 自由記述エリア
+
+  // contentEditable & toolbar
+  document.execCommand('styleWithCSS', false, true);
+  const editable = document.getElementById('editableContent');
+  const toolbar = document.getElementById('toolbar');
+  editable.addEventListener('dblclick', () => {
+      editable.contentEditable = 'true';
+      toolbar.style.display = 'flex';
+      editable.style.backgroundColor = '#f0d0d0';
+  });
+  toolbar.addEventListener('click', e => {
+      e.preventDefault();
+      const cmd = e.target.getAttribute('data-cmd');
+      if (!cmd) return;
+      if (cmd.startsWith('formatH')) document.execCommand('formatBlock', false, cmd.replace('format',''));
+      else document.execCommand(cmd, false, null);
+  });
+  // フォントサイズを選んだ瞬間に適用
+  document.getElementById('fontSizeSelect').addEventListener('change', e => {
+      const size = e.target.value + 'px';
+      document.execCommand('fontSize', false, size);
+  });
+  // 自動保存・復元
+  window.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('freeContent');
+      if (saved) editable.innerHTML = saved;
+  });
+  // 画像選択
+  let selectedImg = null;
+  editable.addEventListener('click', e => {
+      // 他の選択画像の選択解除
+      document.querySelectorAll('#editableContent img').forEach(img => img.classList.remove('selected'));
+      // 選択画像
+      if (e.target.tagName === 'IMG' && editable.contentEditable == 'true') {
+          selectedImg = e.target;
+          selectedImg.classList.add('selected');
+      } else {
+          selectedImg = null;
+      }
+  });
+  // 画像サイズ変更
+  document.getElementById('imgZoomInBtn').addEventListener('click', e => zoomImg(1.25));
+  document.getElementById('imgZoomOutBtn').addEventListener('click', e => zoomImg(0.8));
+  function zoomImg(rate) {
+      if (selectedImg) selectedImg.style.width = Math.round(selectedImg.width * rate) + 'px';
+      else alert('画像を選択してください');
+  }
+  // ツールバーを閉じるボタン
+  document.getElementById('closeToolbar').addEventListener('click', () => {
+      toolbar.style.display = 'none';
+      editable.contentEditable = 'false';
+      editable.style.backgroundColor = 'white';
+      document.querySelectorAll('#editableContent img').forEach(img => img.classList.remove('selected'));
+      localStorage.setItem('freeContent', editable.innerHTML);
+  });
+
+
+  //// YouTubeエリア
+
+  let workVideoId = 'jfKfPfyJRdk'; // 初期動画ID
+  let breakVideoId = 'xxpg9_2on3I'; // 初期動画ID
+
+  // YouTube embed
+  document.getElementById('workVideoForm').addEventListener('submit', e => {
+      workVideoId = setVideo(e, 'work');
+      if (workVideoId) localStorage.setItem('workVideoId', workVideoId);
+  });
+  document.getElementById('breakVideoForm').addEventListener('submit', e => {
+      breakVideoId = setVideo(e, 'break');
+      if (breakVideoId) localStorage.setItem('breakVideoId', breakVideoId);
+  });
+  function setVideo(e, vtype) {
+      e.preventDefault();
+      let url = document.getElementById(vtype + 'VideoURL').value.trim();
+      if (!url) return;
+      let id = '';
+      try {
+          const u = new URL(url);
+          id = u.hostname.includes('youtu.be') ? u.pathname.slice(1) : u.searchParams.get('v');
+      } catch {
+          const m = url.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
+          if (m) id = m[1];
+      }
+      if (id) document.getElementById('videoFrame').src = `https://www.youtube.com/embed/${id}?enablejsapi=1`;
+      return id;
+  };
+
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  let player;
+  function onYouTubeIframeAPIReady() {
+      player = new YT.Player('videoFrame', {
+          videoId: workVideoId,
+          playerVars: { enablejsapi: 1 },
+          events: { 'onStateChange': onPlayerStateChange }
+      });
+  };
+
+  function onPlayerStateChange(event) {
+      // 終了状態（ENDED）の時だけ再生
+      if (event.data === YT.PlayerState.ENDED) event.target.playVideo();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+      const wvi = localStorage.getItem('workVideoId');
+      const bvi = localStorage.getItem('breakVideoId');
+      if (wvi) workVideoId = wvi;
+      if (bvi) breakVideoId = bvi;
+      console.log(bvi,breakVideoId);
+      document.getElementById('breakVideoURL').value = `https://www.youtube.com/watch?v=${breakVideoId}`;
+      document.getElementById('workVideoURL').value = `https://www.youtube.com/watch?v=${workVideoId}`;
+      document.getElementById('videoFrame').src  = `https://www.youtube.com/embed/${workVideoId}?enablejsapi=1`;
+
+      const cycleSelect = document.getElementById('cycleSelect');
+      const saved = localStorage.getItem('cycleSelect');
+      if (saved) {
+          cycleSelect.value = saved;
+          // value をセットした後、設定適用のために change をトリガー
+          cycleSelect.dispatchEvent(new Event('change'));
+      };
+
+      const popup = document.getElementById('startupPopup');
+      popup.style.display = 'block';  // 表示
+      setTimeout(() => { popup.style.display = 'none' }, 3000); // N秒後に非表示
+  });
+
+
+  //// ポモドーロタイマーエリア
+
+  // Pomodoro Timer
+  const work = 25*60;
+  const br = 5*60;
+  let workDuration = 25*60;
+  let breakDuration = 5*60;
+  let cur = workDuration;
+  let rem = cur;
+  let isWork = true;
+  let paused = true;
+  let beforeStart = true;
+  const modeLabel = document.getElementById('modeLabel');
+  const disp = document.getElementById('timerDisplay');
+  const slider = document.getElementById('timerSlider');
+  // フォント自動調整
+  const resizeObs = new ResizeObserver(entries => {
+      window.requestAnimationFrame(() => {
+          for (const entry of entries) {
+              const { width, height } = entry.contentRect;
+              // ベースサイズを計算
+              const rawMode = Math.min(Math.floor(height * 0.20), Math.floor(width * 0.15));
+              const rawDisp = Math.min(Math.floor(height * 0.5), Math.floor(width * 0.4));
+              // 現在の50%サイズに調整
+              const modeSize = Math.max(6, Math.floor(rawMode * 0.5));
+              const dispSize = Math.max(12, Math.floor(rawDisp * 0.5));
+              modeLabel.style.fontSize = modeSize + 'px';
+              disp.style.fontSize = dispSize + 'px';
+          }
+      });
+  });
+  resizeObs.observe(document.getElementById('timerArea'));
+  slider.max = cur;
+  slider.value = rem;
+  slider.addEventListener('input', () => {
+      rem =+ slider.value;
+      update();
+  });
+  disp.addEventListener('click', ev => {
+      paused = !paused;
+      ev.target.style.color = paused ? '#aaa' : '#333';
+  });
+  document.getElementById('cycleSelect').addEventListener('change', e => {
+      localStorage.setItem('cycleSelect', e.target.value);
+      const [w, b] = e.target.value.split('-').map(v => parseInt(v, 10));
+      workDuration  = w * 60;
+      breakDuration = b * 60;
+      // 現在のモードに応じてリセット
+      cur = isWork ? workDuration : breakDuration;
+      rem = cur;
+      slider.max = cur;
+      update();
+  });
+  // デジタルタイマー表示アップデート
+  function update() {
+      const m = String(Math.floor(rem / 60)).padStart(2, '0');
+      const s = String(rem % 60).padStart(2, '0');
+      disp.textContent = `${m}:${s}`;
+      slider.value = rem;
+  }
+  // チャイムを鳴らす
+  function chime(){
+      const c = new (AudioContext||webkitAudioContext)();
+      const o = c.createOscillator();
+      const g = c.createGain();
+      o.connect(g);
+      g.connect(c.destination);
+      g.gain.setValueAtTime(1, c.currentTime);
+      const chimeDuration = 3;  // チャイムをN秒間鳴らす
+      g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + chimeDuration);
+      o.frequency.setValueAtTime(1000, c.currentTime);
+      o.start(c.currentTime);
+      o.stop(c.currentTime + chimeDuration);
+  }
+  // 1秒ごとの確認事項
+  function tick() {
+      if (paused) return;
+      if (beforeStart) { // 一番最初のスタート時
+          beforeStart = false;
+          isWork = false;
+          rem = 0;
+      }
+      if (rem > 0) {
+          rem--;
+      } else {
+          chime();
+          isWork = !isWork;
+          // 切り替え
+          const timerArea = document.getElementById('timerArea');
+          if (isWork) {
+              timerArea.classList.add('work');
+              timerArea.classList.remove('break');
+              player.loadVideoById(workVideoId);
+          } else {
+              timerArea.classList.add('break');
+              timerArea.classList.remove('work');
+              player.loadVideoById(breakVideoId);
+          }
+          player.playVideo();
+          // ラベル・タイマー再設定
+          cur = isWork ? workDuration : breakDuration;
+          rem = cur;
+          slider.max = cur;
+          modeLabel.textContent = isWork ? '作業時間' : '休憩時間';
+      }
+      update();
+  }
+  // 一番最初にやること
+  //chime();
+  update();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+<!--
+作者: タツヲ
+https://x.com/yto
+-->
+</html>
