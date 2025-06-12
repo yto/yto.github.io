@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>もくもくポモドーロタイマー</title>
+  <link rel="manifest" href="/tools/pomo/manifest.json">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { width: 100%; height: 100%; overflow: hidden; }
@@ -69,7 +70,16 @@
     }
 
     /* タイマーエリア */
-    #timerArea { border-bottom: none; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #timerArea {
+	border-bottom: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+        color: #333;
+	accent-color: #555;
+    }
     #modeLabel { margin-bottom: 5px; }
     #timerDisplay { margin-bottom: 10px; font-weight: bold; color: #aaa; }
     #timerSlider { width: 80%; margin-bottom: 10px; }
@@ -80,14 +90,59 @@
     }
     #timerArea.break {
         background-color: #E6FFEA; /* ミントグリーン系の薄い背景 */
-        color: #333;
+	color: #333;
+    }
+    .volumeControl {
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);;
+	display: none;
+	gap: 4px;
+	margin-top: 8px;
+	accent-color: #555;
+    }
+    #timerArea:hover .volumeControl {
+	display: block;
+    }
+
+    /* 既存のスタイルの末尾あたりに追加 */
+    #resetBtn {
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	padding: 5px 10px;
+	background: rgba(255,255,255,0.8);
+	border: 1px solid #888;
+	border-radius: 4px;
+	font-size: small;
+	cursor: pointer;
+	display: none;             /* 通常は隠す */
+	z-index: 100;
+    }
+    #resetBtn:hover {
+	background: rgba(255,255,255,1);
     }
   </style>
 </head>
 <body>
 <div id="container">
   <div id="freePane">
-    <div id="editableContent" title="ダブルクリックして編集開始"><p>ダブルクリックして編集開始</p></div>
+    <div id="editableContent" title="ダブルクリックして編集開始">
+      <p style="text-align: center;"><span style="font-weight: bold; font-size: xxx-large;">サンプルもくもく会</span></p><p style="text-align: center;"><span style="font-weight: bold;"></span></p><p style="text-align: center;"><span style="font-weight: bold;">毎日00:00-23:59</span></p><p style="text-align: center;"><span style="font-weight: bold;">25分 集中作業 / 5分 休憩</span></p><p style="text-align: center;"></p>
+      <p style="text-align: center;"><img src="https://live.staticflickr.com/65535/54368779670_cfbcaeb32d_z.jpg" class="" style="width: 262px;"></p>
+      <p style="text-align: center;"><br></p>
+      <p style="text-align: center;"><br></p><p style="text-align: center;"><span style="text-decoration-line: underline;">もくもくポモドーロタイマー</span></p>
+      <p style="text-align: center;"><img src="https://yapi.ta2o.net/tools/pomo/icons/icon-192.png" class="" style="width: 128px;"></p>
+      <p style="text-align: center;">3つの情報を同時に出せる！</p><p style="text-align: center;">画面共有に便利なポモドーロタイマー！</p>
+      <p style="text-align: center;"><br></p>
+      <p style="text-align: center;">1. ポモドーロタイマー：作業時間と休憩時間を管理。時間配分選べる</p>
+      <p style="text-align: center;">2. YouTube動画再生：作業時間と休憩時間に別の動画を再生できる</p>
+      <p style="text-align: center;">3. 自由記述欄：テキストや写真。もくもく会の趣旨やお知らせなど</p>
+      <p style="text-align: center;"><br></p>
+      <p style="text-align: center;">これら3つの情報を出すエリアのサイズの調整可能</p>
+      <p style="text-align: center;">設定項目は自動保存され、同じブラウザならば継続して利用可能</p>
+    </div>
     <div id="toolbar">
       <button data-cmd="bold" style="font-weight: bold">Bold</button>
       <button data-cmd="italic" style="font-style: italic;">Italic</button>
@@ -114,6 +169,9 @@
       <button id="imgZoomInBtn">画像拡大</button>
       <button id="imgZoomOutBtn">画像縮小</button>
       &nbsp;
+      <button id="copyHtmlBtn">HTMLコピー</button>
+      <button id="pasteHtmlBtn">HTMLペースト</button>
+      &nbsp;
       <button id="closeToolbar">閉じる</button>
     </div>
   </div>
@@ -122,10 +180,12 @@
     <div id="youtubeArea">
       <div id="videoForms">
         <form id="workVideoForm">
-          作業時動画 <input type="text" id="workVideoURL" placeholder="YouTube URL を入力して Enter" size="30">
+          作業時動画 <input type="text" id="workVideoURL" placeholder="YouTube URL" size="30">
+	  <button type="submit">登録</button>
         </form>
         <form id="breakVideoForm">
-          休憩時動画 <input type="text" id="breakVideoURL" placeholder="YouTube URL を入力して Enter" size="30">
+          休憩時動画 <input type="text" id="breakVideoURL" placeholder="YouTube URL" size="30">
+	  <button type="submit">登録</button>
         </form>
       </div>
       <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -147,9 +207,16 @@
       </div>
       <div id="timerDisplay" title="クリックで一時停止／再開">00:00</div>
       <input type="range" id="timerSlider" min="0" max="1500" value="1500">
+      <!-- 音量コントロール -->
+      <div class="volumeControl" title="ベル音量">
+	<span id="volIcon">🔈</span>
+	<input type="range" id="chimeVolume" min="0" max="100" step="5" value="50">
+	<span id="volLabel">50%</span>
+      </div>
     </div>
   </div>
 </div>
+<button id="resetBtn">リセット</button>
 <script>
   //// スプリッター設定
 
@@ -231,6 +298,22 @@
       const size = e.target.value + 'px';
       document.execCommand('fontSize', false, size);
   });
+  // HTML コピー機能
+  document.getElementById('copyHtmlBtn').addEventListener('click', e => {
+    e.preventDefault();
+    const html = editable.innerHTML;
+    navigator.clipboard.writeText(html)
+      .then(() => alert('HTML をコピーしました'))
+      .catch(() => alert('コピー失敗'));
+  });
+  // HTML ペースト機能
+  document.getElementById('pasteHtmlBtn').addEventListener('click', e => {
+    e.preventDefault();
+    const userHtml = prompt('貼り付けたいHTMLコードを入力してください');
+    if (userHtml) {
+      document.execCommand('insertHTML', false, userHtml);
+    }
+  });
   // 自動保存・復元
   window.addEventListener('DOMContentLoaded', () => {
       const saved = localStorage.getItem('freeContent');
@@ -269,7 +352,8 @@
   //// YouTubeエリア
 
   let workVideoId = 'jfKfPfyJRdk'; // 初期動画ID
-  let breakVideoId = 'xxpg9_2on3I'; // 初期動画ID
+  //let breakVideoId = 'xxpg9_2on3I'; // 初期動画ID
+  let breakVideoId = 'Yb-rLsCpBvI'; // 初期動画ID
 
   // YouTube embed
   document.getElementById('workVideoForm').addEventListener('submit', e => {
@@ -315,29 +399,6 @@
       if (event.data === YT.PlayerState.ENDED) event.target.playVideo();
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
-      const wvi = localStorage.getItem('workVideoId');
-      const bvi = localStorage.getItem('breakVideoId');
-      if (wvi) workVideoId = wvi;
-      if (bvi) breakVideoId = bvi;
-      console.log(bvi,breakVideoId);
-      document.getElementById('breakVideoURL').value = `https://www.youtube.com/watch?v=${breakVideoId}`;
-      document.getElementById('workVideoURL').value = `https://www.youtube.com/watch?v=${workVideoId}`;
-      document.getElementById('videoFrame').src  = `https://www.youtube.com/embed/${workVideoId}?enablejsapi=1`;
-
-      const cycleSelect = document.getElementById('cycleSelect');
-      const saved = localStorage.getItem('cycleSelect');
-      if (saved) {
-          cycleSelect.value = saved;
-          // value をセットした後、設定適用のために change をトリガー
-          cycleSelect.dispatchEvent(new Event('change'));
-      };
-
-      const popup = document.getElementById('startupPopup');
-      popup.style.display = 'block';  // 表示
-      setTimeout(() => { popup.style.display = 'none' }, 3000); // N秒後に非表示
-  });
-
 
   //// ポモドーロタイマーエリア
 
@@ -352,6 +413,7 @@
   let paused = true;
   let beforeStart = true;
   const modeLabel = document.getElementById('modeLabel');
+  const cycle = document.getElementById('cycleSelect');
   const disp = document.getElementById('timerDisplay');
   const slider = document.getElementById('timerSlider');
   // フォント自動調整
@@ -361,11 +423,14 @@
               const { width, height } = entry.contentRect;
               // ベースサイズを計算
               const rawMode = Math.min(Math.floor(height * 0.20), Math.floor(width * 0.15));
+              const rawCycle = Math.min(Math.floor(height * 0.13), Math.floor(width * 0.10));
               const rawDisp = Math.min(Math.floor(height * 0.5), Math.floor(width * 0.4));
-              // 現在の50%サイズに調整
-              const modeSize = Math.max(6, Math.floor(rawMode * 0.5));
+              // サイズ調整
+              const modeSize = Math.max(10, Math.floor(rawMode * 0.5));
+              const cycleSize = Math.max(8, Math.floor(rawCycle * 0.5));
               const dispSize = Math.max(12, Math.floor(rawDisp * 0.5));
               modeLabel.style.fontSize = modeSize + 'px';
+              cycle.style.fontSize = cycleSize + 'px';
               disp.style.fontSize = dispSize + 'px';
           }
       });
@@ -381,7 +446,7 @@
       paused = !paused;
       ev.target.style.color = paused ? '#aaa' : '#333';
   });
-  document.getElementById('cycleSelect').addEventListener('change', e => {
+  cycle.addEventListener('change', e => {
       localStorage.setItem('cycleSelect', e.target.value);
       const [w, b] = e.target.value.split('-').map(v => parseInt(v, 10));
       workDuration  = w * 60;
@@ -399,6 +464,9 @@
       disp.textContent = `${m}:${s}`;
       slider.value = rem;
   }
+
+  // 音量用の変数
+  document.chimeVolume = 50; // 0-100
   // チャイムを鳴らす
   function chime(){
       const c = new (AudioContext||webkitAudioContext)();
@@ -406,13 +474,15 @@
       const g = c.createGain();
       o.connect(g);
       g.connect(c.destination);
-      g.gain.setValueAtTime(1, c.currentTime);
+      g.gain.setValueAtTime(document.chimeVolume/100, c.currentTime); // ボリューム設定を反映
+      //g.gain.setValueAtTime(1, c.currentTime);
       const chimeDuration = 3;  // チャイムをN秒間鳴らす
       g.gain.exponentialRampToValueAtTime(0.001, c.currentTime + chimeDuration);
       o.frequency.setValueAtTime(1000, c.currentTime);
       o.start(c.currentTime);
       o.stop(c.currentTime + chimeDuration);
   }
+
   // 1秒ごとの確認事項
   function tick() {
       if (paused) return;
@@ -450,6 +520,68 @@
   //chime();
   update();
   setInterval(tick, 1000);
+
+  //// 読み込み直後の処理
+  window.addEventListener('DOMContentLoaded', () => {
+      const wvi = localStorage.getItem('workVideoId');
+      const bvi = localStorage.getItem('breakVideoId');
+      if (wvi) workVideoId = wvi;
+      if (bvi) breakVideoId = bvi;
+      console.log(bvi,breakVideoId);
+      document.getElementById('breakVideoURL').value = `https://www.youtube.com/watch?v=${breakVideoId}`;
+      document.getElementById('workVideoURL').value = `https://www.youtube.com/watch?v=${workVideoId}`;
+      document.getElementById('videoFrame').src  = `https://www.youtube.com/embed/${workVideoId}?enablejsapi=1`;
+
+      const cycleSelect = document.getElementById('cycleSelect');
+      const saved = localStorage.getItem('cycleSelect');
+      if (saved) {
+          cycleSelect.value = saved;
+          // value をセットした後、設定適用のために change をトリガー
+          cycleSelect.dispatchEvent(new Event('change'));
+      };
+
+      const popup = document.getElementById('startupPopup');
+      popup.style.display = 'block';  // 表示
+      setTimeout(() => { popup.style.display = 'none' }, 3000); // N秒後に非表示
+
+      // リセットボタン：ホバーで表示／クリックで confirm→クリア→リロード
+      const resetBtn = document.getElementById('resetBtn');
+      // マウスが右下に来たら表示
+      document.addEventListener('mousemove', e => {
+	  const { clientX, clientY } = e;
+	  const w = window.innerWidth, h = window.innerHeight;
+	  if (clientX > w - 100 && clientY > h - 60) resetBtn.style.display = 'block';
+	  else resetBtn.style.display = 'none';
+      });
+      resetBtn.addEventListener('click', () => {
+	  if (confirm('本当に初期状態にリセットしますか？')) {
+	      localStorage.clear();
+	      location.reload();
+	  }
+      });
+
+      const sliderVol = document.getElementById('chimeVolume');
+      const icon      = document.getElementById('volIcon');
+      const label     = document.getElementById('volLabel');
+      // 保存済みボリュームをロード
+      const savedVol = localStorage.getItem('chimeVolume');
+      if (savedVol !== null) {
+	  sliderVol.value = savedVol;
+	  document.chimeVolume = parseInt(savedVol, 10);
+	  label.textContent = savedVol + '%';
+	  icon.textContent = (savedVol == 0 ? '🔇' : savedVol < 50 ? '🔈' : '🔊');
+      }
+      // ボリュームスライダー
+      sliderVol.addEventListener('input', e => {
+	  const v = e.target.value;
+	  localStorage.setItem('chimeVolume', v); // 変更を保存
+	  document.chimeVolume = v;
+	  label.textContent = v + '%';
+	  icon.textContent = v == 0 ? '🔇' : v < 50 ? '🔈' : '🔊';
+	  chime();
+      });
+  });
+
 </script>
 
 </body>
