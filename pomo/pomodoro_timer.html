@@ -72,14 +72,14 @@
 
     /* タイマーエリア */
     #timerArea {
-	border-bottom: none;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	position: relative;
+        border-bottom: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
         color: #333;
-	accent-color: #555;
+        accent-color: #555;
     }
     #modeLabel { margin-bottom: 5px; }
     #timerDisplay { margin-bottom: 10px; font-weight: bold; color: #aaa; }
@@ -91,38 +91,38 @@
     }
     #timerArea.break {
         background-color: #E6FFEA; /* ミントグリーン系の薄い背景 */
-	color: #333;
+        color: #333;
     }
     .volumeControl {
-	position: absolute;
-	bottom: 10px;
-	left: 50%;
-	transform: translateX(-50%);;
-	display: none;
-	gap: 4px;
-	margin-top: 8px;
-	accent-color: #555;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);;
+        display: none;
+        gap: 4px;
+        margin-top: 8px;
+        accent-color: #555;
     }
     #timerArea:hover .volumeControl {
-	display: block;
+        display: block;
     }
 
     /* 既存のスタイルの末尾あたりに追加 */
     #resetBtn {
-	position: fixed;
-	bottom: 10px;
-	right: 10px;
-	padding: 5px 10px;
-	background: rgba(255,255,255,0.8);
-	border: 1px solid #888;
-	border-radius: 4px;
-	font-size: small;
-	cursor: pointer;
-	display: none;             /* 通常は隠す */
-	z-index: 100;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        padding: 5px 10px;
+        background: rgba(255,255,255,0.8);
+        border: 1px solid #888;
+        border-radius: 4px;
+        font-size: small;
+        cursor: pointer;
+        display: none;             /* 通常は隠す */
+        z-index: 100;
     }
     #resetBtn:hover {
-	background: rgba(255,255,255,1);
+        background: rgba(255,255,255,1);
     }
   </style>
 </head>
@@ -179,11 +179,13 @@
       <div id="videoForms">
         <form id="workVideoForm">
           作業時動画 <input type="text" id="workVideoURL" placeholder="YouTube URL" size="30">
-	  <button type="submit">登録</button>
+          <button type="submit">登録</button>
+          <label><input type="checkbox" id="workMute"> 無音</label>
         </form>
         <form id="breakVideoForm">
           休憩時動画 <input type="text" id="breakVideoURL" placeholder="YouTube URL" size="30">
-	  <button type="submit">登録</button>
+          <button type="submit">登録</button>
+          <label><input type="checkbox" id="breakMute"> 無音</label>
         </form>
       </div>
       <iframe id="videoFrame" width="100%" height="100%" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -208,9 +210,9 @@
       <input type="range" id="timerSlider" min="0" max="1500" value="1500">
       <!-- 音量コントロール -->
       <div class="volumeControl" title="ベル音量">
-	<span id="volIcon">🔈</span>
-	<input type="range" id="chimeVolume" min="0" max="100" step="5" value="50">
-	<span id="volLabel">50%</span>
+        <span id="volIcon">🔈</span>
+        <input type="range" id="chimeVolume" min="0" max="100" step="5" value="50">
+        <span id="volLabel">50%</span>
       </div>
     </div>
   </div>
@@ -238,8 +240,16 @@
   document.addEventListener('mouseup', () => {
       isDraggingV = false;
       document.body.style.cursor = '';
-      localStorage.setItem('splitCols', container.style.gridTemplateColumns);
       document.getElementById('videoFrame').style.pointerEvents = 'auto';
+      //localStorage.setItem('splitCols', container.style.gridTemplateColumns);
+      // 割合に換算して保存
+      const totalW = container.clientWidth;
+      const cols = container.style.gridTemplateColumns.split(' ');
+      const w1 = parseFloat(cols[0]);
+      const w3 = parseFloat(cols[2]);
+      const p1 = w1 / totalW * 100;
+      const p3 = w3 / totalW * 100;
+      localStorage.setItem('splitColsR', JSON.stringify({ p1, p3 }));
   });
   // 上下分割
   const rightGrid = document.getElementById('rightGrid');
@@ -260,17 +270,39 @@
   document.addEventListener('mouseup', () => {
       isDraggingH = false;
       document.body.style.cursor = '';
-      localStorage.setItem('splitRows', rightGrid.style.gridTemplateRows);
       document.getElementById('videoFrame').style.pointerEvents = 'auto';
+      //localStorage.setItem('splitRows', rightGrid.style.gridTemplateRows);
+      // 割合に換算して保存
+      const totalH = rightGrid.clientHeight;
+      const rows = rightGrid.style.gridTemplateRows.split(' ');
+      const h1 = parseFloat(rows[0]);
+      const h3 = parseFloat(rows[2]);
+      const q1 = h1 / totalH * 100;
+      const q3 = h3 / totalH * 100;
+      localStorage.setItem('splitRowsR', JSON.stringify({ q1, q3 }));
   });
-  // 復元
   window.addEventListener('DOMContentLoaded', () => {
       // 保存済みの列幅を復元
-      const savedCols = localStorage.getItem('splitCols');
-      if (savedCols) container.style.gridTemplateColumns = savedCols;
+      const savedCols = localStorage.getItem('splitColsR') ?? '{"p1":50, "p3":50 }';
+      if (savedCols) {
+          const { p1, p3 } = JSON.parse(savedCols);
+          const totalW = container.clientWidth;
+          const w1 = totalW * p1 / 100;
+          const w3 = totalW * p3 / 100;
+          container.style.gridTemplateColumns = `${w1}px 5px ${w3}px`;
+      }
+
       // 保存済みの行高を復元
-      const savedRows = localStorage.getItem('splitRows');
-      if (savedRows) rightGrid.style.gridTemplateRows = savedRows;
+      const savedRows = localStorage.getItem('splitRowsR') ?? '{"q1":50, "q3":50 }';
+      if (savedRows) {
+          const { q1, q3 } = JSON.parse(savedRows);
+          const totalH = rightGrid.clientHeight;
+          const h1 = totalH * q1 / 100;
+          const h3 = totalH * q3 / 100;
+          rightGrid.style.gridTemplateRows = `${h1}px 5px ${h3}px`;
+      }
+
+      //console.log(savedCols, '-', savedRows);
   });
 
 
@@ -353,6 +385,8 @@
   let workVideoId = 'jfKfPfyJRdk'; // 初期動画ID
   //let breakVideoId = 'xxpg9_2on3I'; // 初期動画ID
   let breakVideoId = 'Yb-rLsCpBvI'; // 初期動画ID
+  const workMute = document.getElementById('workMute');
+  const breakMute = document.getElementById('breakMute');
 
   // YouTube embed
   document.getElementById('workVideoForm').addEventListener('submit', e => {
@@ -501,10 +535,12 @@
               timerArea.classList.add('work');
               timerArea.classList.remove('break');
               player.loadVideoById(workVideoId);
+              workMute.checked ? player.mute() : player.unMute();
           } else {
               timerArea.classList.add('break');
               timerArea.classList.remove('work');
               player.loadVideoById(breakVideoId);
+              breakMute.checked ? player.mute() : player.unMute();
           }
           player.playVideo();
           // ラベル・タイマー再設定
@@ -526,10 +562,22 @@
       const bvi = localStorage.getItem('breakVideoId');
       if (wvi) workVideoId = wvi;
       if (bvi) breakVideoId = bvi;
-      console.log(bvi,breakVideoId);
+      //console.log(bvi,breakVideoId);
       document.getElementById('breakVideoURL').value = `https://www.youtube.com/watch?v=${breakVideoId}`;
       document.getElementById('workVideoURL').value = `https://www.youtube.com/watch?v=${workVideoId}`;
       document.getElementById('videoFrame').src  = `https://www.youtube.com/embed/${workVideoId}?enablejsapi=1`;
+
+      // YouTube mute
+      workMute.checked  = localStorage.getItem('workMute')  === 'true';
+      breakMute.checked = localStorage.getItem('breakMute') === 'true';
+      workMute.addEventListener('change', () => {
+          localStorage.setItem('workMute',  workMute.checked);
+          if (isWork) workMute.checked ? player.mute() : player.unMute();
+      });
+      breakMute.addEventListener('change', () => {
+          localStorage.setItem('breakMute', breakMute.checked);
+          if (!isWork) breakMute.checked ? player.mute() : player.unMute();
+      });
 
       const cycleSelect = document.getElementById('cycleSelect');
       const saved = localStorage.getItem('cycleSelect');
@@ -547,16 +595,16 @@
       const resetBtn = document.getElementById('resetBtn');
       // マウスが右下に来たら表示
       document.addEventListener('mousemove', e => {
-	  const { clientX, clientY } = e;
-	  const w = window.innerWidth, h = window.innerHeight;
-	  if (clientX > w - 100 && clientY > h - 60) resetBtn.style.display = 'block';
-	  else resetBtn.style.display = 'none';
+          const { clientX, clientY } = e;
+          const w = window.innerWidth, h = window.innerHeight;
+          if (clientX > w - 100 && clientY > h - 60) resetBtn.style.display = 'block';
+          else resetBtn.style.display = 'none';
       });
       resetBtn.addEventListener('click', () => {
-	  if (confirm('本当に初期状態にリセットしますか？')) {
-	      localStorage.clear();
-	      location.reload();
-	  }
+          if (confirm('本当に初期状態にリセットしますか？')) {
+              localStorage.clear();
+              location.reload();
+          }
       });
 
       const sliderVol = document.getElementById('chimeVolume');
@@ -565,19 +613,19 @@
       // 保存済みボリュームをロード
       const savedVol = localStorage.getItem('chimeVolume');
       if (savedVol !== null) {
-	  sliderVol.value = savedVol;
-	  document.chimeVolume = parseInt(savedVol, 10);
-	  label.textContent = savedVol + '%';
-	  icon.textContent = (savedVol == 0 ? '🔇' : savedVol < 50 ? '🔈' : '🔊');
+          sliderVol.value = savedVol;
+          document.chimeVolume = parseInt(savedVol, 10);
+          label.textContent = savedVol + '%';
+          icon.textContent = (savedVol == 0 ? '🔇' : savedVol < 50 ? '🔈' : '🔊');
       }
       // ボリュームスライダー
       sliderVol.addEventListener('input', e => {
-	  const v = e.target.value;
-	  localStorage.setItem('chimeVolume', v); // 変更を保存
-	  document.chimeVolume = v;
-	  label.textContent = v + '%';
-	  icon.textContent = v == 0 ? '🔇' : v < 50 ? '🔈' : '🔊';
-	  chime();
+          const v = e.target.value;
+          localStorage.setItem('chimeVolume', v); // 変更を保存
+          document.chimeVolume = v;
+          label.textContent = v + '%';
+          icon.textContent = v == 0 ? '🔇' : v < 50 ? '🔈' : '🔊';
+          chime();
       });
   });
 
