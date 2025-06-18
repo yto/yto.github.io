@@ -283,24 +283,20 @@
   });
   window.addEventListener('DOMContentLoaded', () => {
       // 保存済みの列幅を復元
-      const savedCols = localStorage.getItem('splitColsR') ?? '{"p1":50, "p3":50 }';
-      if (savedCols) {
-          const { p1, p3 } = JSON.parse(savedCols);
-          const totalW = container.clientWidth;
-          const w1 = totalW * p1 / 100;
-          const w3 = totalW * p3 / 100;
-          container.style.gridTemplateColumns = `${w1}px 5px ${w3}px`;
-      }
+      const savedCols = localStorage.getItem('splitColsR') ?? '{"p1":0, "p3":100 }';
+      const { p1, p3 } = JSON.parse(savedCols);
+      const totalW = container.clientWidth;
+      const w1 = totalW * p1 / 100;
+      const w3 = totalW * p3 / 100;
+      container.style.gridTemplateColumns = `${w1}px 5px ${w3}px`;
 
       // 保存済みの行高を復元
       const savedRows = localStorage.getItem('splitRowsR') ?? '{"q1":50, "q3":50 }';
-      if (savedRows) {
-          const { q1, q3 } = JSON.parse(savedRows);
-          const totalH = rightGrid.clientHeight;
-          const h1 = totalH * q1 / 100;
-          const h3 = totalH * q3 / 100;
-          rightGrid.style.gridTemplateRows = `${h1}px 5px ${h3}px`;
-      }
+      const { q1, q3 } = JSON.parse(savedRows);
+      const totalH = rightGrid.clientHeight;
+      const h1 = totalH * q1 / 100;
+      const h3 = totalH * q3 / 100;
+      rightGrid.style.gridTemplateRows = `${h1}px 5px ${h3}px`;
 
       //console.log(savedCols, '-', savedRows);
   });
