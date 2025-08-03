@@ -25,7 +25,6 @@
               alert("ClientID を入力してください。");
               return;
           }
-          let json;
           const json = JSON.parse(request);
           const end_point = method2url(json['method']);
           const url = end_point + "?appid=" + encodeURIComponent(ClientID);
