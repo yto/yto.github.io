@@ -130,6 +130,7 @@
       <ul>
         <li>Add file → Create new file → <code>index.html</code></li>
         <li>とりあえず <code>Hello World!</code> などと書き込む</li>
+        <li>こちらをコピペしてもOK: <code>&lt;html&gt;&lt;head&gt;&lt;title&gt;TEST&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;</code></li>
       </ul>
     </li>
     <li><strong>github pagesの設定</strong>
@@ -163,7 +164,7 @@
   <pre><code>xcode-select --install</code></pre>
 
   <h3>初期設定</h3>
-  <p>名前とメールはGitHubのコミット履歴に公開されます。本名でなくてもOK。メールも適当で構いません。</p>
+  <p>名前とメールはGitHubのデータとして公開されます（設定による）。本名でなくてもOK。メールも適当で構いません。</p>
   <pre><code>git config --global user.name "Tokumei Taro"
 git config --global user.email "oreore@example.com"</code></pre>
 
@@ -217,7 +218,14 @@ git push</code></pre>
   <h2>用語</h2>
   <h3>基本用語</h3>
   <ul>
-    <li><strong>Git</strong> — ファイルの変更履歴を記録・管理する仕組み。あくまで「仕組み（ツール）」であってサービスではない。Gitで管理するデータを置いて共有するサービスの一つがGitHub。</li>
+    <li><strong>Git</strong> — ファイルの変更履歴を記録・管理する仕組み。あくまで「仕組み（ツール）」であってサービスではない。Gitで管理するデータを置いて共有するサービスの一つがGitHub。
+      <ul>
+	<li><code>git clone https://github.com/ユーザー名/my-first-site.git</code> — リモート（今回はGitHub）にあるリポジトリを自分のPCにコピーしてくる</li>
+	<li><code>git add .</code> — セーブポイントに含めるファイルを選ぶ。<code>.</code> は「全部」という意味</li>
+	<li><code>git commit -m "update"</code> — 変更内容のセーブポイントを作る。<code>-m</code> の後に何を変えたかのメモを書く</li>
+	<li><code>git push</code> — 作ったセーブポイントをリモートにアップロードする</li>
+      </ul>
+    </li>
     <li><strong>GitHub</strong> — 履歴が残って、みんなで編集できて、そのまま公開もできるクラウドフォルダ。</li>
     <li><strong>バイブコーディング (vibe coding)</strong> — 雰囲気（バイブ）でAIに指示して作らせる開発スタイル。</li>
   </ul>
