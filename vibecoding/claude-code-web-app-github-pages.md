@@ -20,20 +20,21 @@ AIに話しかけてコードを作る「バイブコーディング」でWebア
 ## まずは練習として github pages でWebサイトを世界へ公開
 
 1. macosでchromeを立ちあげて[githubのサイト](https://github.com/)へ行く
-2. **githubのアカウント作成** — googleアカウント連携で
-3. **リポジトリの作成**
+2. githubのアカウント作成
+   - googleアカウント連携で
+3. リポジトリの作成
    - 名前: `my-first-site`
    - Public
    - README.mdは作らない（後のgit操作でエラーになるのを防ぐため）
-4. **ファイル(index.html)を作成して、何か書き込む**
+4. ファイル(index.html)を作成して、何か書き込む
    - Add file → Create new file → `index.html`
    - とりあえず `Hello World!` などと書き込む
    - こちらをコピペしてもOK: `<html><head><title>TEST</title></head><body>Hello World!</body></html>`
-5. **github pagesの設定**
+5. github pagesの設定
    - Settings → Pages
    - Source を Deploy from a branch
    - Branch を `main`、Folder を `/ (root)` にして保存（Save）
-6. **公開URLを開いて表示確認**
+6. 公開URLを開いて表示確認
    - `https://ユーザー名.github.io/my-first-site`
    - URLはGitHubのPages設定画面からのコピペ推奨
    - しばらく（1分くらい）かかるかも
@@ -158,9 +159,9 @@ git push
     - `git commit -m "update"` — 変更内容のセーブポイントを作る。`-m` の後に何を変えたかのメモを書く
     - `git push` — 作ったセーブポイントをリモートにアップロードする
 - GitHub
-  - 履歴が残って、みんなで編集できて、そのまま公開もできるクラウドフォルダ。
+  - 履歴が残って、みんなで編集できて、そのまま公開もできるクラウドフォルダ
 - バイブコーディング (vibe coding)
-  - 雰囲気（バイブ）でAIに指示して作らせる開発スタイル。
+  - 雰囲気（バイブ）でAIに指示して作らせる開発スタイル
 
 ### Tips
 
