@@ -35,7 +35,7 @@ AIに話しかけてコードを作る「バイブコーディング」でWebア
    - Source を Deploy from a branch
    - Branch を `main`、Folder を `/ (root)` にして保存（Save）
 6. 公開URLを開いて表示確認
-   - `https://ユーザー名.github.io/my-first-site`
+   - `https://ユーザー名.github.io/my-first-site/`
    - URLはGitHubのPages設定画面からのコピペ推奨
    - しばらく（1分くらい）かかるかも
 
@@ -114,7 +114,7 @@ git commit -m "update"
 git push
 ```
 
-初回の `git push` 時に認証が必要で、ブラウザが開いたらそのままログインして許可する。
+初回の `git push` 時に認証が必要で、ブラウザが開いたらそのままログインして許可する。なお、初回は `git push -u origin main` と入力する（2回目以降は `git push` だけでOK）。
 1. 「GitHubにログインしてください」的な表示
 2. ブラウザが開く
 3. GitHubにログイン
@@ -124,7 +124,7 @@ git push
 
 しばらく（1分くらい）待ってから公開URLにアクセスして確認。
 
-公開URL: `https://ユーザー名.github.io/my-first-site`
+公開URL: `https://ユーザー名.github.io/my-first-site/`
 
 ## Webアプリの修正と反映
 
