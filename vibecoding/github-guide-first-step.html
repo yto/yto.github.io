@@ -44,15 +44,9 @@
 <p>この章はターミナル不要。ブラウザだけでアカウント登録からWebサイト公開まで行う。</p>
 <h3>2-1. GitHubアカウントを作る</h3>
 <ol>
-<li>
-<p><a href="https://github.com">github.com</a> にアクセスして <code>Sign up</code> をクリック</p>
-</li>
-<li>
-<p>Googleアカウントで登録する場合は <code>Continue with Google</code> を選択</p>
-</li>
-<li>
-<p>ユーザー名を設定して登録完了</p>
-</li>
+<li><a href="https://github.com">github.com</a> にアクセスして <code>Sign up</code> をクリック</li>
+<li>Googleアカウントで登録する場合は <code>Continue with Google</code> を選択</li>
+<li>ユーザー名を設定して登録完了</li>
 </ol>
 <blockquote>
 <p>ユーザー名はURLに使われる（<code>github.com/ユーザー名</code>）。後から変更できるが、外部に共有したURLが変わってしまうので最初から決めておくと良い。</p>
@@ -89,12 +83,8 @@
 <h3>2-3. index.html をWeb上で作成・保存する</h3>
 <p>リポジトリのトップページで <code>Add file</code> → <code>Create new file</code> をクリック。</p>
 <ol>
-<li>
-<p>ファイル名の入力欄に <code>index.html</code> と入力</p>
-</li>
-<li>
-<p>エディタ部分に以下を貼り付ける</p>
-</li>
+<li>ファイル名の入力欄に <code>index.html</code> と入力</li>
+<li>エディタ部分に以下を貼り付ける</li>
 </ol>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;ja&quot;&gt;
@@ -108,12 +98,8 @@
 &lt;/html&gt;
 </code></pre>
 <ol>
-<li>
-<p>右上の <code>Commit changes...</code> ボタンをクリック</p>
-</li>
-<li>
-<p>コミットメッセージ（例：「最初のページを追加」／空でもよい）を入力して <code>Commit changes</code></p>
-</li>
+<li>右上の <code>Commit changes...</code> ボタンをクリック</li>
+<li>コミットメッセージ（例：「最初のページを追加」／空でもよい）を入力して <code>Commit changes</code></li>
 </ol>
 <p>リポジトリのトップページに <code>index.html</code> が表示されていれば完了。</p>
 <hr />
@@ -121,36 +107,18 @@
 <p>GitHubのリポジトリをそのままWebサイトとして無料で公開できる機能。<br />
 レンタルサーバーを契約しなくても、URLが発行されて誰でもアクセスできる状態になる。</p>
 <ol>
-<li>
-<p>リポジトリの <code>Settings</code> を開く</p>
-</li>
-<li>
-<p>左メニューの <code>Pages</code> を選択</p>
-</li>
-<li>
-<p>Source を <code>Deploy from a branch</code> に設定</p>
-</li>
-<li>
-<p>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして <code>Save</code></p>
-</li>
-<li>
-<p>Pages設定画面の上部にURLが表示される（<code>https://ユーザー名.github.io/my-first-site/</code>）。反映まで数分かかるので、しばらく待ってからアクセスして確認する。</p>
-</li>
+<li>リポジトリの <code>Settings</code> を開く</li>
+<li>左メニューの <code>Pages</code> を選択</li>
+<li>Source を <code>Deploy from a branch</code> に設定</li>
+<li>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして <code>Save</code></li>
+<li>Pages設定画面の上部にURLが表示される（<code>https://ユーザー名.github.io/my-first-site/</code>）。反映まで数分かかるので、しばらく待ってからアクセスして確認する。</li>
 </ol>
 <p><strong>注意点：</strong></p>
 <ul>
-<li>
-<p>エントリーポイントは <code>index.html</code> という名前のファイルが基本。ないと404エラーになる</p>
-</li>
-<li>
-<p>設定後、反映まで数分かかることがある</p>
-</li>
-<li>
-<p>リポジトリがPrivateでもURLは公開される（センシティブな情報を含めないよう注意）</p>
-</li>
-<li>
-<p>あくまで<strong>静的サイト</strong>（HTML/CSS/JSのみ）が対象。サーバー側の処理が必要なものは別途対応が必要</p>
-</li>
+<li>エントリーポイントは <code>index.html</code> という名前のファイルが基本。ないと404エラーになる</li>
+<li>設定後、反映まで数分かかることがある</li>
+<li>リポジトリがPrivateでもURLは公開される（センシティブな情報を含めないよう注意）</li>
+<li>あくまで<strong>静的サイト</strong>（HTML/CSS/JSのみ）が対象。サーバー側の処理が必要なものは別途対応が必要</li>
 </ul>
 <blockquote>
 <p>ポートフォリオや静的なブログの公開によく使われる。</p>
@@ -259,15 +227,9 @@ git push
 <p>同じファイルを複数人（または複数Mac）が別々に編集してアップしようとすると、どちらを正とするか判断できなくなる。これがコンフリクト。</p>
 <p>発生しやすいケース：</p>
 <ul>
-<li>
-<p>複数人が同じファイルを編集した</p>
-</li>
-<li>
-<p>自宅Macと会社Macで作業した</p>
-</li>
-<li>
-<p>WebとMacを使い分けた</p>
-</li>
+<li>複数人が同じファイルを編集した</li>
+<li>自宅Macと会社Macで作業した</li>
+<li>WebとMacを使い分けた</li>
 </ul>
 <p>mergeのときに起きやすい。解決する仕組みはあるが、<code>git pull</code> を習慣づけてこまめに最新状態にしておくことで防ぎやすくなる。</p>
 <h3>.gitignore</h3>

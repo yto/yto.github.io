@@ -23,43 +23,32 @@
     blockquote p { margin: 0; }
     hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
     hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
   </style>
 </head>
 <body>
 <div class="container">
 
 <h1>Claude CodeでWebアプリを作ってgithub pagesで公開するバイブコーディングハンズオン</h1>
-<p>AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。</p>
-<p>そして、全世界に公開します。</p>
-<p>アカウント作成からWebアプリ公開まで一気にやりきるのが本セミナーの目標です。</p>
+<p>AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。
+そして、全世界に公開します。
+アカウント作成からWebアプリ公開まで一気にやりきるのが本セミナーの目標です。</p>
 <h2>1. 必要なもの（必須）</h2>
 <ul>
-<li>
-<p>マシン</p>
-<ul>
+<li>マシン<ul>
 <li>macosが動くPC（macbookなど）</li>
 </ul>
 </li>
-<li>
-<p>アプリ（mac）</p>
-<ul>
-<li>
-<p>chrome</p>
-</li>
-<li>
-<p>Claude Desktop</p>
-</li>
+<li>アプリ（mac）<ul>
+<li>chrome</li>
+<li>Claude Desktop</li>
 </ul>
 </li>
-<li>
-<p>アカウント</p>
-<ul>
-<li>
-<p>google アカウント（会場で見られてもよいアカウント名のもの）</p>
-</li>
-<li>
-<p>Claude の有料プラン（Claude Pro でOK）</p>
-</li>
+<li>アカウント<ul>
+<li>google アカウント（会場で見られてもよいアカウント名のもの）</li>
+<li>Claude の有料プラン（Claude Pro でOK）</li>
 </ul>
 </li>
 </ul>
@@ -68,69 +57,33 @@
 <p>2章・3章の補足: GitHubの操作を詳しく知りたい方は<a href="github-guide-first-step.html">GitHub初心者ガイド</a>へ</p>
 </blockquote>
 <ol>
-<li>
-<p>macosでchromeを立ちあげて<a href="https://github.com/">githubのサイト</a>へ行く</p>
-</li>
-<li>
-<p>githubのアカウント作成</p>
-<ul>
+<li>macosでchromeを立ちあげて<a href="https://github.com/">githubのサイト</a>へ行く</li>
+<li>githubのアカウント作成<ul>
 <li>googleアカウント連携で</li>
 </ul>
 </li>
-<li>
-<p>リポジトリの作成</p>
-<ul>
-<li>
-<p>名前: <code>my-first-site</code></p>
-</li>
-<li>
-<p>Public</p>
-</li>
-<li>
-<p>README.mdは作らない（後のgit操作でエラーになるのを防ぐため）</p>
-</li>
+<li>リポジトリの作成<ul>
+<li>名前: <code>my-first-site</code></li>
+<li>Public</li>
+<li>README.mdは作らない（後のgit操作でエラーになるのを防ぐため）</li>
 </ul>
 </li>
-<li>
-<p>ファイル(index.html)を作成して、何か書き込む</p>
-<ul>
-<li>
-<p>Add file → Create new file → <code>index.html</code></p>
-</li>
-<li>
-<p>とりあえず <code>Hello World!</code> などと書き込む</p>
-</li>
-<li>
-<p>こちらをコピペしてもOK: <code>&lt;html&gt;&lt;head&gt;&lt;title&gt;TEST&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;</code></p>
-</li>
+<li>ファイル(index.html)を作成して、何か書き込む<ul>
+<li>Add file → Create new file → <code>index.html</code></li>
+<li>とりあえず <code>Hello World!</code> などと書き込む</li>
+<li>こちらをコピペしてもOK: <code>&lt;html&gt;&lt;head&gt;&lt;title&gt;TEST&lt;/title&gt;&lt;/head&gt;&lt;body&gt;Hello World!&lt;/body&gt;&lt;/html&gt;</code></li>
 </ul>
 </li>
-<li>
-<p>github pagesの設定</p>
-<ul>
-<li>
-<p>Settings → Pages</p>
-</li>
-<li>
-<p>Source を Deploy from a branch</p>
-</li>
-<li>
-<p>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして保存（Save）</p>
-</li>
+<li>github pagesの設定<ul>
+<li>Settings → Pages</li>
+<li>Source を Deploy from a branch</li>
+<li>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして保存（Save）</li>
 </ul>
 </li>
-<li>
-<p>公開URLを開いて表示確認</p>
-<ul>
-<li>
-<p><code>https://ユーザー名.github.io/my-first-site/</code></p>
-</li>
-<li>
-<p>URLはGitHubのPages設定画面からのコピペ推奨</p>
-</li>
-<li>
-<p>しばらく（1分くらい）かかるかも</p>
-</li>
+<li>公開URLを開いて表示確認<ul>
+<li><code>https://ユーザー名.github.io/my-first-site/</code></li>
+<li>URLはGitHubのPages設定画面からのコピペ推奨</li>
+<li>しばらく（1分くらい）かかるかも</li>
 </ul>
 </li>
 </ol>
@@ -138,12 +91,8 @@
 <h3>作業場所作成</h3>
 <p>作業場所（作業ディレクトリ）を作る。ディレクトリとはフォルダのこと。</p>
 <ul>
-<li>
-<p>Finderで、デスクトップに <code>claude</code> という名前のフォルダを作成 (<code>~/Desktop/claude</code>)</p>
-</li>
-<li>
-<p>またはターミナルを開き、以下のコマンドを実行する</p>
-</li>
+<li>Finderで、デスクトップに <code>claude</code> という名前のフォルダを作成 (<code>~/Desktop/claude</code>)</li>
+<li>またはターミナルを開き、以下のコマンドを実行する</li>
 </ul>
 <pre><code>mkdir ~/Desktop/claude
 </code></pre>
@@ -176,12 +125,8 @@ cd my-first-site
 <p>あとはプロンプトを入力して、index.htmlを編集する。</p>
 <p>プロンプト例:</p>
 <ul>
-<li>
-<p><code>HTML+JavaScriptでポモドーロタイマーを作って！ 1つのファイルにしてindex.htmlに上書きして。</code></p>
-</li>
-<li>
-<p><code>複利計算機をHTML+JavaScriptで作って！ 構成はHTMLファイル(index.html)が1つ。</code></p>
-</li>
+<li><code>HTML+JavaScriptでポモドーロタイマーを作って！ 1つのファイルにしてindex.htmlに上書きして。</code></li>
+<li><code>複利計算機をHTML+JavaScriptで作って！ 構成はHTMLファイル(index.html)が1つ。</code></li>
 </ul>
 <p>右上のところからプレビューを選ぶと表示される（自動で表示されることも）。</p>
 <p>なお、途中いろいろ許可を求めてくるので対応する。</p>
@@ -193,18 +138,10 @@ git push
 </code></pre>
 <p>初回の <code>git push</code> 時に認証が必要で、ブラウザが開いたらそのままログインして許可する。なお、初回は <code>git push -u origin main</code> と入力する（2回目以降は <code>git push</code> だけでOK）。</p>
 <ol>
-<li>
-<p>「GitHubにログインしてください」的な表示</p>
-</li>
-<li>
-<p>ブラウザが開く</p>
-</li>
-<li>
-<p>GitHubにログイン</p>
-</li>
-<li>
-<p>許可</p>
-</li>
+<li>「GitHubにログインしてください」的な表示</li>
+<li>ブラウザが開く</li>
+<li>GitHubにログイン</li>
+<li>許可</li>
 </ol>
 <blockquote>
 <p>もしターミナルでユーザー名やパスワードを聞かれた場合は、パスワードは使えないので入力せず、講師に声をかけてください。</p>
@@ -214,18 +151,10 @@ git push
 <h2>6. Webアプリの修正と反映</h2>
 <p>修正依頼プロンプト例:</p>
 <ul>
-<li>
-<p><code>背景をもっと明るくしてください</code></p>
-</li>
-<li>
-<p><code>数値入力をスライダーにしてください</code></p>
-</li>
-<li>
-<p><code>ボタンの間隔をもっと広げて</code></p>
-</li>
-<li>
-<p>参考: <a href="https://yto.github.io/vibecoding/uiterms.html">AIへの指示に使えるUI用語集 — 動く実例つき</a></p>
-</li>
+<li><code>背景をもっと明るくしてください</code></li>
+<li><code>数値入力をスライダーにしてください</code></li>
+<li><code>ボタンの間隔をもっと広げて</code></li>
+<li>参考: <a href="https://yto.github.io/vibecoding/uiterms.html">AIへの指示に使えるUI用語集 — 動く実例つき</a></li>
 </ul>
 <p>途中いろいろ許可を求めてくるので対応する。</p>
 <p>納得したら、githubへのアップを依頼: <code>変更をgitでコミットしてpushして</code></p>
@@ -237,75 +166,41 @@ git push
 <h2>7. 用語</h2>
 <h3>基本用語</h3>
 <ul>
-<li>
-<p>Git</p>
-<ul>
-<li>
-<p>ファイルの変更履歴を記録・管理する仕組み</p>
-</li>
-<li>
-<p>あくまで「仕組み（ツール）」であってサービスではない</p>
-</li>
-<li>
-<p>Gitで管理するデータを置いて共有するサービスの一つがGitHub</p>
-</li>
-<li>
-<p>変更履歴はスナップショットやセーブポイント（ゲームの）みたいな感じで保存される</p>
-</li>
-<li>
-<p>コマンド:</p>
-<ul>
-<li>
-<p><code>git clone https://github.com/ユーザー名/my-first-site.git</code> — リモート（今回はGitHub）にあるリポジトリを自分のPCにコピーしてくる</p>
-</li>
-<li>
-<p><code>git add .</code> — セーブポイントに含めるファイルを選ぶ。<code>.</code> は「全部」という意味</p>
-</li>
-<li>
-<p><code>git commit -m "update"</code> — 変更内容のセーブポイントを作る。<code>-m</code> の後に何を変えたかのメモを書く</p>
-</li>
-<li>
-<p><code>git push</code> — 作ったセーブポイントをリモートにアップロードする</p>
-</li>
+<li>Git<ul>
+<li>ファイルの変更履歴を記録・管理する仕組み</li>
+<li>あくまで「仕組み（ツール）」であってサービスではない</li>
+<li>Gitで管理するデータを置いて共有するサービスの一つがGitHub</li>
+<li>変更履歴はスナップショットやセーブポイント（ゲームの）みたいな感じで保存される</li>
+<li>コマンド:<ul>
+<li><code>git clone https://github.com/ユーザー名/my-first-site.git</code> — リモート（今回はGitHub）にあるリポジトリを自分のPCにコピーしてくる</li>
+<li><code>git add .</code> — セーブポイントに含めるファイルを選ぶ。<code>.</code> は「全部」という意味</li>
+<li><code>git commit -m "update"</code> — 変更内容のセーブポイントを作る。<code>-m</code> の後に何を変えたかのメモを書く</li>
+<li><code>git push</code> — 作ったセーブポイントをリモートにアップロードする</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>GitHub</p>
-<ul>
+<li>GitHub<ul>
 <li>履歴が残って、みんなで編集できて、そのまま公開もできるクラウドフォルダ</li>
 </ul>
 </li>
-<li>
-<p>バイブコーディング (vibe coding)</p>
-<ul>
+<li>バイブコーディング (vibe coding)<ul>
 <li>雰囲気（バイブ）でAIに指示して作らせる開発スタイル</li>
 </ul>
 </li>
 </ul>
 <h3>Tips</h3>
 <ul>
-<li>
-<p>GitHubへのアップを依頼するとき</p>
-<ul>
+<li>GitHubへのアップを依頼するとき<ul>
 <li>短めに <code>githubにアップ</code> で</li>
 </ul>
 </li>
-<li>
-<p>返答でファイル更新させない</p>
-<ul>
-<li>
-<p>末尾に <code>アイディアください</code> <code>どうでしょうか</code> <code>考え聞かせて</code> などをつける</p>
-</li>
-<li>
-<p>プランモードでも良いが切り替えが面倒</p>
-</li>
+<li>返答でファイル更新させない<ul>
+<li>末尾に <code>アイディアください</code> <code>どうでしょうか</code> <code>考え聞かせて</code> などをつける</li>
+<li>プランモードでも良いが切り替えが面倒</li>
 </ul>
 </li>
-<li>
-<p>バイブコーディングでWebアプリを作るときに便利な用語集</p>
-<ul>
+<li>バイブコーディングでWebアプリを作るときに便利な用語集<ul>
 <li><a href="https://yto.github.io/vibecoding/uiterms.html">AIへの指示に使えるUI用語集 — 動く実例つき</a></li>
 </ul>
 </li>
