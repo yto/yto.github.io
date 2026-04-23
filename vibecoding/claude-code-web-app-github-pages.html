@@ -32,7 +32,7 @@
 <p>AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。</p>
 <p>そして、全世界に公開します。</p>
 <p>アカウント作成からWebアプリ公開まで一気にやりきるのが本セミナーの目標です。</p>
-<h2>必要なもの（必須）</h2>
+<h2>1. 必要なもの（必須）</h2>
 <ul>
 <li>
 <p>マシン</p>
@@ -63,7 +63,10 @@
 </ul>
 </li>
 </ul>
-<h2>まずは練習として github pages でWebサイトを世界へ公開</h2>
+<h2>2. まずは練習として github pages でWebサイトを世界へ公開</h2>
+<blockquote>
+<p>2章・3章の補足: GitHubの操作を詳しく知りたい方は<a href="github-guide-first-step.html">GitHub初心者ガイド</a>へ</p>
+</blockquote>
 <ol>
 <li>
 <p>macosでchromeを立ちあげて<a href="https://github.com/">githubのサイト</a>へ行く</p>
@@ -131,7 +134,7 @@
 </ul>
 </li>
 </ol>
-<h2>gitのインストールと設定</h2>
+<h2>3. gitのインストールと設定</h2>
 <h3>作業場所作成</h3>
 <p>作業場所（作業ディレクトリ）を作る。ディレクトリとはフォルダのこと。</p>
 <ul>
@@ -167,7 +170,7 @@ git config --global user.email &quot;oreore@example.com&quot;
 <pre><code>git clone https://github.com/ユーザー名/my-first-site.git
 cd my-first-site
 </code></pre>
-<h2>Claude Code でWebアプリを作成</h2>
+<h2>4. Claude Code でWebアプリを作成</h2>
 <p>デスクトップ版Claudeアプリを起動。</p>
 <p>「Code」(Claude Code) を選択 → 「New session」をクリック → 作業ディレクトリを指定 (<code>~/Desktop/claude/my-first-site</code>)</p>
 <p>あとはプロンプトを入力して、index.htmlを編集する。</p>
@@ -182,7 +185,7 @@ cd my-first-site
 </ul>
 <p>右上のところからプレビューを選ぶと表示される（自動で表示されることも）。</p>
 <p>なお、途中いろいろ許可を求めてくるので対応する。</p>
-<h2>作ったWebアプリをgithubにアップして公開する（デプロイ）</h2>
+<h2>5. 作ったWebアプリをgithubにアップして公開する（デプロイ）</h2>
 <p>ターミナルに戻って以下を順番に実行。</p>
 <pre><code>git add .
 git commit -m &quot;update&quot;
@@ -208,7 +211,7 @@ git push
 </blockquote>
 <p>しばらく（1分くらい）待ってから公開URLにアクセスして確認。</p>
 <p>公開URL: <code>https://ユーザー名.github.io/my-first-site/</code></p>
-<h2>Webアプリの修正と反映</h2>
+<h2>6. Webアプリの修正と反映</h2>
 <p>修正依頼プロンプト例:</p>
 <ul>
 <li>
@@ -231,7 +234,7 @@ git push
 <blockquote>
 <p>最初の1回は手動でpushします（認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いすると自動で公開されます。</p>
 </blockquote>
-<h2>用語</h2>
+<h2>7. 用語</h2>
 <h3>基本用語</h3>
 <ul>
 <li>

@@ -6,7 +6,7 @@ AIに話しかけてコードを作る「バイブコーディング」でWebア
 
 アカウント作成からWebアプリ公開まで一気にやりきるのが本セミナーの目標です。
 
-## 必要なもの（必須）
+## 1. 必要なもの（必須）
 
 - マシン
   - macosが動くPC（macbookなど）
@@ -17,7 +17,9 @@ AIに話しかけてコードを作る「バイブコーディング」でWebア
   - google アカウント（会場で見られてもよいアカウント名のもの）
   - Claude の有料プラン（Claude Pro でOK）
 
-## まずは練習として github pages でWebサイトを世界へ公開
+## 2. まずは練習として github pages でWebサイトを世界へ公開
+
+> 2章・3章の補足: GitHubの操作を詳しく知りたい方は[GitHub初心者ガイド](github-guide-first-step.html)へ
 
 1. macosでchromeを立ちあげて[githubのサイト](https://github.com/)へ行く
 2. githubのアカウント作成
@@ -39,7 +41,7 @@ AIに話しかけてコードを作る「バイブコーディング」でWebア
    - URLはGitHubのPages設定画面からのコピペ推奨
    - しばらく（1分くらい）かかるかも
 
-## gitのインストールと設定
+## 3. gitのインストールと設定
 
 ### 作業場所作成
 
@@ -89,7 +91,7 @@ git clone https://github.com/ユーザー名/my-first-site.git
 cd my-first-site
 ```
 
-## Claude Code でWebアプリを作成
+## 4. Claude Code でWebアプリを作成
 
 デスクトップ版Claudeアプリを起動。
 
@@ -105,7 +107,7 @@ cd my-first-site
 
 なお、途中いろいろ許可を求めてくるので対応する。
 
-## 作ったWebアプリをgithubにアップして公開する（デプロイ）
+## 5. 作ったWebアプリをgithubにアップして公開する（デプロイ）
 
 ターミナルに戻って以下を順番に実行。
 ```
@@ -126,7 +128,7 @@ git push
 
 公開URL: `https://ユーザー名.github.io/my-first-site/`
 
-## Webアプリの修正と反映
+## 6. Webアプリの修正と反映
 
 修正依頼プロンプト例:
 - `背景をもっと明るくしてください`
@@ -144,7 +146,7 @@ git push
 
 > 最初の1回は手動でpushします（認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いすると自動で公開されます。
 
-## 用語
+## 7. 用語
 
 ### 基本用語
 
