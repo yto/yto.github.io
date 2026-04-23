@@ -42,8 +42,8 @@
 <p>Macのデスクトップに「確定申告」「旅行写真」「ブログネタ」など用途別フォルダを作るように、GitHub上でもタスクごとに専用フォルダ（= <strong>リポジトリ</strong>）を作って管理する。</p>
 <p>主な機能：履歴管理 / 複数人での共同作業 / ブランチ（作業コピー） / GitHub Pages（Web公開）</p>
 <hr />
-<h2>2. Webで登録・作成</h2>
-<p>アカウント登録からファイル保存まで、すべてブラウザだけで行う。</p>
+<h2>2. Webブラウザだけで登録・作成・公開する</h2>
+<p>この章はターミナル不要。ブラウザだけでアカウント登録からWebサイト公開まで行う。</p>
 <h3>2-1. GitHubアカウントを作る</h3>
 <ol>
 <li>
@@ -79,11 +79,11 @@
 </tr>
 <tr>
 <td>Public / Private</td>
-<td>Public（公開） or Private（非公開）を選ぶ</td>
+<td>今回は Public（公開）を選ぶ</td>
 </tr>
 <tr>
 <td>Add a README file</td>
-<td>今回はチェックしない</td>
+<td>今回はチェックしない（後のgit clone操作でエラーになるのを防ぐため）</td>
 </tr>
 </tbody>
 </table>
@@ -119,7 +119,7 @@
 </ol>
 <p>リポジトリのトップページに <code>index.html</code> が表示されていれば完了。</p>
 <hr />
-<h2>3. GitHub Pages で公開する</h2>
+<h3>2-4. GitHub Pages で公開する</h3>
 <p>GitHubのリポジトリをそのままWebサイトとして無料で公開できる機能。<br />
 レンタルサーバーを契約しなくても、URLが発行されて誰でもアクセスできる状態になる。</p>
 <ol>
@@ -136,7 +136,7 @@
 <p>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして <code>Save</code></p>
 </li>
 <li>
-<p><code>https://ユーザー名.github.io/my-first-site/</code> というURLが発行される</p>
+<p>Pages設定画面の上部にURLが表示される（<code>https://ユーザー名.github.io/my-first-site/</code>）。反映まで数分かかるので、しばらく待ってからアクセスして確認する。</p>
 </li>
 </ol>
 <p><strong>注意点：</strong></p>
@@ -158,10 +158,10 @@
 <p>ポートフォリオや静的なブログの公開によく使われる。</p>
 </blockquote>
 <hr />
-<h2>4. Terminalで操作する</h2>
-<p>ここからはMacのターミナルを使う。<br />
+<h2>3. Terminalで操作する</h2>
+<p>ここからはMacのターミナルを使ってGitを操作する。GitとGitHubは別物で、Gitはローカル（Mac内）で動く変更管理ツール、GitHubはその記録を置いておくクラウドサービス。<br />
 ターミナルを開くには <code>Command + Space</code> → "Terminal" と入力。</p>
-<h3>4-1. 事前準備：Gitのインストール確認</h3>
+<h3>3-1. 事前準備：Gitのインストール確認</h3>
 <p>まずGitが使える状態か確認する。</p>
 <pre><code class="language-bash">git --version
 # git version 2.x.x と表示されればOK
@@ -172,13 +172,13 @@
 <pre><code class="language-bash">git config --global user.name &quot;Your Name&quot;
 git config --global user.email &quot;you@example.com&quot;
 </code></pre>
-<h3>4-2. クローン（初回だけ）</h3>
+<h3>3-2. クローン（初回だけ）</h3>
 <p>GitHubのリポジトリをMacに丸ごとコピーすること。最初の1回だけ行う。</p>
 <p>GitHubのリポジトリページで <code>Code</code> ボタン → <code>HTTPS</code> タブのURLをコピーして使う。</p>
 <pre><code class="language-bash"># 任意の場所に移動（例：デスクトップ）
 cd ~/Desktop
 
-# リポジトリをクローン
+# リポジトリをクローン（↑でコピーしたURLを使う）
 git clone https://github.com/ユーザー名/my-first-site.git
 
 # クローンされたフォルダに移動
@@ -187,7 +187,7 @@ cd my-first-site
 <blockquote>
 <p><code>cd</code> はフォルダを移動するコマンド。ターミナルでの作業は「今どのフォルダにいるか」が重要。今現在いるフォルダを確認するには <code>pwd</code> コマンド。</p>
 </blockquote>
-<h3>4-3. ローカルで編集してリモートにアップする</h3>
+<h3>3-3. ローカルで編集してリモートにアップする</h3>
 <p>基本の開発フロー。ファイルを編集したら3ステップでGitHubに反映する。</p>
 <pre><code>ファイルを編集 → git add → git commit → git push
 </code></pre>
@@ -205,11 +205,11 @@ cd my-first-site
 </tr>
 <tr>
 <td><code>git commit</code></td>
-<td>「この状態をセーブする」。セーブデータに名前をつけるイメージ。</td>
+<td>「この状態をセーブする」。セーブポイントに名前をつけるイメージ。</td>
 </tr>
 <tr>
 <td><code>git push</code></td>
-<td>セーブデータをGitHubにアップロード。</td>
+<td>セーブポイントをGitHubにアップロード。</td>
 </tr>
 </tbody>
 </table>
@@ -230,7 +230,6 @@ git add .
 git commit -m &quot;トップページのレイアウトを修正&quot;
 
 # 初回だけこのコマンド（以降は git push だけでOKになる）
-# 初回はブラウザが開いてGitHubのログイン・認証を求められる場合がある
 git push -u origin main
 
 # 2回目以降
@@ -238,8 +237,9 @@ git push
 </code></pre>
 <blockquote>
 <p><code>git status</code> でいつでも「今どんな状態か」を確認できる。迷ったらまずこれを打つと良い。</p>
+<p>初回 <code>git push -u origin main</code> のとき、自動でブラウザが開く。GitHubにログインして「Authorize」を押せばOK。以降は <code>git push</code> だけでよい。</p>
 </blockquote>
-<h3>4-4. GitHubサイト上の変更をローカルに反映する</h3>
+<h3>3-4. GitHubサイト上の変更をローカルに反映する</h3>
 <p>GitHubのWebサイト上で直接ファイルを編集することもできる。その変更をMac側に取り込むには：</p>
 <pre><code class="language-bash">git pull
 </code></pre>
@@ -247,7 +247,7 @@ git push
 <p><code>clone</code> は「初回の丸ごとコピー」、<code>pull</code> は「すでにある状態で最新を取り込む」と使い分ける。</p>
 </blockquote>
 <hr />
-<h2>5. 補足</h2>
+<h2>4. 補足</h2>
 <h3>ブランチ</h3>
 <p>本番ファイルを直接触らず、コピーして作業してからOKなら合流させる仕組み。</p>
 <pre><code>main（本番・完成版）→ ブランチを作る（コピー）→ 作業・テスト → merge（合流）
