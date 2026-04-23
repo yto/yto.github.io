@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub 初心者ガイド</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
+    .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
+    p { margin: 0.5em 0 0.8em; }
+    ul, ol { margin: 0.4em 0 0.8em; padding-left: 1.6em; }
+    li { margin: 0.3em 0; }
+    code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.88em; background: #e5e7eb; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #1f2937; color: #f3f4f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 0.6em 0 1em; }
+    pre code { background: none; padding: 0; font-size: 0.875rem; color: inherit; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    blockquote { background: #fff; border-left: 3px solid #d1d5db; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 0.8em 0; color: #4b5563; font-size: 0.93em; }
+    blockquote p { margin: 0; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
+    hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<h1>GitHub 初心者ガイド</h1>
+<blockquote>
+<p>厳密には違う部分もあるけど、わかりやすさ優先で解説します。</p>
+</blockquote>
+<hr />
+<h2>1. GitHubとは</h2>
+<p>GitHubは「変更履歴ごと保存できるネット上のフォルダ」のようなもの。<br />
+ローカル（Mac内）で作業して、リモート（GitHub）に保存するのが基本スタイル。</p>
+<p>Macのデスクトップに「確定申告」「旅行写真」「ブログネタ」など用途別フォルダを作るように、GitHub上でもタスクごとに専用フォルダ（= <strong>リポジトリ</strong>）を作って管理する。</p>
+<p>主な機能：履歴管理 / 複数人での共同作業 / ブランチ（作業コピー） / GitHub Pages（Web公開）</p>
+<hr />
+<h2>2. Webで登録・作成</h2>
+<p>アカウント登録からファイル保存まで、すべてブラウザだけで行う。</p>
+<h3>2-1. GitHubアカウントを作る</h3>
+<ol>
+<li>
+<p><a href="https://github.com">github.com</a> にアクセスして <code>Sign up</code> をクリック</p>
+</li>
+<li>
+<p>Googleアカウントで登録する場合は <code>Continue with Google</code> を選択</p>
+</li>
+<li>
+<p>ユーザー名を設定して登録完了</p>
+</li>
+</ol>
+<blockquote>
+<p>ユーザー名はURLに使われる（<code>github.com/ユーザー名</code>）。後から変更できるが、外部に共有したURLが変わってしまうので最初から決めておくと良い。</p>
+</blockquote>
+<h3>2-2. リポジトリを作る</h3>
+<p>ログイン後、右上の <code>+</code> ボタン → <code>New repository</code> をクリック。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>設定内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repository name</td>
+<td><code>my-first-site</code> にしてください</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>任意（空でもOK）</td>
+</tr>
+<tr>
+<td>Public / Private</td>
+<td>Public（公開） or Private（非公開）を選ぶ</td>
+</tr>
+<tr>
+<td>Add a README file</td>
+<td>今回はチェックしない</td>
+</tr>
+</tbody>
+</table>
+<p><code>Create repository</code> ボタンを押せばリポジトリ完成。</p>
+<h3>2-3. index.html をWeb上で作成・保存する</h3>
+<p>リポジトリのトップページで <code>Add file</code> → <code>Create new file</code> をクリック。</p>
+<ol>
+<li>
+<p>ファイル名の入力欄に <code>index.html</code> と入力</p>
+</li>
+<li>
+<p>エディタ部分に以下を貼り付ける</p>
+</li>
+</ol>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ja&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Hello World!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ol>
+<li>
+<p>右上の <code>Commit changes...</code> ボタンをクリック</p>
+</li>
+<li>
+<p>コミットメッセージ（例：「最初のページを追加」／空でもよい）を入力して <code>Commit changes</code></p>
+</li>
+</ol>
+<p>リポジトリのトップページに <code>index.html</code> が表示されていれば完了。</p>
+<hr />
+<h2>3. GitHub Pages で公開する</h2>
+<p>GitHubのリポジトリをそのままWebサイトとして無料で公開できる機能。<br />
+レンタルサーバーを契約しなくても、URLが発行されて誰でもアクセスできる状態になる。</p>
+<ol>
+<li>
+<p>リポジトリの <code>Settings</code> を開く</p>
+</li>
+<li>
+<p>左メニューの <code>Pages</code> を選択</p>
+</li>
+<li>
+<p>Source を <code>Deploy from a branch</code> に設定</p>
+</li>
+<li>
+<p>Branch を <code>main</code>、Folder を <code>/ (root)</code> にして <code>Save</code></p>
+</li>
+<li>
+<p><code>https://ユーザー名.github.io/my-first-site/</code> というURLが発行される</p>
+</li>
+</ol>
+<p><strong>注意点：</strong></p>
+<ul>
+<li>
+<p>エントリーポイントは <code>index.html</code> という名前のファイルが基本。ないと404エラーになる</p>
+</li>
+<li>
+<p>設定後、反映まで数分かかることがある</p>
+</li>
+<li>
+<p>リポジトリがPrivateでもURLは公開される（センシティブな情報を含めないよう注意）</p>
+</li>
+<li>
+<p>あくまで<strong>静的サイト</strong>（HTML/CSS/JSのみ）が対象。サーバー側の処理が必要なものは別途対応が必要</p>
+</li>
+</ul>
+<blockquote>
+<p>ポートフォリオや静的なブログの公開によく使われる。</p>
+</blockquote>
+<hr />
+<h2>4. Terminalで操作する</h2>
+<p>ここからはMacのターミナルを使う。<br />
+ターミナルを開くには <code>Command + Space</code> → "Terminal" と入力。</p>
+<h3>4-1. 事前準備：Gitのインストール確認</h3>
+<p>まずGitが使える状態か確認する。</p>
+<pre><code class="language-bash">git --version
+# git version 2.x.x と表示されればOK
+</code></pre>
+<p>入っていない場合は、Xcodeのコマンドラインツールをインストールするか、<a href="https://git-scm.com/">git-scm.com</a> からインストールする。</p>
+<p>初回だけ、自分の名前とメールアドレスを登録しておく（commitの記録に使われる）。<br />
+本名・本物のメールアドレスでなくてもOK。最初のうちはニックネームや適当なメールアドレスで構わない。</p>
+<pre><code class="language-bash">git config --global user.name &quot;Your Name&quot;
+git config --global user.email &quot;you@example.com&quot;
+</code></pre>
+<h3>4-2. クローン（初回だけ）</h3>
+<p>GitHubのリポジトリをMacに丸ごとコピーすること。最初の1回だけ行う。</p>
+<p>GitHubのリポジトリページで <code>Code</code> ボタン → <code>HTTPS</code> タブのURLをコピーして使う。</p>
+<pre><code class="language-bash"># 任意の場所に移動（例：デスクトップ）
+cd ~/Desktop
+
+# リポジトリをクローン
+git clone https://github.com/ユーザー名/my-first-site.git
+
+# クローンされたフォルダに移動
+cd my-first-site
+</code></pre>
+<blockquote>
+<p><code>cd</code> はフォルダを移動するコマンド。ターミナルでの作業は「今どのフォルダにいるか」が重要。今現在いるフォルダを確認するには <code>pwd</code> コマンド。</p>
+</blockquote>
+<h3>4-3. ローカルで編集してリモートにアップする</h3>
+<p>基本の開発フロー。ファイルを編集したら3ステップでGitHubに反映する。</p>
+<pre><code>ファイルを編集 → git add → git commit → git push
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>コマンド</th>
+<th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git add</code></td>
+<td>「これをセーブ対象にする」宣言。複数ファイルを変更していても、一部だけ選べる。</td>
+</tr>
+<tr>
+<td><code>git commit</code></td>
+<td>「この状態をセーブする」。セーブデータに名前をつけるイメージ。</td>
+</tr>
+<tr>
+<td><code>git push</code></td>
+<td>セーブデータをGitHubにアップロード。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>commitはゲームのセーブポイント</strong></p>
+<p>ゲームで「ここまで進んだら一度セーブしておこう」とするように、gitでも「ここまでの変更をセーブポイントとして残しておく」のがcommit。セーブポイントに名前をつけておける（= コミットメッセージ）ので、後から「あの時点に戻りたい」というときに目印になる。</p>
+<p><strong>なぜ add → commit の2段階？</strong><br />
+変更が複数あっても、まとめてセーブしたいものだけ選べるようにするため。</p>
+<pre><code class="language-bash"># 状態確認（どのファイルが変更されているか確認できる）
+git status
+
+# 特定のファイルをセーブ対象に追加
+git add index.html
+
+# すべての変更ファイルをまとめて追加する場合
+git add .
+
+# コミット（メッセージは何を変えたかを書く）
+git commit -m &quot;トップページのレイアウトを修正&quot;
+
+# 初回だけこのコマンド（以降は git push だけでOKになる）
+# 初回はブラウザが開いてGitHubのログイン・認証を求められる場合がある
+git push -u origin main
+
+# 2回目以降
+git push
+</code></pre>
+<blockquote>
+<p><code>git status</code> でいつでも「今どんな状態か」を確認できる。迷ったらまずこれを打つと良い。</p>
+</blockquote>
+<h3>4-4. GitHubサイト上の変更をローカルに反映する</h3>
+<p>GitHubのWebサイト上で直接ファイルを編集することもできる。その変更をMac側に取り込むには：</p>
+<pre><code class="language-bash">git pull
+</code></pre>
+<blockquote>
+<p><code>clone</code> は「初回の丸ごとコピー」、<code>pull</code> は「すでにある状態で最新を取り込む」と使い分ける。</p>
+</blockquote>
+<hr />
+<h2>5. 補足</h2>
+<h3>ブランチ</h3>
+<p>本番ファイルを直接触らず、コピーして作業してからOKなら合流させる仕組み。</p>
+<pre><code>main（本番・完成版）→ ブランチを作る（コピー）→ 作業・テスト → merge（合流）
+</code></pre>
+<pre><code>main
+├── feature ブランチ（新機能を試す）
+└── fix ブランチ（バグ修正用）
+</code></pre>
+<p>GitHubの画面上でブランチを合流させる操作を <strong>Pull Request（PR）</strong> と呼ぶ。</p>
+<h3>コンフリクト</h3>
+<p>同じファイルを複数人（または複数Mac）が別々に編集してアップしようとすると、どちらを正とするか判断できなくなる。これがコンフリクト。</p>
+<p>発生しやすいケース：</p>
+<ul>
+<li>
+<p>複数人が同じファイルを編集した</p>
+</li>
+<li>
+<p>自宅Macと会社Macで作業した</p>
+</li>
+<li>
+<p>WebとMacを使い分けた</p>
+</li>
+</ul>
+<p>mergeのときに起きやすい。解決する仕組みはあるが、<code>git pull</code> を習慣づけてこまめに最新状態にしておくことで防ぎやすくなる。</p>
+<h3>.gitignore</h3>
+<p>「GitHubにアップしたくないファイル」を除外リストとして書いておくファイル。</p>
+<p>対象の例：パスワード・APIキー / node_modules（大量の依存ファイル）/ <code>.DS_Store</code>（macOSが自動生成する不要ファイル）</p>
+<pre><code class="language-bash"># .gitignore ファイルをターミナルで作成する例
+echo &quot;.DS_Store&quot; &gt;&gt; .gitignore
+echo &quot;node_modules/&quot; &gt;&gt; .gitignore
+</code></pre>
+<p>うっかり秘密情報を公開してしまうのを防ぐ。プロジェクト作成時に設定しておくのが基本。<br />
+macOSでは <code>.DS_Store</code> が頻繁に生成されるので、最初から除外しておくと良い。</p>
+<hr />
+<p>2026-04-23 タツヲ (<a href="https://x.com/yto">yto</a>)</p>
+
+</div>
+</body>
+</html>
