@@ -80,7 +80,7 @@
 </tr>
 <tr>
 <td>Add a README file</td>
-<td>今回はチェックしない（後のgit clone操作でエラーになるのを防ぐため）</td>
+<td>今回はチェックしない（最初はファイル構成をシンプルにするため）</td>
 </tr>
 </tbody>
 </table>
@@ -138,7 +138,7 @@
 </code></pre>
 <p>入っていない場合は、Xcodeのコマンドラインツールをインストールするか、<a href="https://git-scm.com/">git-scm.com</a> からインストールする。</p>
 <p>初回だけ、自分の名前とメールアドレスを登録しておく（commitの記録に使われる）。<br />
-本名・本物のメールアドレスでなくてもOK。最初のうちはニックネームや適当なメールアドレスで構わない。</p>
+本名でなくてもOK。メールは GitHub に登録済みのもの、または GitHub の <code>noreply</code> メールアドレス（<a href="https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address">コミットメールアドレスを設定する</a>）を使うのがおすすめ。</p>
 <pre><code class="language-bash">git config --global user.name &quot;Your Name&quot;
 git config --global user.email &quot;you@example.com&quot;
 </code></pre>
@@ -207,7 +207,7 @@ git push
 </code></pre>
 <blockquote>
 <p><code>git status</code> でいつでも「今どんな状態か」を確認できる。迷ったらまずこれを打つと良い。</p>
-<p>初回 <code>git push -u origin main</code> のとき、自動でブラウザが開く。GitHubにログインして「Authorize」を押せばOK。以降は <code>git push</code> だけでよい。</p>
+<p>初回 <code>git push -u origin main</code> のときは認証が必要。ブラウザが開くこともある。画面の案内に沿って GitHub にログインできればOK。以降は <code>git push</code> だけで進められることが多い。</p>
 </blockquote>
 <h3>3-4. GitHubサイト上の変更をローカルに反映する</h3>
 <p>GitHubのWebサイト上で直接ファイルを編集することもできる。その変更をMac側に取り込むには：</p>
@@ -226,7 +226,7 @@ git push
 ├── feature ブランチ（新機能を試す）
 └── fix ブランチ（バグ修正用）
 </code></pre>
-<p>GitHubの画面上でブランチを合流させる操作を <strong>Pull Request（PR）</strong> と呼ぶ。</p>
+<p>GitHubでは、「このブランチの変更を main に取り込んでください」と依頼する仕組みを <strong>Pull Request（PR）</strong> と呼ぶ。PR を作って確認し、問題なければ merge（合流）する。</p>
 <h3>コンフリクト</h3>
 <p>同じファイルを複数人（または複数Mac）が別々に編集してアップしようとすると、どちらを正とするか判断できなくなる。これがコンフリクト。</p>
 <p>発生しやすいケース：</p>
@@ -244,6 +244,7 @@ echo &quot;.DS_Store&quot; &gt;&gt; .gitignore
 echo &quot;node_modules/&quot; &gt;&gt; .gitignore
 </code></pre>
 <p>うっかり秘密情報を公開してしまうのを防ぐ。プロジェクト作成時に設定しておくのが基本。<br />
+ただし、<code>.gitignore</code> は「まだGitで管理していないファイル」を除外するためのもの。すでに追加済みのファイルは別途対処が必要なので、最初に設定しておくと混乱しにくい。<br />
 macOSでは <code>.DS_Store</code> が頻繁に生成されるので、最初から除外しておくと良い。</p>
 <hr />
 <p>2026-04-23 タツヲ (<a href="https://x.com/yto">yto</a>)</p>

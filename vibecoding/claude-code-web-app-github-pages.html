@@ -75,7 +75,7 @@
 </li>
 <li>リポジトリの作成<ul>
 <li>名前: <code>my-first-site</code></li>
-<li>Public（講師が確認できるようにするため）</li>
+<li>このハンズオンでは Public（講師が確認できるようにするため）</li>
 <li>README.mdは作らない（最初はファイル構成をシンプルにするため）</li>
 </ul>
 </li>
@@ -143,17 +143,13 @@ cd my-first-site
 <p>なお、途中いろいろ許可を求めてくるので対応する。</p>
 <h2>5. 作ったWebアプリをgithubにアップして公開する（デプロイ）</h2>
 <p>ターミナルに戻って以下を順番に実行。</p>
-<pre><code>git add .
+<pre><code>git status
+git add .
 git commit -m &quot;update&quot;
-git push
+git push -u origin main
 </code></pre>
-<p>初回の <code>git push</code> 時に認証が必要で、ブラウザが開いたらそのままログインして許可する。なお、初回は <code>git push -u origin main</code> と入力する（2回目以降は <code>git push</code> だけでOK）。</p>
-<ol>
-<li>「GitHubにログインしてください」的な表示</li>
-<li>ブラウザが開く</li>
-<li>GitHubにログイン</li>
-<li>許可</li>
-</ol>
+<p><code>git status</code> で今どんな状態か確認してから進めると安全。</p>
+<p>初回の <code>git push -u origin main</code> 時には認証が必要。ブラウザが開くこともあるが、表示は環境によって異なる。画面の案内に沿って GitHub にログインできればOK。2回目以降は <code>git push</code> だけで進められることが多い。</p>
 <blockquote>
 <p>もしターミナルでユーザー名やパスワードを聞かれた場合は、パスワードは使えないので入力せず、講師に声をかけてください。</p>
 </blockquote>
