@@ -33,7 +33,7 @@ Webアプリには大きく2つのタイプがあります。
    - googleアカウント連携で
 3. リポジトリの作成
    - 名前: `my-first-site`
-   - Public（講師が確認できるようにするため）
+   - このハンズオンでは Public（講師が確認できるようにするため）
    - README.mdは作らない（最初はファイル構成をシンプルにするため）
 4. ファイル(index.html)を作成して、何か書き込む
    - Add file → Create new file → `index.html`
@@ -118,16 +118,15 @@ cd my-first-site
 
 ターミナルに戻って以下を順番に実行。
 ```
+git status
 git add .
 git commit -m "update"
-git push
+git push -u origin main
 ```
 
-初回の `git push` 時に認証が必要で、ブラウザが開いたらそのままログインして許可する。なお、初回は `git push -u origin main` と入力する（2回目以降は `git push` だけでOK）。
-1. 「GitHubにログインしてください」的な表示
-2. ブラウザが開く
-3. GitHubにログイン
-4. 許可
+`git status` で今どんな状態か確認してから進めると安全。
+
+初回の `git push -u origin main` 時には認証が必要。ブラウザが開くこともあるが、表示は環境によって異なる。画面の案内に沿って GitHub にログインできればOK。2回目以降は `git push` だけで進められることが多い。
 
 > もしターミナルでユーザー名やパスワードを聞かれた場合は、パスワードは使えないので入力せず、講師に声をかけてください。
 
