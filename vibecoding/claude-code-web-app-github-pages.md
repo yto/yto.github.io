@@ -34,7 +34,7 @@ Webアプリには大きく2つのタイプがあります。
 3. リポジトリの作成
    - 名前: `my-first-site`
    - Public（講師が確認できるようにするため）
-   - README.mdは作らない（後のgit操作でエラーになるのを防ぐため）
+   - README.mdは作らない（最初はファイル構成をシンプルにするため）
 4. ファイル(index.html)を作成して、何か書き込む
    - Add file → Create new file → `index.html`
    - とりあえず `Hello World!` などと書き込む
@@ -83,7 +83,7 @@ xcode-select --install
 ### 初期設定
 
 名前とメールはGitHubのデータとして公開される（設定による）。
-本名でなくてもOK。メールも適当で構いません。
+本名でなくてもOK。メールはGitHubに登録済みのもの、または GitHub の `noreply` メールアドレス（[コミットメールアドレスを設定する](https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)）を使うのがおすすめ。
 ```
 git config --global user.name "Tokumei Taro"
 git config --global user.email "oreore@example.com"
@@ -151,7 +151,7 @@ git push
 
 このように修正と反映を繰り返して、Webアプリを仕上げよう！
 
-> 最初の1回は手動でpushします（認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いすると自動で公開されます。
+> 最初の1回は手動でpushします（GitHubへのブラウザ認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いできますが、Claude Code 側の権限設定によっては確認や承認が入ることがあります。
 
 ## 7. その先のこと
 
@@ -162,8 +162,8 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 - 試行錯誤の履歴を見られたくない
 - 意図しないファイルを公開してしまうリスクを避けたい
 
-ただし、無料プランではPrivateリポジトリでGitHub Pagesが利用できないため、公開URLは使えなくなる。
-Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
+ただし、GitHub Free ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
+無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 詳しくはClaude Codeに相談されたい。
 
 ### みんなで使う（サーバー連携型）アプリを作る場合
