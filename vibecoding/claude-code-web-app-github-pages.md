@@ -34,9 +34,9 @@ Webアプリには大きく2つのタイプがあります。
 3. リポジトリの作成
    - 名前: `my-first-site`
    - このハンズオンでは Public（講師が確認できるようにするため）
-   - README.mdは作らない（最初はファイル構成をシンプルにするため）
+   - Add a README file にチェックを入れる（リポジトリのトップページに自動表示される説明ファイル）
 4. ファイル(index.html)を作成して、何か書き込む
-   - Add file → Create new file → `index.html`
+   - Add file → Create new file → `index.html`（画面幅が狭い場合は `Add file` の代わりに `+` と表示される）
    - とりあえず `Hello World!` などと書き込む
    - こちらをコピペしてもOK: `<html><head><title>TEST</title></head><body>Hello World!</body></html>`
 5. github pagesの設定
