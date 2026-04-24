@@ -76,7 +76,7 @@
 <li>リポジトリの作成<ul>
 <li>名前: <code>my-first-site</code></li>
 <li>Public（講師が確認できるようにするため）</li>
-<li>README.mdは作らない（後のgit操作でエラーになるのを防ぐため）</li>
+<li>README.mdは作らない（最初はファイル構成をシンプルにするため）</li>
 </ul>
 </li>
 <li>ファイル(index.html)を作成して、何か書き込む<ul>
@@ -121,7 +121,7 @@
 </code></pre>
 <h3>初期設定</h3>
 <p>名前とメールはGitHubのデータとして公開される（設定による）。
-本名でなくてもOK。メールも適当で構いません。</p>
+本名でなくてもOK。メールはGitHubに登録済みのもの、または GitHub の <code>noreply</code> メールアドレス（<a href="https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address">コミットメールアドレスを設定する</a>）を使うのがおすすめ。</p>
 <pre><code>git config --global user.name &quot;Tokumei Taro&quot;
 git config --global user.email &quot;oreore@example.com&quot;
 </code></pre>
@@ -172,7 +172,7 @@ git push
 <p>しばらく（1分くらい）待ってから公開URLにアクセスして確認。</p>
 <p>このように修正と反映を繰り返して、Webアプリを仕上げよう！</p>
 <blockquote>
-<p>最初の1回は手動でpushします（認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いすると自動で公開されます。</p>
+<p>最初の1回は手動でpushします（GitHubへのブラウザ認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いできますが、Claude Code 側の権限設定によっては確認や承認が入ることがあります。</p>
 </blockquote>
 <h2>7. その先のこと</h2>
 <h3>リポジトリをPrivateにしたい場合</h3>
@@ -182,8 +182,8 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 <li>試行錯誤の履歴を見られたくない</li>
 <li>意図しないファイルを公開してしまうリスクを避けたい</li>
 </ul>
-<p>ただし、無料プランではPrivateリポジトリでGitHub Pagesが利用できないため、公開URLは使えなくなる。
-Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
+<p>ただし、GitHub Free（無料版）ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
+無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 詳しくはClaude Codeに相談されたい。</p>
 <h3>みんなで使う（サーバー連携型）アプリを作る場合</h3>
 <p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。

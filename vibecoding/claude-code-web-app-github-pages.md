@@ -162,7 +162,7 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 - 試行錯誤の履歴を見られたくない
 - 意図しないファイルを公開してしまうリスクを避けたい
 
-ただし、GitHub Free ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
+ただし、GitHub Free（無料版）ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
 無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 詳しくはClaude Codeに相談されたい。
 
