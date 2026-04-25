@@ -84,7 +84,7 @@
 </tr>
 <tr>
 <td>Public / Private</td>
-<td><strong>GitHub Pages を使う場合は Public（公開）を選ぶ</strong>（無料版はPrivateリポジトリではGitHub Pagesを使えない）。あとから変更することも可能</td>
+<td><strong>GitHub Pages を使う場合は Public（公開）を選ぶ</strong>（無料版はPrivateリポジトリではGitHub Pagesを使えない）。あとから変更することも可能。後でPrivateにしたい場合は「<a href="#private">リポジトリをPrivateにしたい場合</a>」を参照</td>
 </tr>
 <tr>
 <td>Add a README file</td>
@@ -267,6 +267,16 @@ echo &quot;node_modules/&quot; &gt;&gt; .gitignore
 <p>うっかり秘密情報を公開してしまうのを防ぐ。プロジェクト作成時に設定しておくのが基本。<br />
 ただし、<code>.gitignore</code> は「まだGitで管理していないファイル」を除外するためのもの。すでに追加済みのファイルは別途対処が必要なので、最初に設定しておくと混乱しにくい。<br />
 macOSでは <code>.DS_Store</code> が頻繁に生成されるので、最初から除外しておくと良い。</p>
+<h3 id="private">リポジトリをPrivateにしたい場合</h3>
+<p>リポジトリをPublic（公開）にしていると、ファイルの中身や変更履歴は誰でも閲覧できる状態になる。
+HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問題になることは少ないが、以下のようなケースではPrivate（非公開）への変更がおすすめ。</p>
+<ul>
+<li>試行錯誤の履歴を見られたくない</li>
+<li>意図しないファイルを公開してしまうリスクを避けたい</li>
+</ul>
+<p>変更方法：リポジトリの <code>Settings</code> → <code>Danger Zone</code> → <code>Change repository visibility</code></p>
+<p>ただし、GitHub Free（無料版）はPrivateでGitHub Pagesは使えない。PrivateのままGitHub Pagesを使うにはGitHub Pro以上が必要。<br />
+無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。</p>
 <hr />
 <p>2026-04-23 タツヲ (<a href="https://x.com/yto">yto</a>)</p>
 
