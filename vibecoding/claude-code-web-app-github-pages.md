@@ -158,7 +158,7 @@ git push -u origin main
 
 ## 7. その先のこと
 
-### リポジトリをPrivateにしたい場合
+### リポジトリをPrivateにしたい
 
 今回のハンズオンではリポジトリをPublic（公開）に設定しているため、ファイルの中身や変更履歴は誰でも閲覧できる状態になっている。
 HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問題になることは少ないが、以下のようなケースではPrivate（非公開）に変更するのがおすすめ。
@@ -169,7 +169,18 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 詳しくはClaude Codeに相談されたい。
 
-### みんなで使う（サーバー連携型）アプリを作る場合
+### Cloudflare Pages で公開する
+
+`これをcloudflareで公開したい。どのように進めたらいいですか？` とClaude Codeに相談してすすめたログ。
+
+<a href="images/claude-github-7-a.jpg" target="_blank"><img src="images/claude-github-7-a.jpg" alt="claude-github-7-a.jpg" style="max-width:400px; max-height:400px;"></a>
+
+<a href="images/claude-github-7-b.jpg" target="_blank"><img src="images/claude-github-7-b.jpg" alt="claude-github-7-b.jpg" style="max-width:400px; max-height:400px;"></a>
+
+<a href="images/claude-github-7-c.jpg" target="_blank"><img src="images/claude-github-7-c.jpg" alt="claude-github-7-c.jpg" style="max-width:400px; max-height:400px;"></a>
+
+
+### みんなで使う（サーバー連携型）アプリを作る
 
 チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare、Vercel、Firebaseなどのフルスタック開発プラットフォームが選択肢となる。
