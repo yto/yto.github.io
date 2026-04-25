@@ -162,6 +162,8 @@ git push -u origin main
 
 作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。
 
+<a href="images/claude-github-7-1-a.jpg" target="_blank"><img src="images/claude-github-7-1-a.jpg" alt="claude-github-7-1-a.jpg" width="320"></a>
+
 PWAの動作方式は色々あるが、たとえばこんな方式にできる：
 
 - アクセスするたびに新しいバージョンがあるか確認し、あれば自動更新
