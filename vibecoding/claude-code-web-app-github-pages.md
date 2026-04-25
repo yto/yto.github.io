@@ -112,7 +112,7 @@ cd my-first-site
 
 右上のところからプレビューを選ぶと表示される（自動で表示されることも）。
 
-<a href="images/claude-github-4-a.jpg" target="_blank"><img src="images/claude-github-4-a.jpg" alt="claude-github-4-a.jpg" style="max-width:400px; max-height:400px;"></a>
+<a href="images/claude-github-4-a.jpg" target="_blank"><img src="images/claude-github-4-a.jpg" alt="claude-github-4-a.jpg" width="400"></a>
 
 なお、途中いろいろ許可を求めてくるので対応する。
 
@@ -136,7 +136,7 @@ git push -u origin main
 
 公開URL: `https://ユーザー名.github.io/my-first-site/`
 
-<a href="images/claude-github-5-a.jpg" target="_blank"><img src="images/claude-github-5-a.jpg" alt="claude-github-5-a.jpg" style="max-width:400px; max-height:400px;"></a>
+<a href="images/claude-github-5-a.jpg" target="_blank"><img src="images/claude-github-5-a.jpg" alt="claude-github-5-a.jpg" width="400"></a>
 
 ## 6. Webアプリの修正と反映
 
@@ -173,11 +173,11 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 
 `これをcloudflareで公開したい。どのように進めたらいいですか？` とClaude Codeに相談してすすめたログ。
 
-<a href="images/claude-github-7-a.jpg" target="_blank"><img src="images/claude-github-7-a.jpg" alt="claude-github-7-a.jpg" style="max-width:400px; max-height:400px;"></a>
+<a href="images/claude-github-7-a.jpg" target="_blank"><img src="images/claude-github-7-a.jpg" alt="claude-github-7-a.jpg" width="400"></a>
 
-<a href="images/claude-github-7-b.jpg" target="_blank"><img src="images/claude-github-7-b.jpg" alt="claude-github-7-b.jpg" style="max-width:400px; max-height:400px;"></a>
+<a href="images/claude-github-7-b.jpg" target="_blank"><img src="images/claude-github-7-b.jpg" alt="claude-github-7-b.jpg" width="400"></a>
 
-<a href="images/claude-github-7-c.jpg" target="_blank"><img src="images/claude-github-7-c.jpg" alt="claude-github-7-c.jpg" style="max-width:400px; max-height:400px;"></a>
+<a href="images/claude-github-7-c.jpg" target="_blank"><img src="images/claude-github-7-c.jpg" alt="claude-github-7-c.jpg" width="400"></a>
 
 
 ### みんなで使う（サーバー連携型）アプリを作る
