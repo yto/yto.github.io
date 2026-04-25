@@ -180,7 +180,7 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 
 ただし、GitHub Free（無料版）ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
 無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
-詳しくはClaude Codeに相談されたい。
+詳しくはClaude Codeに相談してみよう。
 
 ### 7-3. Cloudflare Pages で公開する
 
@@ -198,7 +198,7 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare、Vercel、Firebaseなどのフルスタック開発プラットフォームが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先（ホスティング先）をGitHub Pagesからこれらのプラットフォームへ変える、というイメージ。
-詳しくはClaude Codeに相談されたい。   
+詳しくはClaude Codeに相談してみよう。   
 
 また、セキュリティ上の考慮が必要になることもあるため、GitHubのリポジトリはPrivateにしておくのが安心。
 
