@@ -173,7 +173,16 @@ git push -u origin main
 <p>最初の1回は手動でpushします（GitHubへのブラウザ認証のため）。2回目以降はClaudeに「gitでコミットしてpushして」とお願いできますが、Claude Code 側の権限設定によっては確認や承認が入ることがあります。</p>
 </blockquote>
 <h2>7. その先のこと</h2>
-<h3>リポジトリをPrivateにしたい</h3>
+<h3>7-1. PWA（スマホアプリのように使えるWebアプリ）にする</h3>
+<p>作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。</p>
+<p>PWAの動作方式は色々あるが、たとえばこんな方式にできる：</p>
+<ul>
+<li>アクセスするたびに新しいバージョンがあるか確認し、あれば自動更新</li>
+<li>ネットに繋がっていないときはキャッシュ（前回読み込んだデータ）を使って動作</li>
+</ul>
+<p>「manifest.json」と「Service Worker」というファイルを追加するだけで実現できる。Claude Codeに <code>このWebアプリをPWAにしたい。アクセスのたびにバージョンチェックして更新し、オフラインはキャッシュで動くようにしたい。</code> と相談してみよう。</p>
+<p>ホーム画面に追加したときのアイコン画像も設定できる。アイコン画像はClaude Codeに作ってもらうことも可能。<code>アイコン画像も作って manifest.json に設定して</code> と頼んでみよう。</p>
+<h3>7-2. リポジトリをPrivateにしたい</h3>
 <p>今回のハンズオンではリポジトリをPublic（公開）に設定しているため、ファイルの中身や変更履歴は誰でも閲覧できる状態になっている。
 HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問題になることは少ないが、以下のようなケースではPrivate（非公開）に変更するのがおすすめ。</p>
 <ul>
@@ -183,12 +192,12 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 <p>ただし、GitHub Free（無料版）ではGitHub PagesはPublicリポジトリ向け。PrivateリポジトリのままGitHub Pagesを使うには GitHub Pro 以上が必要。
 無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 詳しくはClaude Codeに相談されたい。</p>
-<h3>Cloudflare Pages で公開する</h3>
+<h3>7-3. Cloudflare Pages で公開する</h3>
 <p><code>これをcloudflareで公開したい。どのように進めたらいいですか？</code> とClaude Codeに相談してすすめたログ。</p>
-<p><a href="images/claude-github-7-a.jpg" target="_blank"><img src="images/claude-github-7-a.jpg" alt="claude-github-7-a.jpg" width="400"></a></p>
-<p><a href="images/claude-github-7-b.jpg" target="_blank"><img src="images/claude-github-7-b.jpg" alt="claude-github-7-b.jpg" width="400"></a></p>
-<p><a href="images/claude-github-7-c.jpg" target="_blank"><img src="images/claude-github-7-c.jpg" alt="claude-github-7-c.jpg" width="400"></a></p>
-<h3>みんなで使う（サーバー連携型）アプリを作る</h3>
+<p><a href="images/claude-github-7-2-a.jpg" target="_blank"><img src="images/claude-github-7-2-a.jpg" alt="claude-github-7-2-a.jpg" width="400"></a></p>
+<p><a href="images/claude-github-7-2-b.jpg" target="_blank"><img src="images/claude-github-7-2-b.jpg" alt="claude-github-7-2-b.jpg" width="400"></a></p>
+<p><a href="images/claude-github-7-2-c.jpg" target="_blank"><img src="images/claude-github-7-2-c.jpg" alt="claude-github-7-2-c.jpg" width="400"></a></p>
+<h3>7-4. みんなで使う（サーバー連携型）アプリを作る</h3>
 <p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare、Vercel、Firebaseなどのフルスタック開発プラットフォームが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先（ホスティング先）をGitHub Pagesからこれらのプラットフォームへ変える、というイメージ。
