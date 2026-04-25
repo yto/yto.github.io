@@ -112,6 +112,8 @@ cd my-first-site
 
 右上のところからプレビューを選ぶと表示される（自動で表示されることも）。
 
+<a href="images/claude-github-4-a.jpg" target="_blank"><img src="images/claude-github-4-a.jpg" alt="claude-github-4-a.jpg" style="max-width:400px; max-height:400px;"></a>
+
 なお、途中いろいろ許可を求めてくるので対応する。
 
 ## 5. 作ったWebアプリをgithubにアップして公開する（デプロイ）
@@ -133,6 +135,8 @@ git push -u origin main
 しばらく（1分くらい）待ってから公開URLにアクセスして確認。
 
 公開URL: `https://ユーザー名.github.io/my-first-site/`
+
+<a href="images/claude-github-5-a.jpg" target="_blank"><img src="images/claude-github-5-a.jpg" alt="claude-github-5-a.jpg" style="max-width:400px; max-height:400px;"></a>
 
 ## 6. Webアプリの修正と反映
 
