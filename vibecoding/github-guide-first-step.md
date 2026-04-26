@@ -215,9 +215,9 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 - 試行錯誤の履歴を見られたくない
 - 意図しないファイルを公開してしまうリスクを避けたい
 
-変更方法：リポジトリの `Settings` → `Danger Zone` → `Change repository visibility`
+変更方法：リポジトリの `Settings` → `Danger Zone`（ページ下部） → `Change repository visibility`
 
-ただし、GitHub Free（無料版）はPrivateでGitHub Pagesは使えない。PrivateのままGitHub Pagesを使うにはGitHub Pro以上が必要。  
+ただし、GitHub Free（無料版）のPrivateリポジトリではGitHub Pagesは使えない。PrivateのままGitHub Pagesを使うにはGitHub Pro以上が必要。  
 無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 
 ### ブランチ
