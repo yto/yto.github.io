@@ -207,6 +207,19 @@ git pull
 
 ## 4. 補足
 
+### リポジトリをPrivateにする {#private}
+
+リポジトリをPublic（公開）にしていると、ファイルの中身や変更履歴は誰でも閲覧できる状態になる。
+HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問題になることは少ないが、以下のようなケースではPrivate（非公開）への変更がおすすめ。
+
+- 試行錯誤の履歴を見られたくない
+- 意図しないファイルを公開してしまうリスクを避けたい
+
+変更方法：リポジトリの `Settings` → `Danger Zone` → `Change repository visibility`
+
+ただし、GitHub Free（無料版）はPrivateでGitHub Pagesは使えない。PrivateのままGitHub Pagesを使うにはGitHub Pro以上が必要。  
+無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
+
 ### ブランチ
 
 本番ファイルを直接触らず、コピーして作業してからOKなら合流させる仕組み。
@@ -250,20 +263,6 @@ echo "node_modules/" >> .gitignore
 うっかり秘密情報を公開してしまうのを防ぐ。プロジェクト作成時に設定しておくのが基本。  
 ただし、`.gitignore` は「まだGitで管理していないファイル」を除外するためのもの。すでに追加済みのファイルは別途対処が必要なので、最初に設定しておくと混乱しにくい。  
 macOSでは `.DS_Store` が頻繁に生成されるので、最初から除外しておくと良い。
-
-### リポジトリをPrivateにしたい場合 {#private}
-
-リポジトリをPublic（公開）にしていると、ファイルの中身や変更履歴は誰でも閲覧できる状態になる。
-HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問題になることは少ないが、以下のようなケースではPrivate（非公開）への変更がおすすめ。
-
-- 試行錯誤の履歴を見られたくない
-- 意図しないファイルを公開してしまうリスクを避けたい
-
-変更方法：リポジトリの `Settings` → `Danger Zone` → `Change repository visibility`
-
-
-ただし、GitHub Free（無料版）はPrivateでGitHub Pagesは使えない。PrivateのままGitHub Pagesを使うにはGitHub Pro以上が必要。  
-無料のまま非公開で運用したい場合は、Cloudflare Pagesなど別のホスティングサービスが選択肢となる。
 
 ---
 2026-04-23 タツヲ ([yto](https://x.com/yto))
