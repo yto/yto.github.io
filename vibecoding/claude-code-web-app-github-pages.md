@@ -50,7 +50,7 @@ Webアプリには大きく2つのタイプがあります。
 
 ## 3. gitのインストールと設定
 
-### 作業場所作成
+### 3-1. 作業場所作成
 
 作業場所（作業ディレクトリ）を作る。ディレクトリとはフォルダのこと。
 
@@ -60,14 +60,14 @@ Webアプリには大きく2つのタイプがあります。
 mkdir ~/Desktop/claude
 ```
 
-### ターミナル内で作業場所へ移動
+### 3-2. ターミナル内で作業場所へ移動
 
 ターミナルを開き、コマンドで作業場所へ移動。
 ```
 cd ~/Desktop/claude
 ```
 
-### gitのインストール
+### 3-3. gitのインストール
 
 ```
 git --version
@@ -80,7 +80,7 @@ gitが入っていればversionが出る。
 xcode-select --install
 ```
 
-### 初期設定
+### 3-4. 初期設定
 
 名前とメールはGitHubのデータとして公開される（設定による）。
 本名でなくてもOK。メールはGitHubに登録済みのもの、または GitHub の `noreply` メールアドレス（[コミットメールアドレスを設定する](https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)）を使うのがおすすめ。
@@ -89,7 +89,7 @@ git config --global user.name "Tokumei Taro"
 git config --global user.email "oreore@example.com"
 ```
 
-### リポジトリのclone
+### 3-5. リポジトリのclone
 
 githubのサイトでさっき作ったやつをこっちに持ってくる。
 
