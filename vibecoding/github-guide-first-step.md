@@ -184,10 +184,13 @@ git --version
 # git version 2.x.x と表示されればOK
 ```
 
-入っていない場合は、Xcodeのコマンドラインツールをインストールするか、[git-scm.com](https://git-scm.com/) からインストールする。
+入っていない場合は「command line developer tools」をインストールするか聞かれるので入れる（Xcode本体は不要で、Command Line ToolsだけでOK）。以下のコマンドでも明示的にインストールできる。
 
-初回だけ、自分の名前とメールアドレスを登録しておく（commitの記録に使われる）。  
-本名でなくてもOK。メールは GitHub に登録済みのもの、または GitHub の `noreply` メールアドレス（[コミットメールアドレスを設定する](https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)）を使うのがおすすめ。
+```bash
+xcode-select --install
+```
+
+初回だけ、自分の名前とメールアドレスを登録しておく（commitの記録に使われる）。名前とメールはGitHubのデータとして公開される（設定による）ので、本名でなくてもOK。メールは GitHub に登録済みのもの、または GitHub の `noreply` メールアドレス（[コミットメールアドレスを設定する](https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)）を使うのがおすすめ。
 
 ```bash
 git config --global user.name "Your Name"
