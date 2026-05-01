@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
+    .topnav { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; font-size: 0.875rem; }
+    .topnav a { color: #6b7280; text-decoration: none; }
+    .topnav a:hover { color: #1f2937; text-decoration: none; }
+    .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
+    p { margin: 0.5em 0 0.8em; }
+    ul, ol { margin: 0.4em 0 0.8em; padding-left: 1.6em; }
+    li { margin: 0.3em 0; }
+    code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.88em; background: #e5e7eb; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #1f2937; color: #f3f4f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 0.6em 0 1em; }
+    pre code { background: none; padding: 0; font-size: 0.875rem; color: inherit; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    blockquote { background: #fff; border-left: 3px solid #d1d5db; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 0.8em 0; color: #4b5563; font-size: 0.93em; }
+    blockquote p { margin: 0; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
+    hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    .toc { background: #eef2ff; border-radius: 8px; padding: 12px 18px; margin: 1.5em 0 2em; font-size: 0.82rem; line-height: 1.5; }
+    .toc ul { margin: 0.15em 0; padding-left: 1.3em; }
+    .toc > ul { padding-left: 0; list-style: none; }
+    .toc li { margin: 0.15em 0; }
+    .toc a { color: #4b5563; }
+    .toc a:hover { color: #1f2937; text-decoration: underline; }
+  </style>
+</head>
+<body>
+<nav class="topnav"><a href="./">← 一覧</a></nav>
+<div class="container">
+
+<h1 id="claude-codewebcloudflare-pages">Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン</h1>
+<p>AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。<br />
+そして、全世界に公開します。<br />
+アカウント作成からWebアプリ公開まで一気にやりきるのが今回のハンズオンの目標です。</p>
+<p>Webアプリとは、ブラウザで動くアプリのこと。インストール不要で、URLを開くだけで使えます。</p>
+<p>今回のハンズオンでは、ブラウザ保存型（まずは自分一人が使うアプリ）を作ります。
+シンプルな構成なので、ゼロから公開まで一気に進められます。</p>
+<blockquote>
+<p>GitHub Pagesとの違い：Cloudflare Pagesは<strong>Privateリポジトリでも無料で公開</strong>できる。試行錯誤の履歴を人に見られたくない場合に向いている。</p>
+</blockquote>
+<nav class="toc">
+<ul><li><a href="#1">1. 必要なもの（必須）</a></li><li><a href="#2-githubgit">2. GitHub・Gitの準備</a></li><li><a href="#3-cloudflare-pages">3. Cloudflare Pagesの設定</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareアカウントを作る</a></li><li><a href="#3-2-cloudflare-pagesgithub">3-2. Cloudflare PagesとGitHubを連携する</a></li><li><a href="#3-3">3-3. ビルド設定をして初回デプロイ</a></li><li><a href="#3-4-url">3-4. 公開URLを確認する</a></li></ul></li><li><a href="#4-claude-code-web">4. Claude Code でWebアプリを作成</a></li><li><a href="#5-web">5. 作ったWebアプリをアップして公開する（デプロイ）</a></li><li><a href="#6-web">6. Webアプリの修正と反映</a></li><li><a href="#7">7. その先のこと</a><ul><li><a href="#7-1">7-1. カスタムドメインを設定する</a></li><li><a href="#7-2-pwaweb">7-2. PWA（スマホアプリのように使えるWebアプリ）にする</a></li><li><a href="#7-3">7-3. みんなで使う（サーバー連携型）アプリを作る</a></li></ul></li><li><a href="#8-tips">8. Tips</a></li></ul>
+</nav>
+<h2 id="1">1. 必要なもの（必須）</h2>
+<ul>
+<li>マシン<ul>
+<li>macosが動くPC（macbookなど）</li>
+</ul>
+</li>
+<li>アプリ（mac）<ul>
+<li>chrome</li>
+<li>Claude Desktop</li>
+</ul>
+</li>
+<li>アカウント<ul>
+<li>google アカウント（会場で見られてもよいアカウント名のもの）</li>
+<li>Claude の有料プラン（Claude Pro でOK）</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-githubgit">2. GitHub・Gitの準備</h2>
+<p>GitHubアカウントの作成、リポジトリの作成、Gitインストール、SSH設定、cloneまでは <strong><a href="github-guide-first-step.html">GitHub初心者ガイド</a></strong> を参照してください。</p>
+<p>3章以降は以下の状態から進めます。</p>
+<ul>
+<li>GitHubアカウント作成済み</li>
+<li>リポジトリ <code>my-first-site</code> 作成済み（Public / Private どちらでもOK）</li>
+<li><code>~/Desktop/claude/my-first-site</code> に clone 済み</li>
+</ul>
+<h2 id="3-cloudflare-pages">3. Cloudflare Pagesの設定</h2>
+<h3 id="3-1-cloudflare">3-1. Cloudflareアカウントを作る</h3>
+<ol>
+<li><a href="https://www.cloudflare.com/">cloudflare.com</a> にアクセスして <code>Sign up</code> をクリック</li>
+<li>メールアドレスとパスワードを入力して登録（Googleアカウント連携も可）</li>
+<li>メール認証を済ませてログイン</li>
+</ol>
+<h3 id="3-2-cloudflare-pagesgithub">3-2. Cloudflare PagesとGitHubを連携する</h3>
+<ol>
+<li>ログイン後、左メニューの <code>Workers &amp; Pages</code> を選択</li>
+<li><code>Pages</code> タブ → <code>Connect to Git</code> をクリック</li>
+<li><code>GitHub</code> を選択 → <code>Connect GitHub</code> ボタンをクリック</li>
+<li>GitHubの認証画面が開くので許可する</li>
+<li>連携するリポジトリを選択（<code>my-first-site</code>）して <code>Begin setup</code></li>
+</ol>
+<h3 id="3-3">3-3. ビルド設定をして初回デプロイ</h3>
+<p>今回はHTML+JSのみの静的サイトなのでビルド不要。以下の通りに設定する。</p>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>設定内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Project name</td>
+<td><code>my-first-site</code>（任意、URLになる）</td>
+</tr>
+<tr>
+<td>Production branch</td>
+<td><code>main</code></td>
+</tr>
+<tr>
+<td>Framework preset</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td>Build command</td>
+<td><strong>空欄のまま</strong></td>
+</tr>
+<tr>
+<td>Build output directory</td>
+<td><strong>空欄のまま</strong>（または <code>/</code>）</td>
+</tr>
+</tbody>
+</table>
+<p><code>Save and Deploy</code> をクリックすると初回デプロイが始まる。</p>
+<h3 id="3-4-url">3-4. 公開URLを確認する</h3>
+<p>デプロイ完了後、<code>https://プロジェクト名.pages.dev</code> の形式でURLが発行される。</p>
+<blockquote>
+<p>以降はGitHubにpushするたびCloudflare Pagesが自動でデプロイする。ターミナルからデプロイコマンドを叩く必要はない。</p>
+</blockquote>
+<h2 id="4-claude-code-web">4. Claude Code でWebアプリを作成</h2>
+<p>デスクトップ版Claudeアプリを起動。</p>
+<p>「Code」(Claude Code) を選択 → 「New session」をクリック → 作業ディレクトリを指定 (<code>~/Desktop/claude/my-first-site</code>)</p>
+<p>あとはプロンプトを入力して、index.htmlを編集する。</p>
+<p>プロンプト例:</p>
+<ul>
+<li><code>HTML+JavaScriptでポモドーロタイマーを作って！ 1つのファイルにしてindex.htmlに上書きして。</code></li>
+<li><code>複利計算機をHTML+JavaScriptで作って！ 構成はHTMLファイル(index.html)が1つ。</code></li>
+</ul>
+<p>右上のところからプレビューを選ぶと表示される（自動で表示されることも）。</p>
+<p>なお、途中いろいろ許可を求めてくるので対応する。</p>
+<h2 id="5-web">5. 作ったWebアプリをアップして公開する（デプロイ）</h2>
+<p>Claude Codeに依頼する：<code>変更をgitでコミットしてpushして</code></p>
+<p>途中、操作の許可を求めてくることがあるので対応する。</p>
+<p>GitHubへのpushを検知してCloudflare Pagesが自動でデプロイする。しばらく（1分以内）待ってから公開URLにアクセスして確認。</p>
+<p>公開URL: <code>https://プロジェクト名.pages.dev</code></p>
+<blockquote>
+<p>Cloudflare Pagesのダッシュボードでデプロイの進行状況を確認できる。</p>
+</blockquote>
+<h2 id="6-web">6. Webアプリの修正と反映</h2>
+<p>修正依頼プロンプト例:</p>
+<ul>
+<li><code>背景をもっと明るくしてください</code></li>
+<li><code>数値入力をスライダーにしてください</code></li>
+<li><code>ボタンの間隔をもっと広げて</code></li>
+<li>参考: <a href="https://yto.github.io/vibecoding/uiterms.html">AIへの指示に使えるUI用語集 — 動く実例つき</a></li>
+</ul>
+<p>途中いろいろ許可を求めてくるので対応する。</p>
+<p>納得したら、アップを依頼: <code>変更をgitでコミットしてpushして</code></p>
+<p>しばらく待ってから公開URLにアクセスして確認。</p>
+<p>このように修正と反映を繰り返して、Webアプリを仕上げよう！</p>
+<h2 id="7">7. その先のこと</h2>
+<h3 id="7-1">7-1. カスタムドメインを設定する</h3>
+<p>取得済みの独自ドメイン（例：<code>myapp.com</code>）をCloudflare Pagesに設定できる。</p>
+<p>Cloudflare Pages のプロジェクト → <code>Custom domains</code> → <code>Set up a custom domain</code></p>
+<p>ドメインをCloudflareで管理している場合はほぼ自動で設定が完了する。</p>
+<h3 id="7-2-pwaweb">7-2. PWA（スマホアプリのように使えるWebアプリ）にする</h3>
+<p>作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。</p>
+<p>「manifest.json」と「Service Worker」というファイルを追加するだけで実現できる。Claude Codeに <code>このWebアプリをPWAにしたい。アクセスのたびにバージョンチェックして更新し、オフラインはキャッシュで動くようにしたい。</code> と相談してみよう。</p>
+<h3 id="7-3">7-3. みんなで使う（サーバー連携型）アプリを作る</h3>
+<p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
+Cloudflare Workers + D1（データベース）や、Vercel、Firebaseなどが選択肢となる。
+GitHubでコードを管理するのは同じで、公開先をこれらのプラットフォームへ変える、というイメージ。
+詳しくはClaude Codeに相談してみよう。</p>
+<p>また、セキュリティ上の考慮が必要になることもあるため、GitHubのリポジトリはPrivateにしておくのが安心。</p>
+<h2 id="8-tips">8. Tips</h2>
+<ul>
+<li>GitHubへのアップを依頼するとき<ul>
+<li>短めに <code>githubにアップ</code> で</li>
+</ul>
+</li>
+<li>返答でファイル更新させない<ul>
+<li>末尾に <code>アイディアください</code> <code>どうでしょうか</code> <code>考え聞かせて</code> などをつける</li>
+<li>プランモードでも良いが切り替えが面倒</li>
+</ul>
+</li>
+<li>バイブコーディングでWebアプリを作るときに便利な用語集<ul>
+<li><a href="https://yto.github.io/vibecoding/uiterms.html">AIへの指示に使えるUI用語集 — 動く実例つき</a></li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>2026-05-01 タツヲ (<a href="https://x.com/yto">yto</a>)</p>
+
+</div>
+</body>
+</html>
