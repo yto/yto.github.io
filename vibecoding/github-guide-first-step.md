@@ -197,18 +197,54 @@ git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
 ```
 
-### 3-2. クローン（初回だけ）
+### 3-2. SSHの設定（初回だけ）
+
+GitHubへの認証にはSSHを使う。一度設定すれば、以降はパスワードなしで操作できる。
+
+**1. GitHubに登録されているメールアドレスを確認する**
+
+GitHub → 右上のアイコン → `Settings` → `Emails`
+
+ここに表示されているメールアドレスを次のステップで使う。Google連携でGitHub登録した場合、GmailアドレスとGitHubに登録されているアドレスが異なる場合があるので必ず確認すること。
+
+**2. SSHキーを生成する**
+
+```bash
+ssh-keygen -t ed25519 -C "確認したメールアドレス"
+```
+
+実行後は Enter を3回押すだけでOK。
+
+**3. 公開鍵をクリップボードにコピーする**
+
+```bash
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+**4. GitHubに登録する**
+
+GitHub → `Settings` → `SSH and GPG keys` → `New SSH key` → ペースト → `Add SSH key`
+
+**5. 接続確認**
+
+```bash
+ssh -T git@github.com
+```
+
+`Hi ユーザー名!` と表示されれば成功。
+
+### 3-3. クローン（初回だけ）
 
 GitHubのリポジトリをMacに丸ごとコピーすること。最初の1回だけ行う。
 
-GitHubのリポジトリページで `Code` ボタン → `HTTPS` タブのURLをコピーして使う。
+GitHubのリポジトリページで `Code` ボタン → **`SSH` タブ**に切り替えてURLをコピーして使う。
 
 ```bash
 # 任意の場所に移動（例：デスクトップ）
 cd ~/Desktop
 
 # リポジトリをクローン（↑でコピーしたURLを使う）
-git clone https://github.com/ユーザー名/my-first-site.git
+git clone git@github.com:ユーザー名/my-first-site.git
 
 # クローンされたフォルダに移動
 cd my-first-site
@@ -216,7 +252,7 @@ cd my-first-site
 
 > `cd` はフォルダを移動するコマンド。ターミナルでの作業は「今どのフォルダにいるか」が重要。今現在いるフォルダを確認するには `pwd` コマンド。
 
-### 3-3. ローカルで編集してリモートにアップする
+### 3-4. ローカルで編集してリモートにアップする
 
 基本の開発フロー。ファイルを編集したら3ステップでGitHubに反映する。
 
@@ -259,9 +295,7 @@ git push
 
 > `git status` でいつでも「今どんな状態か」を確認できる。迷ったらまずこれを打つと良い。
 
-> 初回 `git push -u origin main` のときは認証が必要。ブラウザが開くこともある。画面の案内に沿って GitHub にログインできればOK。以降は `git push` だけで進められることが多い。
-
-### 3-4. GitHubサイト上の変更をローカルに反映する
+### 3-5. GitHubサイト上の変更をローカルに反映する
 
 GitHubのWebサイト上で直接ファイルを編集することもできる。その変更をMac側に取り込むには：
 
