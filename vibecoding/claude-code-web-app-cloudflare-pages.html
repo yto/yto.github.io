@@ -49,7 +49,7 @@
 <p>今回のハンズオンでは、ブラウザ保存型（まずは自分一人が使うアプリ）を作ります。
 シンプルな構成なので、ゼロから公開まで一気に進められます。</p>
 <nav class="toc">
-<ul><li><a href="#1">1. 必要なもの（必須）</a></li><li><a href="#2-githubgit">2. GitHub・Gitの準備</a></li><li><a href="#3-cloudflare-pages">3. Cloudflare Pagesの設定</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareアカウントを作る</a></li><li><a href="#3-2-cloudflare-pagesgithub">3-2. Cloudflare PagesとGitHubを連携する</a></li><li><a href="#3-3">3-3. ビルド設定をして初回デプロイ</a></li><li><a href="#3-4-url">3-4. 公開URLを確認する</a></li></ul></li><li><a href="#4-claude-code-web">4. Claude Code でWebアプリを作成</a></li><li><a href="#5-web">5. 作ったWebアプリをアップして公開する（デプロイ）</a></li><li><a href="#6-web">6. Webアプリの修正と反映</a></li><li><a href="#7">7. その先のこと</a><ul><li><a href="#7-1">7-1. カスタムドメインを設定する</a></li><li><a href="#7-2-pwaweb">7-2. PWA（スマホアプリのように使えるWebアプリ）にする</a></li><li><a href="#7-3">7-3. みんなで使う（サーバー連携型）アプリを作る</a></li></ul></li><li><a href="#8-tips">8. Tips</a></li></ul>
+<ul><li><a href="#1">1. 必要なもの（必須）</a></li><li><a href="#2-githubgit">2. GitHub・Gitの準備</a></li><li><a href="#3-cloudflare-pages">3. Cloudflare Pagesの設定</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareアカウントを作る</a></li><li><a href="#3-2-cloudflare-pagesgithub">3-2. Cloudflare PagesとGitHubを連携する</a></li><li><a href="#3-3">3-3. ビルド設定をして初回デプロイ</a></li><li><a href="#3-4-url">3-4. 公開URLを確認する</a></li></ul></li><li><a href="#4-claude-code-web">4. Claude Code でWebアプリを作成</a></li><li><a href="#5-web">5. 作ったWebアプリをアップして公開する（デプロイ）</a></li><li><a href="#6-web">6. Webアプリの修正と反映</a></li><li><a href="#7">7. その先のこと</a><ul><li><a href="#7-1-pwaweb">7-1. PWA（スマホアプリのように使えるWebアプリ）にする</a></li><li><a href="#7-2">7-2. みんなで使う（サーバー連携型）アプリを作る</a></li></ul></li><li><a href="#8-tips">8. Tips</a></li></ul>
 </nav>
 <h2 id="1">1. 必要なもの（必須）</h2>
 <ul>
@@ -163,14 +163,10 @@
 <p>しばらく待ってから公開URLにアクセスして確認。</p>
 <p>このように修正と反映を繰り返して、Webアプリを仕上げよう！</p>
 <h2 id="7">7. その先のこと</h2>
-<h3 id="7-1">7-1. カスタムドメインを設定する</h3>
-<p>取得済みの独自ドメイン（例：<code>myapp.com</code>）をCloudflare Pagesに設定できる。</p>
-<p>Cloudflare Pages のプロジェクト → <code>Custom domains</code> → <code>Set up a custom domain</code></p>
-<p>ドメインをCloudflareで管理している場合はほぼ自動で設定が完了する。</p>
-<h3 id="7-2-pwaweb">7-2. PWA（スマホアプリのように使えるWebアプリ）にする</h3>
+<h3 id="7-1-pwaweb">7-1. PWA（スマホアプリのように使えるWebアプリ）にする</h3>
 <p>作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。</p>
 <p>「manifest.json」と「Service Worker」というファイルを追加するだけで実現できる。Claude Codeに <code>このWebアプリをPWAにしたい。アクセスのたびにバージョンチェックして更新し、オフラインはキャッシュで動くようにしたい。</code> と相談してみよう。</p>
-<h3 id="7-3">7-3. みんなで使う（サーバー連携型）アプリを作る</h3>
+<h3 id="7-2">7-2. みんなで使う（サーバー連携型）アプリを作る</h3>
 <p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare Workers + D1（データベース）や、Vercel、Firebaseなどが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先をこれらのプラットフォームへ変える、というイメージ。

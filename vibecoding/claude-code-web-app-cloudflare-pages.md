@@ -113,21 +113,13 @@ GitHubへのpushを検知してCloudflare Pagesが自動でデプロイする。
 
 ## 7. その先のこと
 
-### 7-1. カスタムドメインを設定する
-
-取得済みの独自ドメイン（例：`myapp.com`）をCloudflare Pagesに設定できる。
-
-Cloudflare Pages のプロジェクト → `Custom domains` → `Set up a custom domain`
-
-ドメインをCloudflareで管理している場合はほぼ自動で設定が完了する。
-
-### 7-2. PWA（スマホアプリのように使えるWebアプリ）にする
+### 7-1. PWA（スマホアプリのように使えるWebアプリ）にする
 
 作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。
 
 「manifest.json」と「Service Worker」というファイルを追加するだけで実現できる。Claude Codeに `このWebアプリをPWAにしたい。アクセスのたびにバージョンチェックして更新し、オフラインはキャッシュで動くようにしたい。` と相談してみよう。
 
-### 7-3. みんなで使う（サーバー連携型）アプリを作る
+### 7-2. みんなで使う（サーバー連携型）アプリを作る
 
 チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare Workers + D1（データベース）や、Vercel、Firebaseなどが選択肢となる。
