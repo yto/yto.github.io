@@ -223,7 +223,14 @@ pbcopy < ~/.ssh/id_ed25519.pub
 
 **4. GitHubに登録する**
 
-GitHub → `Settings` → `SSH and GPG keys` → `New SSH key` → ペースト → `Add SSH key`
+GitHub → `Settings` → `SSH and GPG keys` → `New SSH key`
+
+フォームが開くので以下を入力して `Add SSH key` をクリック。
+
+| フィールド | 入力内容 |
+|---|---|
+| Title | このMacの識別名（例：`MacBook Air`）。何でもOK |
+| Key | 3でコピーした公開鍵をペースト |
 
 **5. 接続確認**
 
