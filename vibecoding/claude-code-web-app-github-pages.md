@@ -1,4 +1,4 @@
-# Claude CodeでWebアプリを作ってgithub pagesで公開するバイブコーディングハンズオン
+# Claude CodeでWebアプリを作ってGithub Pagesで公開するバイブコーディングハンズオン
 
 AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。  
 そして、全世界に公開します。  
