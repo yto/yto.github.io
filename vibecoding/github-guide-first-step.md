@@ -146,7 +146,7 @@ GitはMacのTerminal（コマンドライン）から操作するのが基本で
 
 ---
 
-### 2-4. GitHub Pages で公開する
+### 2-4. チャレンジ：GitHub Pages で公開する
 
 1章で紹介したGitHub Pagesを実際に設定する。リポジトリの設定画面から数クリックで完了し、`https://ユーザー名.github.io/リポジトリ名/` の形式でURLが発行される。
 
@@ -184,11 +184,7 @@ git --version
 # git version 2.x.x と表示されればOK
 ```
 
-入っていない場合は「command line developer tools」をインストールするか聞かれるので入れる（Xcode本体は不要で、Command Line ToolsだけでOK）。以下のコマンドでも明示的にインストールできる。
-
-```bash
-xcode-select --install
-```
+入っていない場合は「command line developer tools」をインストールするか聞かれるので入れる（Xcode本体は不要で、Command Line ToolsだけでOK）。
 
 初回だけ、自分の名前とメールアドレスを登録しておく（commitの記録に使われる）。名前とメールはGitHubのデータとして公開される（設定による）ので、本名でなくてもOK。メールは GitHub に登録済みのもの、または GitHub の `noreply` メールアドレス（[コミットメールアドレスを設定する](https://docs.github.com/ja/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address)）を使うのがおすすめ。
 
@@ -201,13 +197,13 @@ git config --global user.email "you@example.com"
 
 GitHubへの認証にはSSHを使う。一度設定すれば、以降はパスワードなしで操作できる。
 
-**1. GitHubに登録されているメールアドレスを確認する**
+#### 1. GitHubに登録されているメールアドレスを確認する
 
 GitHub → 右上のアイコン → `Settings` → `Emails`
 
 ここに表示されているメールアドレスを次のステップで使う。Google連携でGitHub登録した場合、GmailアドレスとGitHubに登録されているアドレスが異なる場合があるので必ず確認すること。
 
-**2. SSHキーを生成する**
+#### 2. SSHキーを生成する
 
 ```bash
 ssh-keygen -t ed25519 -C "確認したメールアドレス"
@@ -215,13 +211,13 @@ ssh-keygen -t ed25519 -C "確認したメールアドレス"
 
 実行後は Enter を3回押すだけでOK。
 
-**3. 公開鍵をクリップボードにコピーする**
+#### 3. 公開鍵をクリップボードにコピーする
 
 ```bash
 pbcopy < ~/.ssh/id_ed25519.pub
 ```
 
-**4. GitHubに登録する**
+#### 4. GitHubに登録する
 
 GitHub → `Settings` → `SSH and GPG keys` → `New SSH key`
 
@@ -232,7 +228,7 @@ GitHub → `Settings` → `SSH and GPG keys` → `New SSH key`
 | Title | このMacの識別名（例：`MacBook Air`）。何でもOK |
 | Key | 3でコピーした公開鍵をペースト |
 
-**5. 接続確認**
+#### 5. 接続確認
 
 ```bash
 ssh -T git@github.com
@@ -374,4 +370,4 @@ echo "node_modules/" >> .gitignore
 macOSでは `.DS_Store` が頻繁に生成されるので、最初から除外しておくと良い。
 
 ---
-2026-04-23 タツヲ ([yto](https://x.com/yto))
+2026-04-23 (last updated: 2026-05-01)　タツヲ ([yto](https://x.com/yto))
