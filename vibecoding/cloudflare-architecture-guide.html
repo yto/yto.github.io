@@ -43,12 +43,13 @@
 
 <h1 id="cloudflareweb">Cloudflareでみんなで使えるWebアプリを作るための基礎知識</h1>
 <p>Pages + Pages Functions + D1 構成ガイド</p>
-<nav class="toc">
-<ul><li><a href="#_1">はじめに</a></li><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">なぜ3つに分かれているのか</a></li><li><a href="#3_1">3つに分ける理由</a></li><li><a href="#cloudflare">Cloudflareサービスの対応</a></li><li><a href="#_2">処理の流れ</a></li><li><a href="#_3">この構成が良い理由</a></li></ul></li><li><a href="#2-github-actions">2. GitHub Actionsとの連携</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_4">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_5">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_6">開発の流れ</a></li><li><a href="#_7">ローカルで動作確認したい場合</a></li><li><a href="#_8">次のステップへ</a></li></ul></li></ul>
-</nav>
-<h2 id="_1">はじめに</h2>
+<hr />
 <p>チャット機能やランキング機能など、「データを保存・共有する」Webアプリを個人で作りたい場合、ネット上にデータベースが必要になります。友達や同僚みんなが使えるWebアプリには、誰かが入力したデータをサーバー側で保存し、ほかの人からも見られるような仕組みが欠かせないからです。</p>
 <p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途ハンズオン資料で説明します。</p>
+<p>この文書を読む前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン</a>を読んでおくことをおすすめします。</p>
+<nav class="toc">
+<ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">なぜ3つに分かれているのか</a></li><li><a href="#3_1">3つに分ける理由</a></li><li><a href="#cloudflare">Cloudflareサービスの対応</a></li><li><a href="#_1">処理の流れ</a></li><li><a href="#_2">この構成が良い理由</a></li></ul></li><li><a href="#2-github-actions">2. GitHub Actionsとの連携</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_3">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_4">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_5">開発の流れ</a></li><li><a href="#_6">ローカルで動作確認したい場合</a></li><li><a href="#_7">次のステップへ</a></li></ul></li></ul>
+</nav>
 <h2 id="1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</h2>
 <p>CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + Pages Functions + D1の組み合わせがシンプルで扱いやすい構成です。</p>
 <h3 id="3">なぜ3つに分かれているのか</h3>
@@ -120,7 +121,7 @@
 </tr>
 </tbody>
 </table>
-<h3 id="_2">処理の流れ</h3>
+<h3 id="_1">処理の流れ</h3>
 <p>ブラウザからのアクセスは以下の順番で処理されます：</p>
 <ol>
 <li>ユーザーがブラウザでURLにアクセス</li>
@@ -131,7 +132,7 @@
 <blockquote>
 <p>Pages FunctionsはPagesの中に同居しているため、フロントもAPIも同じリポジトリ・同じデプロイで完結します。</p>
 </blockquote>
-<h3 id="_3">この構成が良い理由</h3>
+<h3 id="_2">この構成が良い理由</h3>
 <ul>
 <li>フロントもAPIも同じPagesリポジトリにまとまるので管理がシンプル</li>
 <li>デプロイもPages一本に統一できる（GitHubにpushするだけで、フロントもAPIも同時に反映）</li>
@@ -152,7 +153,7 @@
 </blockquote>
 <h3 id="d1github-actions">D1のデータベース変更：GitHub Actionsを使う</h3>
 <p>D1のテーブル構造を変更する場合（マイグレーション）だけ、GitHub Actionsを使って自動化します。設定はワークフローファイルと呼ばれる定義ファイルをリポジトリに置くだけです。詳しい設定方法は導入ハンズオン資料を参照してください。</p>
-<h3 id="_4">デプロイ方法まとめ</h3>
+<h3 id="_3">デプロイ方法まとめ</h3>
 <table>
 <thead>
 <tr>
@@ -181,7 +182,7 @@
 </table>
 <h2 id="3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</h2>
 <p>GitHub連携によってPages・Pages Functions・D1のデプロイは自動化されています。しかしコードを書きながら「手元で動かして確認する」には、ローカルPC上でPages FunctionsやD1を動かせる環境が必要です。そのために使うのがWrangler（ラングラー）です。</p>
-<h3 id="_5">ローカル確認が必要な場面</h3>
+<h3 id="_4">ローカル確認が必要な場面</h3>
 <p>以下のような作業をするときに、ローカルでWranglerを使います：</p>
 <ul>
 <li>Pages Functionsの動作を手元で確認したい（本番に上げる前に試したい）</li>
@@ -193,7 +194,7 @@
 <p>WranglerはCloudflareが公式に提供するツールで、Cloudflare専用（他社のクラウドサービスには使えません）です。ローカルで開発・確認し、本番へデプロイするために使います。Pages Functions・D1・Pagesすべてに対応しており、ターミナル（黒い画面）からコマンドを打って操作します。今回の構成ではデプロイはGitHub連携が担うため、主にローカルでの開発・確認に活用します。</p>
 <p>ちなみに、どのクラウドサービスにも同様のツールがあります。AWS CLI（Amazon）、Firebase CLI（Google）、Vercel CLI（Vercel）などがその例で、Wranglerはそれらと同じ位置づけのCloudflare版です。</p>
 <h2 id="4">4. まとめ</h2>
-<h3 id="_6">開発の流れ</h3>
+<h3 id="_5">開発の流れ</h3>
 <p>GitHub + Cloudflareの構成が整うと、以下のサイクルで開発が進みます：</p>
 <ol>
 <li>Claude Codeにコードを書いてもらう</li>
@@ -205,7 +206,7 @@
 <blockquote>
 <p>UIの調整もAPIの変更も、pushするだけで同時に反映されます。Pages + Pages Functionsはまとめて一度にデプロイされるのが強みです。</p>
 </blockquote>
-<h3 id="_7">ローカルで動作確認したい場合</h3>
+<h3 id="_6">ローカルで動作確認したい場合</h3>
 <p>本番にpushする前に手元で動かして確認したい場合や、D1のデータを直接操作したい場合は、ローカルPCにWranglerをインストールして使います。インストール方法や具体的な使い方は導入ハンズオン資料を参照してください。</p>
 <ul>
 <li>Pages Functionsをローカルで動かして動作確認できる</li>
@@ -214,7 +215,7 @@
 <blockquote>
 <p>この構成ではWranglerをデプロイには使いません。あくまで「手元での確認・開発作業」のためのツールです。デプロイはGitHub連携（Pages・Pages Functions）やGitHub Actions（D1マイグレーション）が自動で行います。</p>
 </blockquote>
-<h3 id="_8">次のステップへ</h3>
+<h3 id="_7">次のステップへ</h3>
 <p>pushするだけで本番反映。手元確認にはWrangler。Pages + Pages Functionsでシンプルに。この構成を理解したら、次はハンズオン資料で実際に手を動かしてみましょう。</p>
 
 </div>
