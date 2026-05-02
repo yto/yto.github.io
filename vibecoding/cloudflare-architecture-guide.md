@@ -1,4 +1,4 @@
-# Cloudflareでみんなで使えるWebアプリを作るための基礎知識
+# Cloudflareで「みんなで使える」Webアプリを作るための基礎知識
 
 <p class="subtitle">Pages + Pages Functions + D1 構成ガイド</p>
 
