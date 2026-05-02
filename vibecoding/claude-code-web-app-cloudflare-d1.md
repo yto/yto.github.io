@@ -58,7 +58,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ### 2-1. GitHubリポジトリを作る
 
-前回のハンズオンと同じ手順で、新しいリポジトリを作成します。
+[GitHub初心者ガイド](github-guide-first-step.html)と同じ手順で、新しいリポジトリを作成します。
 
 1. GitHubで新しいリポジトリを作成（例：`bbs`）
    - **Privateに設定してください**。慣れないうちは認証情報などを誤ってコミットしてしまうリスクがあります。CloudflareのGitHub連携はPrivateリポジトリでも動作します
@@ -67,7 +67,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ### 2-2. Cloudflare Pagesと連携する
 
-前回のハンズオンと同じ手順で、Cloudflare PagesとGitHubリポジトリを連携します。
+[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)と同じ手順で、Cloudflare PagesとGitHubリポジトリを連携します。
 
 1. Cloudflareダッシュボード → Workers & Pages → Create
 2. Pages → Connect to Git
