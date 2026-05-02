@@ -41,7 +41,7 @@
 
 前回のハンズオンと同じ手順で、新しいリポジトリを作成します。
 
-1. GitHubで新しいリポジトリを作成（例：`bulletin-board`）
+1. GitHubで新しいリポジトリを作成（例：`bbs`）
 2. ローカルにクローン
 3. Claude Codeで開く
 
@@ -60,21 +60,21 @@
 
 ```
 wrangler.tomlを作成してください。
-プロジェクト名はbulletin-board、D1データベースのbinding名はDB、
-database_nameはbulletin-boardとしてください。
+プロジェクト名はbbs、D1データベースのbinding名はDB、
+database_nameはbbsとしてください。
 database_idはあとで記入するのでxxxxxxとしておいてください。
 ```
 
 作成されるwrangler.tomlのイメージ：
 
 ```toml
-name = "bulletin-board"
+name = "bbs"
 compatibility_date = "2024-04-05"
 pages_build_output_dir = "."
 
 [[d1_databases]]
 binding = "DB"
-database_name = "bulletin-board"
+database_name = "bbs"
 database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
@@ -128,7 +128,7 @@ Claude Codeからテーブル設計の提案が来ます。おそらく以下の
 ### 3-1. Cloudflareダッシュボードで作成
 
 1. Cloudflareダッシュボード → Storage & Databases → D1 SQL Database
-2. Create → データベース名に `bulletin-board` と入力して作成
+2. Create → データベース名に `bbs` と入力して作成
 3. 作成後に表示される **Database ID** をコピーする
 
 ### 3-2. database_idをwrangler.tomlに記入
@@ -141,7 +141,7 @@ GitHubからの自動デプロイでPages FunctionsがD1を使えるようにす
 
 1. Cloudflareダッシュボード → 作成したPagesプロジェクト → Settings → Functions
 2. D1 database bindings → Add binding
-3. Variable name: `DB`、D1 database: `bulletin-board` を選択して保存
+3. Variable name: `DB`、D1 database: `bbs` を選択して保存
 
 > wrangler.tomlの設定はローカル開発（オプション章）で使います。本番のデプロイにはダッシュボードの設定が必要です。
 
@@ -154,7 +154,7 @@ GitHubからの自動デプロイでPages FunctionsがD1を使えるようにす
 `functions/api/posts.js`というファイルを作ります。URLの`/api/posts`へのリクエストをこのファイルが処理します。
 
 ```
-bulletin-board/
+bbs/
 ├── index.html
 ├── wrangler.toml
 ├── migrations/
@@ -241,7 +241,7 @@ Claude Codeに依頼します：
 ```
 .github/workflows/migrate.ymlを作成してください。
 mainブランチへのpush時にwrangler d1 migrations applyを実行して、
-bulletin-boardデータベースにマイグレーションを適用してください。
+bbsデータベースにマイグレーションを適用してください。
 SecretsはCLOUDFLARE_API_TOKENとCLOUDFLARE_ACCOUNT_IDを使います。
 ```
 
@@ -292,7 +292,7 @@ wrangler login
 ### 7-2. ローカルD1へのマイグレーション実行
 
 ```bash
-wrangler d1 migrations apply bulletin-board --local
+wrangler d1 migrations apply bbs --local
 ```
 
 ### 7-3. 起動・確認
