@@ -251,13 +251,13 @@ bbsデータベースにマイグレーションを適用してください。
 SecretsはCLOUDFLARE_API_TOKENとCLOUDFLARE_ACCOUNT_IDを使います。
 ```
 
-> ここで使う「wrangler」はGitHub Actionsのサーバー上に自動でインストールされて動くものです。自分のPCにWranglerを入れる必要はありません。おまじないとして依頼してしまいましょう。
+> ここで使う「wrangler」はGitHub Actionsのサーバー上に自動でインストールされて動くものです。自分のPCにWranglerを入れる必要はありません。
 
 ### 7-4. pushしてデプロイ・確認
 
 ```bash
 git add .
-git commit -m "add bulletin board"
+git commit -m "add BBS"
 git push
 ```
 
