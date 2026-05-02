@@ -29,7 +29,7 @@
 | Cloudflare D1 | データベース（SQLite） |
 | Cloudflare Pages Functions | バックエンドAPI |
 | wrangler.toml | プロジェクト設定ファイル |
-| マイグレーション | データベースのテーブル定義ファイル |
+| マイグレーション | データベースの構造変更を管理・適用する仕組み |
 | GitHub Actions | D1マイグレーションの自動実行 |
 | Wrangler | ローカル開発ツール（オプション） |
 
