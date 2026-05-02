@@ -331,12 +331,7 @@ Claude Codeが `wrangler pages dev .` を実行します。ブラウザで `http
 | デプロイ | GitHub → Cloudflare Pages（自動） |
 | DBマイグレーション | GitHub Actions（自動） |
 
-次にできること：
-
-- 投稿の削除機能を追加する
-- 返信機能をつける
-- デザインをカスタマイズする
-- 認証機能を追加してログイン制にする
+DB付きWebアプリをCloudflareで公開することができました。フロントエンド・バックエンドAPI・データベースの3層を揃え、GitHubにpushするだけで本番に反映される仕組みも整っています。あとはClaude Codeと一緒に、作りたいものを作っていきましょう。
 
 ---
 
