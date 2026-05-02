@@ -11,7 +11,8 @@
     .topnav a { color: #6b7280; text-decoration: none; }
     .topnav a:hover { color: #1f2937; text-decoration: none; }
     .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
-    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 4px; }
+    .subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 1.5em; }
     h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
     h3 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
     p { margin: 0.5em 0 0.8em; }
@@ -42,8 +43,8 @@
 <div class="container">
 
 <h1 id="cloudflareweb">Cloudflareでみんなで使えるWebアプリを作るための基礎知識</h1>
-<p>Pages + Pages Functions + D1 構成ガイド</p>
-<hr />
+<p class="subtitle">Pages + Pages Functions + D1 構成ガイド</p>
+
 <p>チャット機能やランキング機能など、「データを保存・共有する」Webアプリを個人で作りたい場合、ネット上にデータベースが必要になります。友達や同僚みんなが使えるWebアプリには、誰かが入力したデータをサーバー側で保存し、ほかの人からも見られるような仕組みが欠かせないからです。</p>
 <p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途ハンズオン資料で説明します。</p>
 <p>この文書を読む前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン</a>を読んでおくことをおすすめします。</p>
