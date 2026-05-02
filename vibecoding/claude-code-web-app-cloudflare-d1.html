@@ -47,11 +47,11 @@
 
 <p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
 <nav class="toc">
-<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作ります</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">このハンズオンで学ぶこと</a></li></ul></li><li><a href="#2">2. プロジェクトの準備</a><ul><li><a href="#2-1-github">2-1. GitHubリポジトリを作る</a></li><li><a href="#2-2-cloudflare-pages">2-2. Cloudflare Pagesと連携する</a></li><li><a href="#2-3-wranglertoml">2-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#3-3">3. これから作る3つの役割を理解する</a></li><li><a href="#4-claude-code">4. 【データ】データベース設計をClaude Codeに相談する</a><ul><li><a href="#4-1-claude-code">4-1. 仕様をClaude Codeに伝える</a></li><li><a href="#4-2">4-2. スキーマを確認する</a></li><li><a href="#4-3">4-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#5-d1">5. 【データ】D1データベースを作る</a><ul><li><a href="#5-1-cloudflare">5-1. Cloudflareダッシュボードで作成</a></li><li><a href="#5-2-database_idwranglertoml">5-2. database_idをwrangler.tomlに記入</a></li><li><a href="#5-3-cloudflare-pagesd1">5-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#6-pages-functionsapi">6. 【処理】Pages FunctionsでAPIを作る</a></li><li><a href="#7">7. 【見た目】フロントエンドを作る</a></li><li><a href="#8-githubpush">8. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#8-1-cloudflare-api-token">8-1. Cloudflare API Tokenを取得する</a></li><li><a href="#8-2-githubsecret">8-2. GitHubにSecretを登録する</a></li><li><a href="#8-3">8-3. ワークフローファイルを作る</a></li><li><a href="#8-4-push">8-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#9">9. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#9-1-wrangler">9-1. Wranglerのインストール</a></li><li><a href="#9-2-d1">9-2. ローカルD1の初期設定（初回のみ）</a></li><li><a href="#9-3">9-3. ローカルで起動・確認</a></li></ul></li><li><a href="#10">10. まとめ</a></li></ul>
+<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#1-1">1-1. 匿名一行掲示板を作ります</a></li><li><a href="#1-2-claude-code">1-2. Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#1-3">1-3. このハンズオンで学ぶこと</a></li></ul></li><li><a href="#2">2. プロジェクトの準備</a><ul><li><a href="#2-1-github">2-1. GitHubリポジトリを作る</a></li><li><a href="#2-2-cloudflare-pages">2-2. Cloudflare Pagesと連携する</a></li><li><a href="#2-3-wranglertoml">2-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#3-3">3. これから作る3つの役割を理解する</a></li><li><a href="#4-claude-code">4. 【データベース】データベース設計をClaude Codeに相談する</a><ul><li><a href="#4-1-claude-code">4-1. 仕様をClaude Codeに伝える</a></li><li><a href="#4-2">4-2. スキーマを確認する</a></li><li><a href="#4-3">4-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#5-d1">5. 【データベース】D1データベースを作る</a><ul><li><a href="#5-1-cloudflare">5-1. Cloudflareダッシュボードで作成</a></li><li><a href="#5-2-database_idwranglertoml">5-2. database_idをwrangler.tomlに記入</a></li><li><a href="#5-3-cloudflare-pagesd1">5-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#6-pages-functionsapi">6. 【バックエンド】Pages FunctionsでAPIを作る</a></li><li><a href="#7">7. 【フロントエンド】フロントエンドを作る</a></li><li><a href="#8-githubpush">8. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#8-1-cloudflare-api-token">8-1. Cloudflare API Tokenを取得する</a></li><li><a href="#8-2-githubsecret">8-2. GitHubにSecretを登録する</a></li><li><a href="#8-3">8-3. ワークフローファイルを作る</a></li><li><a href="#8-4-push">8-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#9">9. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#9-1-wrangler">9-1. Wranglerのインストール</a></li><li><a href="#9-2-d1">9-2. ローカルD1の初期設定（初回のみ）</a></li><li><a href="#9-3">9-3. ローカルで起動・確認</a></li></ul></li><li><a href="#10">10. まとめ</a></li></ul>
 </nav>
 <h2 id="1">1. このハンズオンで作るもの</h2>
 <p>Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開します。みんなが一緒に使えるアプリです。</p>
-<h3 id="_1">匿名一行掲示板を作ります</h3>
+<h3 id="1-1">1-1. 匿名一行掲示板を作ります</h3>
 <p>このハンズオンではサンプルとして、<strong>匿名一行掲示板</strong>を作っていきます。 <br />
 仕様：</p>
 <ul>
@@ -60,13 +60,13 @@
 <li>同じブラウザから書き込むと、次回以降も同じ会員番号が使われます</li>
 <li>みんなの投稿を一覧表示します</li>
 </ul>
-<h3 id="claude-code">Claude Codeに丸投げせず、理解しながら進める</h3>
+<h3 id="1-2-claude-code">1-2. Claude Codeに丸投げせず、理解しながら進める</h3>
 <p>「Cloudflare Pages + D1で掲示板を作って」の一言でコードはほぼできます。シンプルなWebアプリならそれでも十分です。</p>
 <p>ただ、DBやAPIが絡む少し複雑な構成になると、全体像の理解が重要になります。理由は2つ。</p>
 <p>1つはClaude Codeに頼めない手作業があるからです。D1バインディングの設定やGitHub SecretsへのToken登録など、ダッシュボード上の操作は自分でやる必要があります。何のためにこの設定をするかわかっていないと、トラブル時に困ります。</p>
 <p>2つ目は次のアプリに活かせるからです。全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できます。</p>
 <p>ということで、「Claude Codeに丸投げせず、理解しながら進める」がこのハンズオンの方針です。</p>
-<h3 id="_2">このハンズオンで学ぶこと</h3>
+<h3 id="1-3">1-3. このハンズオンで学ぶこと</h3>
 <p>このハンズオンで新たに学ぶこと：</p>
 <ul>
 <li>Cloudflare D1（データベース）の作成と設定</li>
@@ -149,34 +149,34 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <p><code>database_id</code>はあとでCloudflareダッシュボードで確認して記入します。</p>
 </blockquote>
 <h2 id="3-3">3. これから作る3つの役割を理解する</h2>
-<p>このハンズオンでは「データ」「処理」「見た目」の3つを順番に作っていきます。それぞれ何に対応するかを先に整理しておきましょう。</p>
+<p>このハンズオンでは「データベース」「バックエンド」「フロントエンド」の3つを順番に作っていきます。それぞれ何に対応するかを先に整理しておきましょう。<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>の復習です。</p>
 <p><a href="images/cf-arc-restaurant.jpg" target="_blank"><img src="images/cf-arc-restaurant.jpg" alt="レストランの比喩" width="400"></a></p>
 <p>お客さん（ユーザー）はフロアスタッフ（フロントエンド）を通じて注文します。注文はキッチン（バックエンド）が受け取り、冷蔵庫（データベース）から必要な食材（データ）を取り出して料理を作ります。できあがった料理はフロアスタッフによってお客さんに届けられます。</p>
 <p>この3つの役割がCloudflareのサービスにそれぞれ対応します：</p>
 <table>
 <thead>
 <tr>
-<th>役割</th>
+<th>Webアプリの役割</th>
 <th>レストランの例</th>
 <th>Cloudflareのサービス</th>
-<th>このハンズオンの章</th>
+<th>この章</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>データ</td>
+<td>データベース</td>
 <td>冷蔵庫</td>
 <td>Cloudflare D1</td>
 <td>4章・5章</td>
 </tr>
 <tr>
-<td>処理</td>
+<td>バックエンド（API）</td>
 <td>キッチン</td>
 <td>Pages Functions</td>
 <td>6章</td>
 </tr>
 <tr>
-<td>見た目</td>
+<td>フロントエンド</td>
 <td>客席・フロア</td>
 <td>Cloudflare Pages</td>
 <td>7章</td>
@@ -184,7 +184,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 </tbody>
 </table>
 <p>この3つを順番に設定・作成していくのがこのハンズオンの流れです。</p>
-<h2 id="4-claude-code">4. 【データ】データベース設計をClaude Codeに相談する</h2>
+<h2 id="4-claude-code">4. 【データベース】データベース設計をClaude Codeに相談する</h2>
 <p>データを保存するには、どんなデータをどんな形で保存するかを設計する必要があります。これをClaude Codeと一緒に考えます。</p>
 <h3 id="4-1-claude-code">4-1. 仕様をClaude Codeに伝える</h3>
 <p>Claude Codeに以下のように伝えます：</p>
@@ -212,7 +212,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <pre><code>このスキーマでマイグレーションファイルを作成してください。
 ファイルはmigrations/0001_init.sqlに保存してください。
 </code></pre>
-<h2 id="5-d1">5. 【データ】D1データベースを作る</h2>
+<h2 id="5-d1">5. 【データベース】D1データベースを作る</h2>
 <h3 id="5-1-cloudflare">5-1. Cloudflareダッシュボードで作成</h3>
 <ol>
 <li>Cloudflareダッシュボード → Storage &amp; Databases → D1 SQL Database</li>
@@ -228,7 +228,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <li>D1 database bindings → Add binding</li>
 <li>Variable name: <code>DB</code>、D1 database: <code>bbs</code> を選択して保存</li>
 </ol>
-<h2 id="6-pages-functionsapi">6. 【処理】Pages FunctionsでAPIを作る</h2>
+<h2 id="6-pages-functionsapi">6. 【バックエンド】Pages FunctionsでAPIを作る</h2>
 <p>Claude Codeに実装を依頼します。 <br />
 以下のプロンプトをそのまま使えばOKです：</p>
 <pre><code>匿名一行掲示板のAPIをfunctions/api/posts.jsに作成してください。
@@ -238,10 +238,12 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 <blockquote>
 <p>DBを操作するAPIの実装は、業界標準的なパターンがほぼ決まっています。ここはClaude Codeにおまかせで問題ありません。</p>
 </blockquote>
-<h2 id="7">7. 【見た目】フロントエンドを作る</h2>
+<h2 id="7">7. 【フロントエンド】フロントエンドを作る</h2>
 <p>Claude Codeに実装を依頼します。
 以下のプロンプトをそのまま使えばOKです：</p>
-<pre><code>これまでのDB定義、API定義を参考に匿名一行掲示板のフロントエンドをindex.htmlとして作成してください。
+<pre><code>これまでのDB定義、API定義を参考に
+匿名一行掲示板のフロントエンドを
+index.htmlとして作成してください。
 </code></pre>
 <p>デザインの好みがあれば追加で伝えます：</p>
 <pre><code>シンプルで読みやすいデザインにしてください。
@@ -260,8 +262,7 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 <li>Continue to Summary → Create Token</li>
 <li>表示されたトークンをコピー（この画面を閉じると二度と表示されません）</li>
 </ol>
-<p><strong>Account IDの確認：</strong></p>
-<p>Cloudflareダッシュボードの右サイドバーに表示されています。</p>
+<p><strong>Account IDの確認：</strong> Cloudflareダッシュボードの右サイドバーに表示されています。</p>
 <h3 id="8-2-githubsecret">8-2. GitHubにSecretを登録する</h3>
 <ol>
 <li>GitHubリポジトリ → Settings → Secrets and variables → Actions</li>
