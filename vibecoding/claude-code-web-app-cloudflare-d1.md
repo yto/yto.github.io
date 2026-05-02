@@ -277,6 +277,8 @@ git push
 
 ### 7-1. Wranglerのインストール
 
+以下の3つはターミナルで直接実行します。
+
 Node.jsがインストールされていることを確認します：
 
 ```bash
@@ -289,27 +291,31 @@ Wranglerをインストールします：
 npm install -g wrangler
 ```
 
-Cloudflareにログインします：
+Cloudflareにログインします（ブラウザが開くので直接実行が必要）：
 
 ```bash
 wrangler login
 ```
 
-ブラウザが開くのでCloudflareアカウントでログインします。
+### 7-2. ローカルD1の初期設定（初回のみ）
 
-### 7-2. ローカルD1へのマイグレーション実行
+Claude Codeに依頼します：
 
-```bash
-wrangler d1 migrations apply bbs --local
+```
+wrangler d1 migrations apply bbs --local を実行してください
 ```
 
-### 7-3. 起動・確認
+> ローカルのD1にテーブルが作られます。以降は何度起動してもデータは残るので再実行不要です。マイグレーションファイルを追加・変更したときだけ再実行してください。
 
-```bash
-wrangler pages dev .
+### 7-3. ローカルで起動・確認
+
+Claude Codeに依頼します：
+
+```
+ローカルでプレビューを出してください
 ```
 
-ブラウザで `http://localhost:8788` を開いて動作確認します。
+Claude Codeが `wrangler pages dev .` を実行します。ブラウザで `http://localhost:8788` を開いて動作確認します。
 
 ---
 
