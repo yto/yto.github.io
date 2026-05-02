@@ -49,7 +49,7 @@
 <p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途ハンズオン資料で説明します。</p>
 <p>この文書を読む前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>を読んでおくことをおすすめします。</p>
 <nav class="toc">
-<ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">なぜ3つに分かれているのか</a></li><li><a href="#3_1">3つに分ける理由</a></li><li><a href="#cloudflare">Cloudflareサービスの対応</a></li><li><a href="#_1">処理の流れ</a></li><li><a href="#_2">この構成が良い理由</a></li></ul></li><li><a href="#2-github">2. GitHub連携と自動デプロイ</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_3">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_4">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_5">開発の流れ</a></li><li><a href="#_6">ローカルで動作確認したい場合</a></li><li><a href="#_7">次のステップへ</a></li></ul></li></ul>
+<ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">なぜ3つに分かれているのか</a></li><li><a href="#3_1">3つに分ける理由</a></li><li><a href="#_1">処理の流れ</a></li><li><a href="#_2">この構成が良い理由</a></li></ul></li><li><a href="#2-github">2. GitHub連携と自動デプロイ</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_3">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_4">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_5">開発の流れ</a></li><li><a href="#_6">ローカルで動作確認したい場合</a></li><li><a href="#_7">次のステップへ</a></li></ul></li></ul>
 </nav>
 <h2 id="1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</h2>
 <p>CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + Pages Functions + D1の組み合わせがシンプルで扱いやすい構成です。</p>
@@ -95,34 +95,6 @@
 <blockquote>
 <p>この3層構造（フロントエンド／バックエンド／データベース）はWebアプリ開発では当たり前の考え方です。Cloudflareの Pages + Pages Functions + D1 はその3層をそれぞれ担当するサービスです。</p>
 </blockquote>
-<h3 id="cloudflare">Cloudflareサービスの対応</h3>
-<p>具体的にどのサービスが何を担当するかは以下の通りです。</p>
-<table>
-<thead>
-<tr>
-<th>サービス</th>
-<th>役割</th>
-<th>扱うもの</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cloudflare Pages</td>
-<td>フロントエンド配信</td>
-<td>HTML / CSS / JavaScript</td>
-</tr>
-<tr>
-<td>Cloudflare Pages Functions</td>
-<td>内部API（バックエンド相当）</td>
-<td>リクエスト処理・DBアクセス</td>
-</tr>
-<tr>
-<td>Cloudflare D1</td>
-<td>データベース</td>
-<td>ユーザーデータ・コンテンツ等</td>
-</tr>
-</tbody>
-</table>
 <h3 id="_1">処理の流れ</h3>
 <p>ブラウザからのアクセスは以下の順番で処理されます：</p>
 <ol>
