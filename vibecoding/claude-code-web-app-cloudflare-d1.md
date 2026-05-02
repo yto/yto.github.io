@@ -165,7 +165,7 @@ Claude Codeからテーブル設計の提案が来ます。おそらく以下の
 
 ### 5-2. database_idをwrangler.tomlに記入
 
-`wrangler.toml`の`database_id`の`xxxxxxxx...`を、コピーしたDatabase IDで書き換えます。
+`wrangler.toml`の`database_id`の`xxxxxxxx...`を、コピーしたDatabase IDで書き換えます。Claude Codeに「`database_id`を〇〇に書き換えてください」と頼めば編集してもらえます。
 
 ### 5-3. Cloudflare PagesダッシュボードでD1バインディングを設定する
 
