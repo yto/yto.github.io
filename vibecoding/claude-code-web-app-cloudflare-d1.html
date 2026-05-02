@@ -264,7 +264,10 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 </li>
 </ol>
 <h3 id="7-3">7-3. ワークフローファイルを作る</h3>
-<p>Claude Codeに依頼します：</p>
+<p>Claude Codeに依頼します。以下のプロンプトをそのまま使えばOKです：</p>
+<pre><code>pushしたら自動でD1マイグレーションが走るようにして
+</code></pre>
+<p>詳細を伝えたい場合はこちら：</p>
 <pre><code>.github/workflows/migrate.ymlを作成してください。
 mainブランチへのpush時にwrangler d1 migrations applyを実行して、
 bbsデータベースにマイグレーションを適用してください。
