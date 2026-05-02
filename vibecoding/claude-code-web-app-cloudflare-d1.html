@@ -48,7 +48,7 @@
 <p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflareで「みんなで使える」Webアプリを作るための基礎知識</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
 <hr />
 <nav class="toc">
-<ul><li><a href="#_1">このハンズオンで作るもの</a><ul><li><a href="#claude-code">「Claude Codeに全部作って」ではダメなの？</a></li></ul></li><li><a href="#1">1. プロジェクトの準備</a><ul><li><a href="#1-1-github">1-1. GitHubリポジトリを作る</a></li><li><a href="#1-2-cloudflare-pages">1-2. Cloudflare Pagesと連携する</a></li><li><a href="#1-3-wranglertoml">1-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#2-claude-code">2. データベース設計をClaude Codeに相談する</a><ul><li><a href="#2-1-claude-code">2-1. 仕様をClaude Codeに伝える</a></li><li><a href="#2-2">2-2. スキーマを確認する</a></li><li><a href="#2-3">2-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#3-d1">3. D1データベースを作る</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareダッシュボードで作成</a></li><li><a href="#3-2-database_idwranglertoml">3-2. database_idをwrangler.tomlに記入</a></li><li><a href="#3-3-cloudflare-pagesd1">3-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#4-pages-functionsapi">4. Pages FunctionsでAPIを作る</a><ul><li><a href="#4-1-claude-code">4-1. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#5">5. フロントエンドを作る</a><ul><li><a href="#5-1-claude-code">5-1. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#6-githubpush">6. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#6-1-cloudflare-api-token">6-1. Cloudflare API Tokenを取得する</a></li><li><a href="#6-2-githubsecret">6-2. GitHubにSecretを登録する</a></li><li><a href="#6-3">6-3. ワークフローファイルを作る</a></li><li><a href="#6-4-push">6-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#7">7. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#7-1-wrangler">7-1. Wranglerのインストール</a></li><li><a href="#7-2-d1">7-2. ローカルD1へのマイグレーション実行</a></li><li><a href="#7-3">7-3. 起動・確認</a></li></ul></li><li><a href="#8">8. まとめ</a></li></ul>
+<ul><li><a href="#_1">このハンズオンで作るもの</a><ul><li><a href="#claude-code">「Claude Codeに全部作って」ではダメなの？</a></li></ul></li><li><a href="#1">1. プロジェクトの準備</a><ul><li><a href="#1-1-github">1-1. GitHubリポジトリを作る</a></li><li><a href="#1-2-cloudflare-pages">1-2. Cloudflare Pagesと連携する</a></li><li><a href="#1-3-wranglertoml">1-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#2-3">2. これから作る3つの役割を理解する</a></li><li><a href="#3-claude-code">3. データベース設計をClaude Codeに相談する</a><ul><li><a href="#2-1-claude-code">2-1. 仕様をClaude Codeに伝える</a></li><li><a href="#2-2">2-2. スキーマを確認する</a></li><li><a href="#2-3_1">2-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#4-d1">4. D1データベースを作る</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareダッシュボードで作成</a></li><li><a href="#3-2-database_idwranglertoml">3-2. database_idをwrangler.tomlに記入</a></li><li><a href="#3-3-cloudflare-pagesd1">3-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#5-pages-functionsapi">5. Pages FunctionsでAPIを作る</a><ul><li><a href="#4-1-claude-code">4-1. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#6">6. フロントエンドを作る</a><ul><li><a href="#5-1-claude-code">5-1. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#7-githubpush">7. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#6-1-cloudflare-api-token">6-1. Cloudflare API Tokenを取得する</a></li><li><a href="#6-2-githubsecret">6-2. GitHubにSecretを登録する</a></li><li><a href="#6-3">6-3. ワークフローファイルを作る</a></li><li><a href="#6-4-push">6-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#8">8. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#7-1-wrangler">7-1. Wranglerのインストール</a></li><li><a href="#7-2-d1">7-2. ローカルD1へのマイグレーション実行</a></li><li><a href="#7-3">7-3. 起動・確認</a></li></ul></li><li><a href="#9">9. まとめ</a></li></ul>
 </nav>
 <h2 id="_1">このハンズオンで作るもの</h2>
 <p><strong>匿名一行掲示板</strong>を作ります。</p>
@@ -143,7 +143,44 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <p><code>database_id</code>はあとでCloudflareダッシュボードで確認して記入します。</p>
 </blockquote>
 <hr />
-<h2 id="2-claude-code">2. データベース設計をClaude Codeに相談する</h2>
+<h2 id="2-3">2. これから作る3つの役割を理解する</h2>
+<p>このハンズオンでは「データ」「処理」「見た目」の3つを順番に作っていきます。それぞれ何に対応するかを先に整理しておきましょう。</p>
+<p><a href="images/cf-arc-restaurant.jpg" target="_blank"><img src="images/cf-arc-restaurant.jpg" alt="レストランの比喩" width="400"></a></p>
+<p>お客さん（ユーザー）はフロアスタッフ（フロントエンド）を通じて注文します。注文はキッチン（バックエンド）が受け取り、冷蔵庫（データベース）から必要な食材（データ）を取り出して料理を作ります。できあがった料理はフロアスタッフによってお客さんに届けられます。お客さんが冷蔵庫を直接触ることはありません。</p>
+<p>この3つの役割がCloudflareのサービスにそれぞれ対応します：</p>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>レストランの例</th>
+<th>Cloudflareのサービス</th>
+<th>このハンズオンの章</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>データ</td>
+<td>冷蔵庫</td>
+<td>Cloudflare D1</td>
+<td>3章・4章</td>
+</tr>
+<tr>
+<td>処理</td>
+<td>キッチン</td>
+<td>Pages Functions</td>
+<td>5章</td>
+</tr>
+<tr>
+<td>見た目</td>
+<td>客席・フロア</td>
+<td>Cloudflare Pages</td>
+<td>6章</td>
+</tr>
+</tbody>
+</table>
+<p>この3つを順番に設定・作成していくのがこのハンズオンの流れです。</p>
+<hr />
+<h2 id="3-claude-code">3. データベース設計をClaude Codeに相談する</h2>
 <p>データを保存するには、どんなデータをどんな形で保存するかを設計する必要があります。これをClaude Codeと一緒に考えます。</p>
 <h3 id="2-1-claude-code">2-1. 仕様をClaude Codeに伝える</h3>
 <p>Claude Codeに以下のように伝えます：</p>
@@ -166,7 +203,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <li><strong>postsテーブル</strong>：投稿内容を管理</li>
 </ul>
 <p>内容を確認して、疑問があればClaude Codeに質問します。「なぜ2つに分けるの？」「このカラムは何のため？」など、気になることは何でも聞いてみましょう。</p>
-<h3 id="2-3">2-3. マイグレーションファイルを作ってもらう</h3>
+<h3 id="2-3_1">2-3. マイグレーションファイルを作ってもらう</h3>
 <p>設計が固まったら、SQLファイルを作ってもらいます：</p>
 <pre><code>このスキーマでマイグレーションファイルを作成してください。
 ファイルはmigrations/0001_init.sqlに保存してください。
@@ -175,7 +212,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <p>マイグレーションとは、データベースのテーブル定義をファイルとして管理する仕組みです。どのテーブルをいつ作ったかが記録に残ります。</p>
 </blockquote>
 <hr />
-<h2 id="3-d1">3. D1データベースを作る</h2>
+<h2 id="4-d1">4. D1データベースを作る</h2>
 <h3 id="3-1-cloudflare">3-1. Cloudflareダッシュボードで作成</h3>
 <ol>
 <li>Cloudflareダッシュボード → Storage &amp; Databases → D1 SQL Database</li>
@@ -195,7 +232,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <p>wrangler.tomlの設定はローカル開発（オプション章）で使います。本番のデプロイにはダッシュボードの設定が必要です。</p>
 </blockquote>
 <hr />
-<h2 id="4-pages-functionsapi">4. Pages FunctionsでAPIを作る</h2>
+<h2 id="5-pages-functionsapi">5. Pages FunctionsでAPIを作る</h2>
 <h3 id="4-1-claude-code">4-1. Claude Codeに実装を依頼する</h3>
 <p>以下のプロンプトをそのまま使えばOKです：</p>
 <pre><code>匿名一行掲示板のAPIをfunctions/api/posts.jsに作成してください。
@@ -206,7 +243,7 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 <p>Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。</p>
 </blockquote>
 <hr />
-<h2 id="5">5. フロントエンドを作る</h2>
+<h2 id="6">6. フロントエンドを作る</h2>
 <h3 id="5-1-claude-code">5-1. Claude Codeに実装を依頼する</h3>
 <p>以下のプロンプトをそのまま使えばOKです：</p>
 <pre><code>これまでのDB定義、API定義を参考に匿名一行掲示板のフロントエンドをindex.htmlとして作成してください。
@@ -216,7 +253,7 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 スマートフォンでも使いやすいようにしてください。
 </code></pre>
 <hr />
-<h2 id="6-githubpush">6. GitHubにpushして本番デプロイ・動作確認</h2>
+<h2 id="7-githubpush">7. GitHubにpushして本番デプロイ・動作確認</h2>
 <h3 id="6-1-cloudflare-api-token">6-1. Cloudflare API Tokenを取得する</h3>
 <p>GitHub ActionsがD1のマイグレーションを実行できるよう、CloudflareのAPI Tokenを取得します。</p>
 <ol>
@@ -262,7 +299,7 @@ git push
 <p>マイグレーションが失敗した場合はActionsのログを確認します。API TokenやSecretsの設定ミスが多いので見直してみてください。</p>
 </blockquote>
 <hr />
-<h2 id="7">7. 【オプション】ローカルで動かして確認する</h2>
+<h2 id="8">8. 【オプション】ローカルで動かして確認する</h2>
 <p>本番にpushする前に手元で確認したい場合はWranglerを使います。Wranglerの導入でつまずいた場合はこのセクションをスキップして、pushして本番で確認する方法で進めて問題ありません。</p>
 <h3 id="7-1-wrangler">7-1. Wranglerのインストール</h3>
 <p>Node.jsがインストールされていることを確認します：</p>
@@ -283,7 +320,7 @@ git push
 </code></pre>
 <p>ブラウザで <code>http://localhost:8788</code> を開いて動作確認します。</p>
 <hr />
-<h2 id="8">8. まとめ</h2>
+<h2 id="9">9. まとめ</h2>
 <p>このハンズオンで作ったものを振り返ります：</p>
 <table>
 <thead>
