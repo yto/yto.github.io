@@ -223,9 +223,6 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <li>D1 database bindings → Add binding</li>
 <li>Variable name: <code>DB</code>、D1 database: <code>bbs</code> を選択して保存</li>
 </ol>
-<blockquote>
-<p>wrangler.tomlの設定はローカル開発（オプション章）で使います。本番のデプロイにはダッシュボードの設定が必要です。</p>
-</blockquote>
 <h2 id="5-pages-functionsapi">5. 【処理】Pages FunctionsでAPIを作る</h2>
 <p>Claude Codeに実装を依頼します。 <br />
 以下のプロンプトをそのまま使えばOKです：</p>
@@ -233,9 +230,6 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 投稿の一覧取得と新規投稿ができるようにしてください。
 D1のbinding名はDB、スキーマは先ほど設計したものを使ってください。
 </code></pre>
-<blockquote>
-<p>Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。</p>
-</blockquote>
 <h2 id="6">6. 【見た目】フロントエンドを作る</h2>
 <p>Claude Codeに実装を依頼します。
 以下のプロンプトをそのまま使えばOKです：</p>

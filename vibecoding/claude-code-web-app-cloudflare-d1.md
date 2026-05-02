@@ -174,7 +174,6 @@ GitHubからの自動デプロイでPages FunctionsがD1を使えるようにす
 2. D1 database bindings → Add binding
 3. Variable name: `DB`、D1 database: `bbs` を選択して保存
 
-> wrangler.tomlの設定はローカル開発（オプション章）で使います。本番のデプロイにはダッシュボードの設定が必要です。
 
 
 
@@ -189,7 +188,6 @@ Claude Codeに実装を依頼します。
 D1のbinding名はDB、スキーマは先ほど設計したものを使ってください。
 ```
 
-> Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。
 
 
 
