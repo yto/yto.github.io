@@ -6,7 +6,7 @@
 
 この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途ハンズオン資料で説明します。
 
-この文書を読む前に、[GitHub初心者ガイド](github-guide-first-step.html)と[Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン](claude-code-web-app-cloudflare-pages.html)を読んでおくことをおすすめします。
+この文書を読む前に、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)を読んでおくことをおすすめします。
 
 
 ## 1. 推奨構成：Pages + Pages Functions + D1
