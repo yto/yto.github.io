@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
+    .topnav { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; font-size: 0.875rem; }
+    .topnav a { color: #6b7280; text-decoration: none; }
+    .topnav a:hover { color: #1f2937; text-decoration: none; }
+    .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 4px; }
+    .subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 1.5em; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
+    p { margin: 0.5em 0 0.8em; }
+    ul, ol { margin: 0.4em 0 0.8em; padding-left: 1.6em; }
+    li { margin: 0.3em 0; }
+    code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.88em; background: #e5e7eb; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #1f2937; color: #f3f4f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 0.6em 0 1em; }
+    pre code { background: none; padding: 0; font-size: 0.875rem; color: inherit; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    blockquote { background: #fff; border-left: 3px solid #d1d5db; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 0.8em 0; color: #4b5563; font-size: 0.93em; }
+    blockquote p { margin: 0; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
+    hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    .toc { background: #eef2ff; border-radius: 8px; padding: 12px 18px; margin: 1.5em 0 2em; font-size: 0.82rem; line-height: 1.5; }
+    .toc ul { margin: 0.15em 0; padding-left: 1.3em; }
+    .toc > ul { padding-left: 0; list-style: none; }
+    .toc li { margin: 0.15em 0; }
+    .toc a { color: #4b5563; }
+    .toc a:hover { color: #1f2937; text-decoration: underline; }
+  </style>
+</head>
+<body>
+<nav class="topnav"><a href="./">← 一覧</a></nav>
+<div class="container">
+
+<h1 id="claude-codedbwebcloudflare">Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</h1>
+<p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
+
+<p>このハンズオンを始める前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>を完了しておいてください。</p>
+<hr />
+<nav class="toc">
+<ul><li><a href="#_1">このハンズオンで作るもの</a></li><li><a href="#1">1. プロジェクトの準備</a><ul><li><a href="#1-1-github">1-1. GitHubリポジトリを作る</a></li><li><a href="#1-2-cloudflare-pages">1-2. Cloudflare Pagesと連携する</a></li><li><a href="#1-3-wranglertoml">1-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#2-claude-code">2. データベース設計をClaude Codeに相談する</a><ul><li><a href="#2-1-claude-code">2-1. 仕様をClaude Codeに伝える</a></li><li><a href="#2-2">2-2. スキーマを確認する</a></li><li><a href="#2-3">2-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#3-d1">3. D1データベースを作る</a><ul><li><a href="#3-1-cloudflare">3-1. Cloudflareダッシュボードで作成</a></li><li><a href="#3-2-database_idwranglertoml">3-2. database_idをwrangler.tomlに記入</a></li><li><a href="#3-3-cloudflare-pagesd1">3-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#4-pages-functionsapi">4. Pages FunctionsでAPIを作る</a><ul><li><a href="#4-1-functions">4-1. functionsディレクトリの構造</a></li><li><a href="#4-2-claude-code">4-2. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#5">5. フロントエンドを作る</a><ul><li><a href="#5-1-claude-code">5-1. Claude Codeに実装を依頼する</a></li></ul></li><li><a href="#6-githubpush">6. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#6-1-cloudflare-api-token">6-1. Cloudflare API Tokenを取得する</a></li><li><a href="#6-2-githubsecret">6-2. GitHubにSecretを登録する</a></li><li><a href="#6-3">6-3. ワークフローファイルを作る</a></li><li><a href="#6-4-push">6-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#7">7. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#7-1-wrangler">7-1. Wranglerのインストール</a></li><li><a href="#7-2-d1">7-2. ローカルD1へのマイグレーション実行</a></li><li><a href="#7-3">7-3. 起動・確認</a></li></ul></li><li><a href="#8">8. まとめ</a></li></ul>
+</nav>
+<h2 id="_1">このハンズオンで作るもの</h2>
+<p><strong>匿名一行掲示板</strong>を作ります。</p>
+<ul>
+<li>名前の入力不要。書き込むだけで投稿できます</li>
+<li>書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られます</li>
+<li>同じブラウザから書き込むと、次回以降も同じ会員番号が使われます</li>
+<li>みんなの投稿を一覧表示します</li>
+</ul>
+<p>このハンズオンで学ぶこと：</p>
+<ul>
+<li>Cloudflare D1（データベース）の作成と設定</li>
+<li>Cloudflare Pages Functions（バックエンドAPI）の実装</li>
+<li>Claude Codeとのデータベース設計の進め方</li>
+<li>GitHub Actionsを使ったD1マイグレーションの自動化</li>
+</ul>
+<p>新たに登場するもの：</p>
+<table>
+<thead>
+<tr>
+<th>名前</th>
+<th>役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloudflare D1</td>
+<td>データベース（SQLite）</td>
+</tr>
+<tr>
+<td>Cloudflare Pages Functions</td>
+<td>バックエンドAPI</td>
+</tr>
+<tr>
+<td>wrangler.toml</td>
+<td>プロジェクト設定ファイル</td>
+</tr>
+<tr>
+<td>マイグレーション</td>
+<td>データベースのテーブル定義ファイル</td>
+</tr>
+<tr>
+<td>GitHub Actions</td>
+<td>D1マイグレーションの自動実行</td>
+</tr>
+<tr>
+<td>Wrangler</td>
+<td>ローカル開発ツール（オプション）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1">1. プロジェクトの準備</h2>
+<h3 id="1-1-github">1-1. GitHubリポジトリを作る</h3>
+<p>前回のハンズオンと同じ手順で、新しいリポジトリを作成します。</p>
+<ol>
+<li>GitHubで新しいリポジトリを作成（例：<code>bulletin-board</code>）</li>
+<li>ローカルにクローン</li>
+<li>Claude Codeで開く</li>
+</ol>
+<h3 id="1-2-cloudflare-pages">1-2. Cloudflare Pagesと連携する</h3>
+<p>前回のハンズオンと同じ手順で、Cloudflare PagesとGitHubリポジトリを連携します。</p>
+<ol>
+<li>Cloudflareダッシュボード → Workers &amp; Pages → Create</li>
+<li>Pages → Connect to Git</li>
+<li>作成したリポジトリを選択して連携</li>
+<li>Build settings：ビルドコマンドは空欄、出力ディレクトリは <code>/</code></li>
+</ol>
+<h3 id="1-3-wranglertoml">1-3. wrangler.tomlを作る</h3>
+<p><code>wrangler.toml</code>はプロジェクトの設定ファイルです。D1データベースの接続情報などを書きます。Claude Codeに依頼します：</p>
+<pre><code>wrangler.tomlを作成してください。
+プロジェクト名はbulletin-board、D1データベースのbinding名はDB、
+database_nameはbulletin-boardとしてください。
+database_idはあとで記入するのでxxxxxxとしておいてください。
+</code></pre>
+<p>作成されるwrangler.tomlのイメージ：</p>
+<pre><code class="language-toml">name = &quot;bulletin-board&quot;
+compatibility_date = &quot;2024-04-05&quot;
+pages_build_output_dir = &quot;.&quot;
+
+[[d1_databases]]
+binding = &quot;DB&quot;
+database_name = &quot;bulletin-board&quot;
+database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
+</code></pre>
+<blockquote>
+<p><code>database_id</code>はあとでCloudflareダッシュボードで確認して記入します。</p>
+</blockquote>
+<hr />
+<h2 id="2-claude-code">2. データベース設計をClaude Codeに相談する</h2>
+<p>データを保存するには、どんなデータをどんな形で保存するかを設計する必要があります。これをClaude Codeと一緒に考えます。</p>
+<h3 id="2-1-claude-code">2-1. 仕様をClaude Codeに伝える</h3>
+<p>Claude Codeに以下のように伝えます：</p>
+<pre><code>匿名一行掲示板を作ります。仕様は以下のとおりです。
+
+- ユーザーはブラウザのlocalStorageに保存したUUIDで識別する（画面には表示しない）
+- 初めて投稿したときに会員番号が払い出される（1, 2, 3...の連番）
+- 画面には「会員1号」「会員2号」と表示する
+- 投稿内容は1行のテキスト
+
+このアプリに必要なデータベースのテーブル設計を提案してください。
+</code></pre>
+<h3 id="2-2">2-2. スキーマを確認する</h3>
+<p>Claude Codeからテーブル設計の提案が来ます。おそらく以下のような2テーブル構成が提案されます：</p>
+<ul>
+<li><strong>membersテーブル</strong>：UUIDと会員番号の対応を管理</li>
+<li><strong>postsテーブル</strong>：投稿内容を管理</li>
+</ul>
+<p>内容を確認して、疑問があればClaude Codeに質問します。「なぜ2つに分けるの？」「このカラムは何のため？」など、気になることは何でも聞いてみましょう。</p>
+<h3 id="2-3">2-3. マイグレーションファイルを作ってもらう</h3>
+<p>設計が固まったら、SQLファイルを作ってもらいます：</p>
+<pre><code>このスキーマでマイグレーションファイルを作成してください。
+ファイルはmigrations/0001_init.sqlに保存してください。
+</code></pre>
+<blockquote>
+<p>マイグレーションとは、データベースのテーブル定義をファイルとして管理する仕組みです。どのテーブルをいつ作ったかが記録に残ります。</p>
+</blockquote>
+<hr />
+<h2 id="3-d1">3. D1データベースを作る</h2>
+<h3 id="3-1-cloudflare">3-1. Cloudflareダッシュボードで作成</h3>
+<ol>
+<li>Cloudflareダッシュボード → Storage &amp; Databases → D1 SQL Database</li>
+<li>Create → データベース名に <code>bulletin-board</code> と入力して作成</li>
+<li>作成後に表示される <strong>Database ID</strong> をコピーする</li>
+</ol>
+<h3 id="3-2-database_idwranglertoml">3-2. database_idをwrangler.tomlに記入</h3>
+<p><code>wrangler.toml</code>の<code>database_id</code>の<code>xxxxxxxx...</code>を、コピーしたDatabase IDで書き換えます。</p>
+<h3 id="3-3-cloudflare-pagesd1">3-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</h3>
+<p>GitHubからの自動デプロイでPages FunctionsがD1を使えるようにするため、Cloudflare PagesのダッシュボードにもD1の設定を追加します。</p>
+<ol>
+<li>Cloudflareダッシュボード → 作成したPagesプロジェクト → Settings → Functions</li>
+<li>D1 database bindings → Add binding</li>
+<li>Variable name: <code>DB</code>、D1 database: <code>bulletin-board</code> を選択して保存</li>
+</ol>
+<blockquote>
+<p>wrangler.tomlの設定はローカル開発（オプション章）で使います。本番のデプロイにはダッシュボードの設定が必要です。</p>
+</blockquote>
+<hr />
+<h2 id="4-pages-functionsapi">4. Pages FunctionsでAPIを作る</h2>
+<h3 id="4-1-functions">4-1. functionsディレクトリの構造</h3>
+<p><code>functions/api/posts.js</code>というファイルを作ります。URLの<code>/api/posts</code>へのリクエストをこのファイルが処理します。</p>
+<pre><code>bulletin-board/
+├── index.html
+├── wrangler.toml
+├── migrations/
+│   └── 0001_init.sql
+└── functions/
+    └── api/
+        └── posts.js
+</code></pre>
+<h3 id="4-2-claude-code">4-2. Claude Codeに実装を依頼する</h3>
+<pre><code>以下の仕様でfunctions/api/posts.jsを作成してください。
+
+GET /api/posts
+
+- postsとmembersをJOINして投稿一覧を返す
+- 返すフィールド：member_number、message、created_at
+- 新しい順に最大100件
+
+POST /api/posts
+
+- リクエストボディ：{ uuid, message }
+- uuidがmembersテーブルになければ新規登録（member_numberは現在の最大値+1）
+- postsテーブルに投稿を保存
+- D1のbinding名はDB
+</code></pre>
+<blockquote>
+<p>Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。</p>
+</blockquote>
+<hr />
+<h2 id="5">5. フロントエンドを作る</h2>
+<h3 id="5-1-claude-code">5-1. Claude Codeに実装を依頼する</h3>
+<pre><code>匿名一行掲示板のフロントエンドをindex.htmlとして作成してください。
+
+仕様：
+
+- ページ表示時にlocalStorageからUUIDを取得。なければUUIDを生成して保存する
+- 投稿フォーム：1行テキスト入力と送信ボタン
+- 投稿送信時はPOST /api/postsにfetchで送信（{ uuid, message }）
+- 投稿一覧はGET /api/postsで取得して表示
+- 一覧の各行に「会員N号」「投稿内容」「投稿日時」を表示
+- 投稿後に一覧を更新する
+</code></pre>
+<p>デザインの好みがあれば追加で伝えます：</p>
+<pre><code>シンプルで読みやすいデザインにしてください。
+スマートフォンでも使いやすいようにしてください。
+</code></pre>
+<hr />
+<h2 id="6-githubpush">6. GitHubにpushして本番デプロイ・動作確認</h2>
+<h3 id="6-1-cloudflare-api-token">6-1. Cloudflare API Tokenを取得する</h3>
+<p>GitHub ActionsがD1のマイグレーションを実行できるよう、CloudflareのAPI Tokenを取得します。</p>
+<ol>
+<li>Cloudflareダッシュボード → My Profile → API Tokens</li>
+<li>Create Token → Custom Token</li>
+<li>以下の権限を設定：<ul>
+<li>Account &gt; D1 &gt; Edit</li>
+</ul>
+</li>
+<li>Continue to Summary → Create Token</li>
+<li>表示されたトークンをコピー（この画面を閉じると二度と表示されません）</li>
+</ol>
+<p><strong>Account IDの確認：</strong></p>
+<p>Cloudflareダッシュボードの右サイドバーに表示されています。</p>
+<h3 id="6-2-githubsecret">6-2. GitHubにSecretを登録する</h3>
+<ol>
+<li>GitHubリポジトリ → Settings → Secrets and variables → Actions</li>
+<li>New repository secret で以下を2つ登録：<ul>
+<li><code>CLOUDFLARE_API_TOKEN</code>：取得したAPI Token</li>
+<li><code>CLOUDFLARE_ACCOUNT_ID</code>：Account ID</li>
+</ul>
+</li>
+</ol>
+<h3 id="6-3">6-3. ワークフローファイルを作る</h3>
+<p>Claude Codeに依頼します：</p>
+<pre><code>.github/workflows/migrate.ymlを作成してください。
+mainブランチへのpush時にwrangler d1 migrations applyを実行して、
+bulletin-boardデータベースにマイグレーションを適用してください。
+SecretsはCLOUDFLARE_API_TOKENとCLOUDFLARE_ACCOUNT_IDを使います。
+</code></pre>
+<h3 id="6-4-push">6-4. pushしてデプロイ・確認</h3>
+<pre><code class="language-bash">git add .
+git commit -m &quot;add bulletin board&quot;
+git push
+</code></pre>
+<p>以下の順で確認します：</p>
+<ol>
+<li>GitHubの <strong>Actions</strong> タブ → マイグレーションが成功しているか確認</li>
+<li>Cloudflareダッシュボード → Pagesプロジェクト → デプロイ完了を確認</li>
+<li>本番URLにアクセスして投稿・表示を確認</li>
+</ol>
+<blockquote>
+<p>マイグレーションが失敗した場合はActionsのログを確認します。API TokenやSecretsの設定ミスが多いので見直してみてください。</p>
+</blockquote>
+<hr />
+<h2 id="7">7. 【オプション】ローカルで動かして確認する</h2>
+<p>本番にpushする前に手元で確認したい場合はWranglerを使います。Wranglerの導入でつまずいた場合はこのセクションをスキップして、pushして本番で確認する方法で進めて問題ありません。</p>
+<h3 id="7-1-wrangler">7-1. Wranglerのインストール</h3>
+<p>Node.jsがインストールされていることを確認します：</p>
+<pre><code class="language-bash">node -v
+</code></pre>
+<p>Wranglerをインストールします：</p>
+<pre><code class="language-bash">npm install -g wrangler
+</code></pre>
+<p>Cloudflareにログインします：</p>
+<pre><code class="language-bash">wrangler login
+</code></pre>
+<p>ブラウザが開くのでCloudflareアカウントでログインします。</p>
+<h3 id="7-2-d1">7-2. ローカルD1へのマイグレーション実行</h3>
+<pre><code class="language-bash">wrangler d1 migrations apply bulletin-board --local
+</code></pre>
+<h3 id="7-3">7-3. 起動・確認</h3>
+<pre><code class="language-bash">wrangler pages dev .
+</code></pre>
+<p>ブラウザで <code>http://localhost:8788</code> を開いて動作確認します。</p>
+<hr />
+<h2 id="8">8. まとめ</h2>
+<p>このハンズオンで作ったものを振り返ります：</p>
+<table>
+<thead>
+<tr>
+<th>役割</th>
+<th>実装</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>フロントエンド</td>
+<td>index.html（画面・UUID管理）</td>
+</tr>
+<tr>
+<td>バックエンドAPI</td>
+<td>functions/api/posts.js</td>
+</tr>
+<tr>
+<td>データベース</td>
+<td>Cloudflare D1（membersテーブル・postsテーブル）</td>
+</tr>
+<tr>
+<td>デプロイ</td>
+<td>GitHub → Cloudflare Pages（自動）</td>
+</tr>
+<tr>
+<td>DBマイグレーション</td>
+<td>GitHub Actions（自動）</td>
+</tr>
+</tbody>
+</table>
+<p>次にできること：</p>
+<ul>
+<li>投稿の削除機能を追加する</li>
+<li>返信機能をつける</li>
+<li>デザインをカスタマイズする</li>
+<li>認証機能を追加してログイン制にする</li>
+</ul>
+<hr />
+<p>2026-05-02 (last updated: 2026-05-02)　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
+
+</div>
+</body>
+</html>
