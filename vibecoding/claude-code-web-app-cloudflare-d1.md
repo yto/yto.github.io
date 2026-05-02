@@ -1,4 +1,4 @@
-# Claude CodeでフルスタックWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン
+# Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
@@ -8,7 +8,7 @@
 
 ## このハンズオンで作るもの
 
-Claude Codeで、DB付きのWebアプリ（フルスタックWebアプリ）を作ってCloudflareで公開します。みんなが一緒に使えるアプリです。
+Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開します。みんなが一緒に使えるアプリです。
 
 このハンズオンではサンプルとして、**匿名一行掲示板**を作っていきます。   
 仕様：
