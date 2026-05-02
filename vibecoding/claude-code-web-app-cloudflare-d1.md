@@ -178,6 +178,20 @@ bbs/
 
 ### 4-2. Claude Codeに実装を依頼する
 
+以下のプロンプトをそのまま使えばOKです：
+
+```
+匿名一行掲示板のAPIをfunctions/api/posts.jsに作成してください。
+投稿の一覧取得と新規投稿ができるようにしてください。
+D1のbinding名はDB、スキーマは先ほど設計したものを使ってください。
+```
+
+> Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。
+
+**もっと詳細に指定したい場合**
+
+仕様を細かく伝えるほど意図通りの実装になります。慣れてきたら以下のように指定してみてください：
+
 ```
 以下の仕様でfunctions/api/posts.jsを作成してください。
 
@@ -192,8 +206,6 @@ POST /api/posts
 - postsテーブルに投稿を保存
 - D1のbinding名はDB
 ```
-
-> Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。
 
 ---
 
