@@ -11,7 +11,8 @@
     .topnav a { color: #6b7280; text-decoration: none; }
     .topnav a:hover { color: #1f2937; text-decoration: none; }
     .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
-    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 8px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 4px; }
+    .subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 1.5em; }
     h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
     h3 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
     p { margin: 0.5em 0 0.8em; }
@@ -150,7 +151,8 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 <p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
 Cloudflare、Vercel、Firebaseなどのフルスタック開発プラットフォームが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先（ホスティング先）をGitHub Pagesからこれらのプラットフォームへ変える、というイメージ。
-詳しくはClaude Codeに相談してみよう。   </p>
+詳しくはClaude Codeに相談してみよう。 <br />
+（参考: <a href="cloudflare-architecture-guide.html">Cloudflare Pages + Pages Functions + D1 での実現方法</a>）</p>
 <p>また、セキュリティ上の考慮が必要になることもあるため、GitHubのリポジトリはPrivateにしておくのが安心。</p>
 <h2 id="7-tips">7. Tips</h2>
 <ul>
