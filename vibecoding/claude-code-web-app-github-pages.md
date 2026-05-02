@@ -132,7 +132,7 @@ HTML + JavaScript + CSSだけのシンプルなアプリであれば大きな問
 Cloudflare、Vercel、Firebaseなどのフルスタック開発プラットフォームが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先（ホスティング先）をGitHub Pagesからこれらのプラットフォームへ変える、というイメージ。
 詳しくはClaude Codeに相談してみよう。   
-（参考: [Cloudflare Pages + Pages Functions + D1 での実現方法](cloudflare-architecture-guide.html)）
+（参考: [Cloudflare構成ガイド](cloudflare-architecture-guide.html)）
 
 また、セキュリティ上の考慮が必要になることもあるため、GitHubのリポジトリはPrivateにしておくのが安心。
 

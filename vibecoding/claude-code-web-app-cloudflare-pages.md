@@ -136,7 +136,7 @@ GitHubへのpushを検知してCloudflare Pagesが自動でデプロイする。
 Cloudflare Workers + D1（データベース）や、Vercel、Firebaseなどが選択肢となる。
 GitHubでコードを管理するのは同じで、公開先をこれらのプラットフォームへ変える、というイメージ。
 詳しくはClaude Codeに相談してみよう。   
-（参考: [Cloudflare Pages + Pages Functions + D1 での実現方法](cloudflare-architecture-guide.html)）
+（参考: [Cloudflare構成ガイド](cloudflare-architecture-guide.html)）
 
 また、セキュリティ上の考慮が必要になることもあるため、GitHubのリポジトリはPrivateにしておくのが安心。
 
