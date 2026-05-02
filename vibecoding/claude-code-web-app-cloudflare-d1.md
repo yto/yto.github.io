@@ -67,7 +67,7 @@
 
 ### 1-3. wrangler.tomlを作る
 
-`wrangler.toml`はプロジェクトの設定ファイルです。D1データベースの接続情報などを書きます。Claude Codeに依頼します：
+`wrangler.toml`はCloudflareのプロジェクトの設定ファイルです。D1データベースの接続情報などを書きます。Claude Codeに依頼します：
 
 ```
 wrangler.tomlを作成してください。
