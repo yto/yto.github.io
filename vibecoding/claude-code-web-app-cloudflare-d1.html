@@ -74,41 +74,6 @@
 <li>Claude Codeとのデータベース設計の進め方</li>
 <li>GitHub Actionsを使ったD1マイグレーションの自動化</li>
 </ul>
-<p>新たに登場するもの：</p>
-<table>
-<thead>
-<tr>
-<th>名前</th>
-<th>役割</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cloudflare D1</td>
-<td>データベース（SQLite）</td>
-</tr>
-<tr>
-<td>Cloudflare Pages Functions</td>
-<td>バックエンドAPI</td>
-</tr>
-<tr>
-<td>wrangler.toml</td>
-<td>プロジェクト設定ファイル</td>
-</tr>
-<tr>
-<td>マイグレーション</td>
-<td>データベースの構造変更を管理・適用する仕組み</td>
-</tr>
-<tr>
-<td>GitHub Actions</td>
-<td>D1マイグレーションの自動実行</td>
-</tr>
-<tr>
-<td>Wrangler</td>
-<td>ローカル開発ツール（オプション）</td>
-</tr>
-</tbody>
-</table>
 <h2 id="2">2. プロジェクトの準備</h2>
 <h3 id="2-1-github">2-1. GitHubリポジトリを作る</h3>
 <p><a href="github-guide-first-step.html">GitHub初心者ガイド</a>と同じ手順で、新しいリポジトリを作成します。</p>
@@ -212,6 +177,9 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <pre><code>このスキーマでマイグレーションファイルを作成してください。
 ファイルはmigrations/0001_init.sqlに保存してください。
 </code></pre>
+<blockquote>
+<p>マイグレーションとは、データベースの構造変更（テーブルの作成・変更・削除など）をSQLファイルとして管理する仕組みです。変更をファイルに記録しておくことで、「どの変更がいつ適用されたか」を追跡でき、本番環境への反映も自動化できます。</p>
+</blockquote>
 <h2 id="5-d1">5. 【データベース】D1データベースを作る</h2>
 <h3 id="5-1-cloudflare">5-1. Cloudflareダッシュボードで作成</h3>
 <ol>
