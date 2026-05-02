@@ -17,6 +17,8 @@ CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + 
 
 Webアプリは「見た目」「処理」「データ」の3つの役割に分けて作るのが基本です。レストランに例えるとわかりやすいです。
 
+<a href="images/cf-arc-restaurant.jpg" target="_blank"><img src="images/cf-arc-restaurant.jpg" alt="cf-arc-restaurant.jpg" width="400"></a>
+
 | レストランの例 | Webアプリの役割 | Cloudflareのサービス |
 |---|---|---|
 | 客席・メニュー（お客さんが見て触る場所） | フロントエンド（画面・UI） | Cloudflare Pages |
