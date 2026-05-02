@@ -253,7 +253,7 @@ bbsデータベースにマイグレーションを適用してください。
 SecretsはCLOUDFLARE_API_TOKENとCLOUDFLARE_ACCOUNT_IDを使います。
 ```
 
-> ここで使う「wrangler」はGitHub Actionsのサーバー上に自動でインストールされて動くものです。自分のPCにWranglerを入れる必要はありません。
+> ここで実行させる「wrangler」はGitHub Actionsのサーバー上に自動でインストールされるものです。
 
 ### 8-4. pushしてデプロイ・確認
 
