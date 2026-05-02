@@ -1,4 +1,4 @@
-# Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン
+# Claude CodeでフルスタックWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
@@ -8,7 +8,10 @@
 
 ## このハンズオンで作るもの
 
-**匿名一行掲示板**を作ります。
+Claude Codeで、DB付きのWebアプリ（フルスタックWebアプリ）を作ってCloudflareで公開します。みんなが一緒に使えるアプリです。
+
+このハンズオンではサンプルとして、**匿名一行掲示板**を作っていきます。   
+仕様：
 
 - 名前の入力不要。書き込むだけで投稿できます
 - 書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られます
@@ -331,7 +334,7 @@ Claude Codeが `wrangler pages dev .` を実行します。ブラウザで `http
 | デプロイ | GitHub → Cloudflare Pages（自動） |
 | DBマイグレーション | GitHub Actions（自動） |
 
-DB付きWebアプリをCloudflareで公開することができました。フロントエンド・バックエンドAPI・データベースの3層を揃え、GitHubにpushするだけで本番に反映される仕組みも整っています。あとはClaude Codeと一緒に、作りたいものを作っていきましょう。
+フルスタックWebアプリを作成し、Cloudflareで公開することができました。フロントエンド・バックエンドAPI・データベースの3層を揃え、GitHubにpushするだけで本番に反映される仕組みも学びました。あとはClaude Codeと一緒に、作りたいものを作っていきましょう。
 
 ---
 

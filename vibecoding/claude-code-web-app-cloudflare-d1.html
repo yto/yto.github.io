@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</title>
+  <title>Claude CodeでフルスタックWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
@@ -42,7 +42,7 @@
 <nav class="topnav"><a href="./">← 一覧</a></nav>
 <div class="container">
 
-<h1 id="claude-codedbwebcloudflare">Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</h1>
+<h1 id="claude-codewebcloudflare">Claude CodeでフルスタックWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</h1>
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
 <p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
@@ -50,7 +50,9 @@
 <ul><li><a href="#_1">このハンズオンで作るもの</a><ul><li><a href="#claude-code">「Claude Codeに全部作って」ではダメなの？</a></li></ul></li><li><a href="#1">1. プロジェクトの準備</a><ul><li><a href="#1-1-github">1-1. GitHubリポジトリを作る</a></li><li><a href="#1-2-cloudflare-pages">1-2. Cloudflare Pagesと連携する</a></li><li><a href="#1-3-wranglertoml">1-3. wrangler.tomlを作る</a></li></ul></li><li><a href="#2-3">2. これから作る3つの役割を理解する</a></li><li><a href="#3-claude-code">3. 【データ】データベース設計をClaude Codeに相談する</a><ul><li><a href="#3-1-claude-code">3-1. 仕様をClaude Codeに伝える</a></li><li><a href="#3-2">3-2. スキーマを確認する</a></li><li><a href="#3-3">3-3. マイグレーションファイルを作ってもらう</a></li></ul></li><li><a href="#4-d1">4. 【データ】D1データベースを作る</a><ul><li><a href="#4-1-cloudflare">4-1. Cloudflareダッシュボードで作成</a></li><li><a href="#4-2-database_idwranglertoml">4-2. database_idをwrangler.tomlに記入</a></li><li><a href="#4-3-cloudflare-pagesd1">4-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</a></li></ul></li><li><a href="#5-pages-functionsapi">5. 【処理】Pages FunctionsでAPIを作る</a></li><li><a href="#6">6. 【見た目】フロントエンドを作る</a></li><li><a href="#7-githubpush">7. GitHubにpushして本番デプロイ・動作確認</a><ul><li><a href="#7-1-cloudflare-api-token">7-1. Cloudflare API Tokenを取得する</a></li><li><a href="#7-2-githubsecret">7-2. GitHubにSecretを登録する</a></li><li><a href="#7-3">7-3. ワークフローファイルを作る</a></li><li><a href="#7-4-push">7-4. pushしてデプロイ・確認</a></li></ul></li><li><a href="#8">8. 【オプション】ローカルで動かして確認する</a><ul><li><a href="#8-1-wrangler">8-1. Wranglerのインストール</a></li><li><a href="#8-2-d1">8-2. ローカルD1の初期設定（初回のみ）</a></li><li><a href="#8-3">8-3. ローカルで起動・確認</a></li></ul></li><li><a href="#9">9. まとめ</a></li></ul>
 </nav>
 <h2 id="_1">このハンズオンで作るもの</h2>
-<p><strong>匿名一行掲示板</strong>を作ります。</p>
+<p>Claude Codeで、DB付きのWebアプリ（フルスタックWebアプリ）を作ってCloudflareで公開します。みんなが一緒に使えるアプリです。</p>
+<p>このハンズオンではサンプルとして、<strong>匿名一行掲示板</strong>を作っていきます。 <br />
+仕様：</p>
 <ul>
 <li>名前の入力不要。書き込むだけで投稿できます</li>
 <li>書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られます</li>
@@ -347,7 +349,7 @@ git push
 </tr>
 </tbody>
 </table>
-<p>DB付きWebアプリをCloudflareで公開することができました。フロントエンド・バックエンドAPI・データベースの3層を揃え、GitHubにpushするだけで本番に反映される仕組みも整っています。あとはClaude Codeと一緒に、作りたいものを作っていきましょう。</p>
+<p>フルスタックWebアプリを作成し、Cloudflareで公開することができました。フロントエンド・バックエンドAPI・データベースの3層を揃え、GitHubにpushするだけで本番に反映される仕組みも学びました。あとはClaude Codeと一緒に、作りたいものを作っていきましょう。</p>
 <hr />
 <p>2026-05-02 (last updated: 2026-05-02)　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
 
