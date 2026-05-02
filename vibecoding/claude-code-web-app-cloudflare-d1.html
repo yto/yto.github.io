@@ -205,23 +205,6 @@ D1のbinding名はDB、スキーマは先ほど設計したものを使ってく
 <blockquote>
 <p>Pages FunctionsはCloudflare Workers上で動くため、Node.jsとは一部APIが異なります。Claude Codeはこれを考慮してコードを書いてくれます。</p>
 </blockquote>
-<p><strong>もっと詳細に指定したい場合</strong></p>
-<p>仕様を細かく伝えるほど意図通りの実装になります。慣れてきたら以下のように指定してみてください：</p>
-<pre><code>以下の仕様でfunctions/api/posts.jsを作成してください。
-
-GET /api/posts
-
-- postsとmembersをJOINして投稿一覧を返す
-- 返すフィールド：member_number、message、created_at
-- 新しい順に最大100件
-
-POST /api/posts
-
-- リクエストボディ：{ uuid, message }
-- uuidがmembersテーブルになければ新規登録（member_numberは現在の最大値+1）
-- postsテーブルに投稿を保存
-- D1のbinding名はDB
-</code></pre>
 <hr />
 <h2 id="5">5. フロントエンドを作る</h2>
 <h3 id="5-1-claude-code">5-1. Claude Codeに実装を依頼する</h3>
@@ -231,19 +214,6 @@ POST /api/posts
 <p>デザインの好みがあれば追加で伝えます：</p>
 <pre><code>シンプルで読みやすいデザインにしてください。
 スマートフォンでも使いやすいようにしてください。
-</code></pre>
-<p><strong>もっと詳細に指定したい場合</strong></p>
-<p>仕様を細かく伝えるほど意図通りの実装になります。慣れてきたら以下のように指定してみてください：</p>
-<pre><code>匿名一行掲示板のフロントエンドをindex.htmlとして作成してください。
-
-仕様：
-
-- ページ表示時にlocalStorageからUUIDを取得。なければUUIDを生成して保存する
-- 投稿フォーム：1行テキスト入力と送信ボタン
-- 投稿送信時はPOST /api/postsにfetchで送信（{ uuid, message }）
-- 投稿一覧はGET /api/postsで取得して表示
-- 一覧の各行に「会員N号」「投稿内容」「投稿日時」を表示
-- 投稿後に一覧を更新する
 </code></pre>
 <hr />
 <h2 id="6-githubpush">6. GitHubにpushして本番デプロイ・動作確認</h2>
