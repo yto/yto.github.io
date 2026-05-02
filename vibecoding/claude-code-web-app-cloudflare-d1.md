@@ -32,9 +32,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ということで、「Claude Codeに丸投げせず、理解しながら進める」がこのハンズオンの方針です。
 
-### 1-3. このハンズオンで学ぶこと
-
-このハンズオンで新たに学ぶこと：
+### 1-3. このハンズオンで新たに学ぶこと
 
 - Cloudflare D1（データベース）の作成と設定
 - Cloudflare Pages Functions（バックエンドAPI）の実装
@@ -48,7 +46,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ### 2-1. GitHubリポジトリを作る
 
-[GitHub初心者ガイド](github-guide-first-step.html)と同じ手順で、新しいリポジトリを作成します。
+[GitHub初心者ガイド](github-guide-first-step.html)の手順で、新しいリポジトリを作成します。
 
 1. GitHubで新しいリポジトリを作成（例：`bbs`）
    - **Privateに設定してください**。慣れないうちは認証情報などを誤ってコミットしてしまうリスクがあります。CloudflareのGitHub連携はPrivateリポジトリでも動作します
@@ -57,7 +55,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ### 2-2. Cloudflare Pagesと連携する
 
-[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)と同じ手順で、Cloudflare PagesとGitHubリポジトリを連携します。
+[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)の手順で、Cloudflare PagesとGitHubリポジトリを連携します。
 
 1. Cloudflareダッシュボード → Workers & Pages → Create
 2. Pages → Connect to Git
@@ -66,7 +64,7 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 
 ### 2-3. wrangler.tomlを作る
 
-`wrangler.toml`はCloudflareのプロジェクトの設定ファイルです。D1データベースの接続情報などを書きます。Claude Codeに依頼します：
+`wrangler.toml`はCloudflareのプロジェクトの設定ファイルです。D1データベースの接続情報などを書きます。Claude Codeに作成を依頼します：
 
 ```
 wrangler.tomlを作成してください。
@@ -102,7 +100,7 @@ database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 
 この3つの役割がCloudflareのサービスにそれぞれ対応します：
 
-| Webアプリの役割 | レストランの例 | Cloudflareのサービス | この章 |
+| Webアプリの役割 | レストランの例 | Cloudflareのサービス | 章 |
 |---|---|---|---|
 | データベース | 冷蔵庫 | Cloudflare D1 | 4章・5章 |
 | バックエンド（API） | キッチン | Pages Functions | 6章 |
@@ -162,6 +160,8 @@ Claude Codeからテーブル設計の提案が来ます。おそらく以下の
 1. Cloudflareダッシュボード → Storage & Databases → D1 SQL Database
 2. Create → データベース名に `bbs` と入力して作成
 3. 作成後に表示される **Database ID** をコピーする
+
+> Database IDはデータベースの「名前」のようなものです。仮に外部に漏れても、API Tokenがなければ操作できないため問題ありません。
 
 ### 5-2. database_idをwrangler.tomlに記入
 
