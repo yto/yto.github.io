@@ -161,22 +161,7 @@ GitHubからの自動デプロイでPages FunctionsがD1を使えるようにす
 
 ## 4. Pages FunctionsでAPIを作る
 
-### 4-1. functionsディレクトリの構造
-
-`functions/api/posts.js`というファイルを作ります。URLの`/api/posts`へのリクエストをこのファイルが処理します。
-
-```
-bbs/
-├── index.html
-├── wrangler.toml
-├── migrations/
-│   └── 0001_init.sql
-└── functions/
-    └── api/
-        └── posts.js
-```
-
-### 4-2. Claude Codeに実装を依頼する
+### 4-1. Claude Codeに実装を依頼する
 
 以下のプロンプトをそのまま使えばOKです：
 
