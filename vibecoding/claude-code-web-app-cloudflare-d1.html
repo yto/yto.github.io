@@ -190,7 +190,7 @@ database_id = &quot;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&quot;
 <p>Database IDはデータベースの「名前」のようなものです。仮に外部に漏れても、API Tokenがなければ操作できないため問題ありません。</p>
 </blockquote>
 <h3 id="5-2-database_idwranglertoml">5-2. database_idをwrangler.tomlに記入</h3>
-<p><code>wrangler.toml</code>の<code>database_id</code>の<code>xxxxxxxx...</code>を、コピーしたDatabase IDで書き換えます。Claude Codeに「<code>database_id</code>を〇〇に書き換えてください」と頼めば編集してもらえます。</p>
+<p><code>wrangler.toml</code>の<code>database_id</code>の<code>xxxxxxxx...</code>を、コピーしたDatabase IDで書き換えます。Claude Codeに「wrangler.tomlの<code>database_id</code>を〇〇に書き換えてください」と頼めば編集してもらえます。</p>
 <h3 id="5-3-cloudflare-pagesd1">5-3. Cloudflare PagesダッシュボードでD1バインディングを設定する</h3>
 <p>GitHubからの自動デプロイでPages FunctionsがD1を使えるようにするため、Cloudflare PagesのダッシュボードにもD1の設定を追加します。</p>
 <ol>
