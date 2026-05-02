@@ -46,7 +46,7 @@
 <p class="subtitle">Pages + Pages Functions + D1 構成ガイド</p>
 
 <p>チャット機能やランキング機能など、「データを保存・共有する」Webアプリを個人で作りたい場合、ネット上にデータベースが必要になります。友達や同僚みんなが使えるWebアプリには、誰かが入力したデータをサーバー側で保存し、ほかの人からも見られるような仕組みが欠かせないからです。</p>
-<p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途ハンズオン資料で説明します。</p>
+<p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>で説明します。</p>
 <p>この文書を読む前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>を読んでおくことをおすすめします。</p>
 <nav class="toc">
 <ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">3つの役割</a></li><li><a href="#_1">処理の流れ</a></li></ul></li><li><a href="#2-github">2. GitHub連携と自動デプロイ</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_2">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_3">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_4">開発の流れ</a></li><li><a href="#_5">ローカルで動作確認したい場合</a></li><li><a href="#_6">次のステップへ</a></li></ul></li></ul>
@@ -54,7 +54,7 @@
 <h2 id="1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</h2>
 <p>CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + Pages Functions + D1の組み合わせがシンプルで扱いやすい構成です。</p>
 <h3 id="3">3つの役割</h3>
-<p>Webアプリは「見た目」「処理」「データ」の3つの役割に分けて作るのが基本です。レストランに例えるとわかりやすいです。</p>
+<p>Webアプリは「見た目（フロントエンド）」「処理（バックエンド）」「データ（データベース）」の3つの役割に分けて作るのが基本です。レストランに例えるとわかりやすいです。</p>
 <p><a href="images/cf-arc-restaurant.jpg" target="_blank"><img src="images/cf-arc-restaurant.jpg" alt="cf-arc-restaurant.jpg" width="400"></a></p>
 <table>
 <thead>
@@ -84,7 +84,6 @@
 </table>
 <p>お客さん（ユーザー）はフロアスタッフ（フロントエンド）を通じて注文します。注文はキッチン（バックエンド）が受け取り、冷蔵庫（データベース）から必要な食材（データ）を取り出して料理を作ります。できあがった料理はフロアスタッフによってお客さんに届けられます。お客さんが冷蔵庫を直接触ることはありません——これがセキュリティと役割分担を実現している設計です。</p>
 <blockquote>
-<p>この3層構造（フロントエンド／バックエンド／データベース）はWebアプリ開発では当たり前の考え方です。Cloudflareの Pages + Pages Functions + D1 はその3層をそれぞれ担当するサービスです。</p>
 <p>Pages Functionsは「バックエンド的な役割」を担いますが、独立したサーバーが別に存在するわけではありません。Pages（フロントエンド）の中に処理が同居しているイメージです。フロントとAPIが一体化しているのがこの構成の特徴です。ワンオペ営業の小規模飲食店のようなものです。</p>
 </blockquote>
 <h3 id="_1">処理の流れ</h3>
@@ -95,9 +94,6 @@
 <li>画面からAPIリクエストがCloudflare Pages Functionsへ送られる</li>
 <li>Cloudflare Pages FunctionsがD1データベースを参照・更新して結果を返す</li>
 </ol>
-<blockquote>
-<p>Pages FunctionsはPagesの中に同居しているため、フロントもAPIも同じリポジトリ・同じデプロイで完結します。</p>
-</blockquote>
 <h2 id="2-github">2. GitHub連携と自動デプロイ</h2>
 <p>GitHubとCloudflareの連携を設定しておくと、pushするだけで自動的にデプロイされます。Pages + Pages Functionsの構成では、フロントもAPIもまとめてPagesにデプロイされます。</p>
 <h3 id="cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</h3>
@@ -111,7 +107,7 @@
 <p>UIの調整もAPIの変更も、pushするだけで一度に反映されます。</p>
 </blockquote>
 <h3 id="d1github-actions">D1のデータベース変更：GitHub Actionsを使う</h3>
-<p>D1のテーブル構造を変更する場合（マイグレーション）だけ、GitHub Actionsを使って自動化します。設定はワークフローファイルと呼ばれる定義ファイルをリポジトリに置くだけです。詳しい設定方法は導入ハンズオン資料を参照してください。</p>
+<p>D1のテーブル構造を変更する場合（マイグレーション）だけ、GitHub Actionsを使って自動化します。設定はワークフローファイルと呼ばれる定義ファイルをリポジトリに置くだけです。詳しい設定方法は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>を参照してください。</p>
 <h3 id="_2">デプロイ方法まとめ</h3>
 <table>
 <thead>
@@ -166,7 +162,7 @@
 <p>UIの調整もAPIの変更も、pushするだけで同時に反映されます。Pages + Pages Functionsはまとめて一度にデプロイされるのが強みです。</p>
 </blockquote>
 <h3 id="_5">ローカルで動作確認したい場合</h3>
-<p>本番にpushする前に手元で動かして確認したい場合や、D1のデータを直接操作したい場合は、ローカルPCにWranglerをインストールして使います。インストール方法や具体的な使い方は導入ハンズオン資料を参照してください。</p>
+<p>本番にpushする前に手元で動かして確認したい場合や、D1のデータを直接操作したい場合は、ローカルPCにWranglerをインストールして使います。インストール方法や具体的な使い方は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>を参照してください。</p>
 <ul>
 <li>Pages Functionsをローカルで動かして動作確認できる</li>
 <li>D1のデータを直接確認・操作できる</li>
@@ -175,7 +171,7 @@
 <p>この構成ではWranglerをデプロイには使いません。あくまで「手元での確認・開発作業」のためのツールです。デプロイはGitHub連携（Pages・Pages Functions）やGitHub Actions（D1マイグレーション）が自動で行います。</p>
 </blockquote>
 <h3 id="_6">次のステップへ</h3>
-<p>pushするだけで本番反映。手元確認にはWrangler。Pages + Pages Functionsでシンプルに。この構成を理解したら、次はハンズオン資料で実際に手を動かしてみましょう。</p>
+<p>pushするだけで本番反映。手元確認にはWrangler。Pages + Pages Functionsでシンプルに。この構成を理解したら、次は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>で実際に手を動かしてみましょう。</p>
 <hr />
 <p>2026-05-02 (last updated: 2026-05-02)　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
 
