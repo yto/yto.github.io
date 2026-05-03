@@ -49,7 +49,7 @@
 <p>この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介します。構成の全体像と、それぞれの役割を理解することが目的です。実際の設定手順や導入方法は、別途<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>で説明します。</p>
 <p>この文書を読む前に、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>を読んでおくことをおすすめします。</p>
 <nav class="toc">
-<ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">3つの役割</a></li><li><a href="#_1">処理の流れ</a></li></ul></li><li><a href="#2-github">2. GitHub連携と自動デプロイ</a><ul><li><a href="#cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</a></li><li><a href="#d1github-actions">D1のデータベース変更：GitHub Actionsを使う</a></li><li><a href="#_2">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#_3">ローカル確認が必要な場面</a></li><li><a href="#wrangler">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_4">開発の流れ</a></li><li><a href="#_5">ローカルで動作確認したい場合</a></li><li><a href="#_6">次のステップへ</a></li></ul></li></ul>
+<ul><li><a href="#1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</a><ul><li><a href="#3">3つの役割</a></li><li><a href="#_1">処理の流れ</a></li></ul></li><li><a href="#2-github-actionscicd">2. GitHub ActionsによるCI/CDデプロイ</a><ul><li><a href="#github-actions">すべてGitHub Actionsでデプロイする</a></li><li><a href="#_2">事前準備（初回のみ）</a></li><li><a href="#_3">デプロイ方法まとめ</a></li></ul></li><li><a href="#3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</a><ul><li><a href="#wrangler">ローカルでWranglerを使う場面</a></li><li><a href="#wrangler_1">Wranglerとは</a></li></ul></li><li><a href="#4">4. まとめ</a><ul><li><a href="#_4">開発の流れ</a></li><li><a href="#_5">ローカルで動作確認したい場合</a></li><li><a href="#_6">次のステップへ</a></li></ul></li></ul>
 </nav>
 <h2 id="1-pages-pages-functions-d1">1. 推奨構成：Pages + Pages Functions + D1</h2>
 <p>CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + Pages Functions + D1の組み合わせがシンプルで扱いやすい構成です。</p>
@@ -94,21 +94,27 @@
 <li>画面からAPIリクエストがCloudflare Pages Functionsへ送られる</li>
 <li>Cloudflare Pages FunctionsがD1データベースを参照・更新して結果を返す</li>
 </ol>
-<h2 id="2-github">2. GitHub連携と自動デプロイ</h2>
-<p>GitHubとCloudflareの連携を設定しておくと、pushするだけで自動的にデプロイされます。Pages + Pages Functionsの構成では、フロントもAPIもまとめてPagesにデプロイされます。</p>
-<h3 id="cloudflare-pages-pages-functionsgithub">Cloudflare Pages + Pages Functions：GitHub直接連携</h3>
+<h2 id="2-github-actionscicd">2. GitHub ActionsによるCI/CDデプロイ</h2>
+<p>GitHubへpushするだけで、D1マイグレーションからPages・Pages Functionsのデプロイまでが自動で実行されます。</p>
+<h3 id="github-actions">すべてGitHub Actionsでデプロイする</h3>
+<p>この構成では、<strong>CloudflareダッシュボードのGit連携機能は使いません</strong>。代わりにリポジトリにワークフローファイル（<code>.github/workflows/deploy.yml</code>）を置き、wranglerコマンドでデプロイします。</p>
 <ul>
-<li>Cloudflareダッシュボードで「GitHubと連携」を設定</li>
-<li>mainブランチへのpushで自動的にビルド＆デプロイ</li>
+<li>mainブランチへのpushでGitHub Actionsが自動実行される</li>
+<li>D1マイグレーション → Pages/Pages Functionsのデプロイの順で実行される</li>
 <li>フロント（HTML/CSS/JS）もAPI（Pages Functions）も同時にデプロイされる</li>
-<li>GitHub Actionsの設定ファイル（YAMLファイル）は不要</li>
 </ul>
 <blockquote>
 <p>UIの調整もAPIの変更も、pushするだけで一度に反映されます。</p>
+<p>CloudflareダッシュボードでGit連携を設定すると競合してエラーになるため、連携しないようにします。</p>
 </blockquote>
-<h3 id="d1github-actions">D1のデータベース変更：GitHub Actionsを使う</h3>
-<p>D1のテーブル構造を変更する場合（マイグレーション）だけ、GitHub Actionsを使って自動化します。設定はワークフローファイルと呼ばれる定義ファイルをリポジトリに置くだけです。詳しい設定方法は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>を参照してください。</p>
-<h3 id="_2">デプロイ方法まとめ</h3>
+<h3 id="_2">事前準備（初回のみ）</h3>
+<p>GitHub ActionsがCloudflareを操作できるよう、以下の準備が必要です：</p>
+<ul>
+<li>CloudflareでAPIトークンを作成する</li>
+<li>GitHubのリポジトリにSecretsとして<code>CLOUDFLARE_API_TOKEN</code>と<code>CLOUDFLARE_ACCOUNT_ID</code>を登録する</li>
+</ul>
+<p>詳しい設定方法は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>を参照してください。</p>
+<h3 id="_3">デプロイ方法まとめ</h3>
 <table>
 <thead>
 <tr>
@@ -120,33 +126,34 @@
 <tbody>
 <tr>
 <td>Cloudflare Pages（HTML等）</td>
-<td>GitHub直接連携（自動）</td>
-<td>Cloudflareダッシュボードで一度設定</td>
+<td>GitHub Actions（自動）</td>
+<td>ワークフローファイル・Secrets登録</td>
 </tr>
 <tr>
 <td>Pages Functions（API）</td>
-<td>GitHub直接連携（自動）</td>
+<td>GitHub Actions（自動）</td>
 <td>Pagesと同時・追加設定不要</td>
 </tr>
 <tr>
 <td>D1マイグレーション</td>
-<td>GitHub Actions</td>
-<td>ワークフローファイルを追加</td>
+<td>GitHub Actions（自動）</td>
+<td>同上</td>
 </tr>
 </tbody>
 </table>
 <h2 id="3-wrangler">3. ローカル開発・確認に必要なツール：Wrangler</h2>
 <p>GitHub連携によってPages・Pages Functions・D1のデプロイは自動化されています。しかしコードを書きながら「手元で動かして確認する」には、ローカルPC上でPages FunctionsやD1を動かせる環境が必要です。そのために使うのがWrangler（ラングラー）です。</p>
-<h3 id="_3">ローカル確認が必要な場面</h3>
+<h3 id="wrangler">ローカルでWranglerを使う場面</h3>
 <p>以下のような作業をするときに、ローカルでWranglerを使います：</p>
 <ul>
+<li>D1データベースの新規作成（初期設定時）</li>
 <li>Pages Functionsの動作を手元で確認したい（本番に上げる前に試したい）</li>
 <li>D1のデータを直接確認・修正したい</li>
 <li>UIとAPIを合わせてローカルで動作確認したい</li>
 <li>Claude Codeと一緒に開発するとき（変更をすぐ手元で確認できる）</li>
 </ul>
-<h3 id="wrangler">Wranglerとは</h3>
-<p>WranglerはCloudflareが公式に提供するツールで、Cloudflare専用（他社のクラウドサービスには使えません）です。ローカルで開発・確認し、本番へデプロイするために使います。Pages Functions・D1・Pagesすべてに対応しており、ターミナル（黒い画面）からコマンドを打って操作します。今回の構成ではデプロイはGitHub連携が担うため、主にローカルでの開発・確認に活用します。</p>
+<h3 id="wrangler_1">Wranglerとは</h3>
+<p>WranglerはCloudflareが公式に提供するツールで、Cloudflare専用（他社のクラウドサービスには使えません）です。ローカルで開発・確認し、本番へデプロイするために使います。Pages Functions・D1・Pagesすべてに対応しており、ターミナル（黒い画面）からコマンドを打って操作します。今回の構成では、ローカルPCからの手動デプロイには使いませんが、D1データベースの作成（初期設定）やローカル確認に使います。なお、GitHub Actions内でのデプロイ処理もwranglerが実行しています。</p>
 <p>ちなみに、どのクラウドサービスにも同様のツールがあります。AWS CLI（Amazon）、Firebase CLI（Google）、Vercel CLI（Vercel）などがその例で、Wranglerはそれらと同じ位置づけのCloudflare版です。</p>
 <h2 id="4">4. まとめ</h2>
 <h3 id="_4">開発の流れ</h3>
@@ -154,7 +161,7 @@
 <ol>
 <li>Claude Codeにコードを書いてもらう</li>
 <li>GitHubにpush（git push）するだけ</li>
-<li>Cloudflare Pages・Pages Functions・D1、すべてが自動でデプロイされる</li>
+<li>GitHub ActionsがD1マイグレーション → Pages/Pages Functionsを自動でデプロイ</li>
 <li>ブラウザで動作確認</li>
 <li>修正があればまたClaude Codeに依頼 → push</li>
 </ol>
@@ -168,10 +175,10 @@
 <li>D1のデータを直接確認・操作できる</li>
 </ul>
 <blockquote>
-<p>この構成ではWranglerをデプロイには使いません。あくまで「手元での確認・開発作業」のためのツールです。デプロイはGitHub連携（Pages・Pages Functions）やGitHub Actions（D1マイグレーション）が自動で行います。</p>
+<p>ローカルからの手動デプロイにWranglerは使いません。デプロイはすべてGitHub Actionsが自動で行います。Wranglerは初期設定（D1の作成）や手元での確認・開発作業に使います。</p>
 </blockquote>
 <h3 id="_6">次のステップへ</h3>
-<p>pushするだけで本番反映。手元確認にはWrangler。Pages + Pages Functionsでシンプルに。この構成を理解したら、次は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>で実際に手を動かしてみましょう。</p>
+<p>pushするだけで本番反映。初期設定・手元確認にはWrangler。GitHub ActionsとPages Functionsでシンプルに。この構成を理解したら、次は<a href="claude-code-web-app-cloudflare-d1.html">ハンズオン資料</a>で実際に手を動かしてみましょう。</p>
 <hr />
 <p>2026-05-02 (last updated: 2026-05-02)　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
 
