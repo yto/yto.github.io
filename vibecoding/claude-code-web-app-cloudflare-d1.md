@@ -46,13 +46,13 @@ GitHub → New repository → リポジトリ名を入力して作成。**Privat
 
 ### CloudflareでAccount IDを確認
 
-Cloudflareダッシュボード → **Compute** → **Workers & Pages** を開く。
+Cloudflareダッシュボード → Compute → **Workers & Pages** を開く。
 
 - 右カラム、またはページ右側最下部に表示される **Account ID** をコピーしておく
 
 ### CloudflareでAPIトークンを作成
 
-Cloudflare → 右上👤アイコン → Profile → **API Tokens** → Create Token → **Create Custom Token**
+Cloudflare → 右上👤アイコン → Profile → API Tokens → Create Token → **Create Custom Token**
 
 - Token name: これから作るWebアプリの名前など（例：`bbs001`）
 - Permissions:
