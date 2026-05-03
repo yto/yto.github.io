@@ -2,8 +2,7 @@
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
-このハンズオンを始める前に、[Cloudflare構成ガイド](cloudflare-architecture-guide.html)を必ず読んでおいてください。また、[GitHub初心者ガイド](github-guide-first-step.html)も完了しておいてください。
-
+このハンズオンを始める前に、[Cloudflare構成ガイド](cloudflare-architecture-guide.html)を必ず読んでおいてください。また、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)も完了しておいてください。
 
 
 ## 1. このハンズオンで作るもの
@@ -138,7 +137,7 @@ migrations_dir = "migrations"
 wrangler.toml の database_id を「xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx」に書き換えてください。
 ```
 
-**package.json も作成する（`npm ci` に必要）：**
+**package.json も作成する：**
 
 ```
 以下の内容で package.json を作成してください。

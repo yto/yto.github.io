@@ -46,7 +46,7 @@
 <h1 id="claude-codedbwebcloudflare">Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン</h1>
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
-<p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>も完了しておいてください。</p>
+<p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
 <nav class="toc">
 <ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作ります</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs">3. Node.js のインストール</a></li><li><a href="#4-wrangler">4. wrangler のインストールとログイン</a></li><li><a href="#5-wranglertoml-packagejson">5. wrangler.toml と package.json の作成</a></li><li><a href="#6-d1">6. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#7">7. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#8-pages-functionsapi">8. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#9">9. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#10-github-actions">10. GitHub Actions ワークフローの作成</a></li><li><a href="#11">11. 初回デプロイ</a></li><li><a href="#12">12. 日常の開発フロー</a></li><li><a href="#13">13. 備忘録</a></li></ul>
 </nav>
@@ -170,7 +170,7 @@ migrations_dir = &quot;migrations&quot;
 <p>作成後、6章で <code>wrangler d1 create</code> を実行したら表示される <code>database_id</code> を Claude Code に伝えて書き換えてもらう。</p>
 <pre><code>wrangler.toml の database_id を「xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx」に書き換えてください。
 </code></pre>
-<p><strong>package.json も作成する（<code>npm ci</code> に必要）：</strong></p>
+<p><strong>package.json も作成する：</strong></p>
 <pre><code>以下の内容で package.json を作成してください。
 アプリ名は「○○」としてください。
 
