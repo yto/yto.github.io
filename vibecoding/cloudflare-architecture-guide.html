@@ -95,7 +95,7 @@
 <li>Cloudflare Pages FunctionsがD1データベースを参照・更新して結果を返す</li>
 </ol>
 <h2 id="2-github-actions">2. GitHub Actionsによる自動デプロイ</h2>
-<p>GitHubへpushするだけで、D1マイグレーション（DB構造の更新）からPages・Pages Functionsのデプロイまでが自動で実行されます。</p>
+<p>GitHubへpushするだけで、D1マイグレーション（DB構造の更新）からPages・Pages Functionsのデプロイ（本番環境への公開）までが自動で実行されます。</p>
 <h3 id="github-actions">すべてGitHub Actionsでデプロイする</h3>
 <p>この構成では、<strong>CloudflareダッシュボードのGit連携機能は使いません</strong>。代わりにリポジトリにワークフローファイル（<code>.github/workflows/deploy.yml</code>）を置き、wranglerコマンドでデプロイします。</p>
 <ul>
