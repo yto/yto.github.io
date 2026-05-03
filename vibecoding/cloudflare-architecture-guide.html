@@ -145,11 +145,7 @@
 <p>WranglerはCloudflareが公式に提供するCLIツール（コマンドラインツール）です。Pages Functions・D1・Pagesすべてに対応しており、ターミナル（黒い画面）からコマンドを打って操作します。Cloudflare専用のツールで、AWS CLI（Amazon）やFirebase CLI（Google）と同じ位置づけです。</p>
 <p>今回の構成では、<strong>プロジェクトのセットアップ時点からWranglerが必要です</strong>。Cloudflareへのログインと、D1データベースの作成にWranglerを使います。</p>
 <h3 id="_4">初期セットアップで使う</h3>
-<p>プロジェクトを始める最初の段階で、以下の操作に使います：</p>
-<ul>
-<li><strong>Cloudflareへのログイン</strong>（<code>wrangler login</code>）：ブラウザが開いてOAuth認証する。初回のみ。</li>
-<li><strong>D1データベースの作成</strong>（<code>wrangler d1 create</code>）：データベースを作成し、発行されたIDをwrangler.tomlに記入する。</li>
-</ul>
+<p>プロジェクトの最初に、CloudflareへのログインとD1データベースの作成に使います。</p>
 <h3 id="_5">開発中のローカル確認でも使う</h3>
 <p>コードを書きながら手元で動かして確認する作業にも使います：</p>
 <ul>
