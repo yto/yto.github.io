@@ -15,7 +15,7 @@ CloudflareでDBを使う個人・小規模Webアプリを作る場合、Pages + 
 
 ### 3つの役割
 
-Webアプリは「見た目（フロントエンド）」「処理（バックエンド）」「データ（データベース）」の3つの役割に分けて作るのが基本です。レストランに例えるとわかりやすいです。
+Webアプリは「フロントエンド」「バックエンド」「データベース」の3つの役割に分けて作るのが基本です。レストランに例えるとわかりやすいです。
 
 <a href="images/cf-arc-restaurant.jpg" target="_blank"><img src="images/cf-arc-restaurant.jpg" alt="cf-arc-restaurant.jpg" width="400"></a>
 
