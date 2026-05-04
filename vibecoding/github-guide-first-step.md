@@ -221,6 +221,23 @@ cd my-first-site
 
 ### 3-4. ローカルで編集してリモートにアップする
 
+ローカルの変更をGitHubに反映する流れ。
+
+#### 体験編
+
+- Finderで **デスクトップ** → **claude** → **my-first-site** フォルダを開き、`index.html` をテキストエディタで開く
+- `<p>Hello World!</p>` の文字を何か別のテキストに変えて保存する
+- Terminalで以下を実行する：
+```
+git add index.html
+git commit -m "index.htmlを更新"
+git push -u origin main
+```
+- ブラウザでGitHubのリポジトリページを開き、`index.html` が更新されていることを確認する
+
+
+#### 解説編
+
 基本の開発フロー。ファイルを編集したら3ステップでGitHubに反映する。
 
 ```
