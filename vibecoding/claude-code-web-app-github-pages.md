@@ -1,4 +1,4 @@
-# 【旧版】Claude CodeでWebアプリを作ってGithub Pagesで公開するバイブコーディングハンズオン
+# 【旧版】Claude CodeでWebアプリを作ってGithub Pagesで公開する
 
 <div class="warning">⚠️ このページの内容は古くなっています。現在、ハンズオンには使用していません。</div>
 

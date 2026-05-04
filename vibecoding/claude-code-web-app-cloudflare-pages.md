@@ -1,4 +1,4 @@
-# Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン
+# Claude CodeでWebアプリを作ってCloudflare Pagesで公開する
 
 AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。  
 そして、全世界に公開します。  

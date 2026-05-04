@@ -1,4 +1,4 @@
-# Claude CodeでDB付きWebアプリを作ってCloudflareで公開するバイブコーディングハンズオン
+# Claude CodeでDB付きWebアプリを作ってCloudflareで公開する
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
