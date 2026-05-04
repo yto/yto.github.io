@@ -63,11 +63,11 @@
 </ul>
 <p><a href="images/cf-d1-bbs.jpg" target="_blank"><img src="images/cf-d1-bbs.jpg" alt="匿名一行掲示板 作例" width="400"></a></p>
 <h3 id="claude-code">Claude Codeに丸投げせず、理解しながら進める</h3>
-<p>「Cloudflare Pages + D1で掲示板を作って」の一言でコードはほぼできます。シンプルなWebアプリならそれでも十分です。</p>
-<p>ただ、DBやAPIが絡む少し複雑な構成になると、全体像の理解が重要になります。理由は2つ。</p>
-<p>1つはClaude Codeに頼めない手作業があるからです。GitHubのSecrets登録など、ダッシュボード上の操作は自分でやる必要があります。何のためにこの設定をするかわかっていないと、トラブル時に困ります。</p>
-<p>2つ目は次のアプリに活かせるからです。全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できます。</p>
-<p>ということで、「Claude Codeに丸投げせず、理解しながら進める」がこのハンズオンの方針です。</p>
+<p>「みんなが書き込める匿名掲示板を作って」の一言でコードはほぼできます。試しに作ってみる練習作や使い捨てならそれで十分です。</p>
+<p>ただ、実際に使い続けるものを作るとなると、DBやAPIが絡んでくるので全体像の理解が欠かせません。</p>
+<p>まず、全体像を理解していないと、Claude Codeに頼めない手作業——GitHubのSecrets登録などのダッシュボード操作——が何のためのものかわからなくなり、トラブルの時に困ります。</p>
+<p>逆に、全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できます。</p>
+<p>ということで、このハンズオンの方針は「Claude Codeに丸投げせず、理解しながら進める」です。</p>
 <h3 id="_2">全体構成の復習</h3>
 <p>このハンズオンで使う構成を整理しておきます（詳細は<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>）。</p>
 <table>
@@ -92,58 +92,47 @@
 </tr>
 </tbody>
 </table>
-<p>GitHubにpushすると、<strong>GitHub Actions</strong>がD1のマイグレーションからPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行します。ローカルでのDB作成やログインには、Cloudflare公式CLIの<strong>Wrangler</strong>を使います。</p>
+<p>GitHubにpushすると、<strong>GitHub Actions</strong>がD1のマイグレーション（データベース構造の管理）からPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行します。</p>
+<p><strong>Wrangler</strong>はCloudflare公式のCLIツールで、ローカルとGitHub Actionsの両方で使われます。ローカルではD1データベースの作成・ログイン・開発プレビューに使い、GitHub Actionsではpushのたびにマイグレーションとデプロイを自動実行します。</p>
 <p>この構成を念頭に置いて進めると、各章で「今何をやっているのか」がわかりやすくなります：</p>
 <ul>
 <li><strong>2章</strong>：GitHub ActionsがCloudflareを操作するための認証情報（APIトークン）を用意</li>
 <li><strong>3章</strong>：Node.js と Wrangler をインストールしてログイン。ローカル開発・D1操作・GitHub Actions、すべての基盤</li>
-<li><strong>4章</strong>：wrangler.toml と package.json を作成。GitHub ActionsがWranglerを実行するためのプロジェクト設定</li>
+<li><strong>4章</strong>：<code>wrangler.toml</code> と <code>package.json</code> を作成。GitHub ActionsがWranglerを実行するためのプロジェクト設定</li>
 <li><strong>5〜8章</strong>：D1（データベース）・Pages Functions（バックエンド）・Pages（フロントエンド）の順に実装</li>
 <li><strong>9〜10章</strong>：GitHub Actionsのワークフローを作成し、初回デプロイで全体を接続</li>
 </ul>
 <hr />
 <h2 id="2">2. 事前準備（初回のみ・ブラウザ操作）</h2>
 <h3 id="github">GitHubでリポジトリを作成</h3>
-<p>GitHub → New repository → リポジトリ名を入力して作成。<strong>Private</strong> を選ぶ（APIトークンなど意図しないファイルの公開を防ぐため）。</p>
+<p>GitHub → <strong>New repository</strong> → リポジトリ名を入力して作成。<strong>Private</strong> にする（意図しないファイルの公開を防ぐため）。</p>
 <h3 id="cloudflareaccount-id">CloudflareでAccount IDを確認</h3>
-<p>Cloudflareダッシュボード → Compute → <strong>Workers &amp; Pages</strong> を開く。</p>
+<p>Cloudflareダッシュボード → <strong>Compute</strong> → <strong>Workers &amp; Pages</strong> を開く。</p>
 <ul>
 <li>右カラム、またはページ右側最下部に表示される <strong>Account ID</strong> をコピーしておく</li>
 </ul>
 <h3 id="cloudflareapi">CloudflareでAPIトークンを作成</h3>
-<p>Cloudflare → 右上👤アイコン → Profile → API Tokens → Create Token → <strong>Create Custom Token</strong></p>
+<p>右上👤アイコン → <strong>Profile</strong> → <strong>API Tokens</strong> → <strong>Create Token</strong> → <strong>Create Custom Token</strong></p>
+<p><a href="images/cf-d1-token.jpg" target="_blank"><img src="images/cf-d1-token.jpg" alt="Cloudflare API Token" width="400"></a></p>
 <ul>
-<li>Token name: これから作るWebアプリの名前など（例：<code>bbs001</code>）</li>
-<li>Permissions:</li>
+<li><strong>Token name</strong><ul>
+<li>これから作るWebアプリの名前を入れた文字列など（例：<code>bbs001-20260501</code>）</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>リソース</th>
-<th>権限</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Account &gt; Cloudflare Pages</td>
-<td>Edit</td>
-</tr>
-<tr>
-<td>Account &gt; D1</td>
-<td>Edit</td>
-</tr>
-<tr>
-<td>User &gt; User Details</td>
-<td>Read</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Account Resource: <strong>自分のアカウントのみ</strong> に設定する。デフォルトの「All accounts」は不要なスコープを与えるため推奨しない</li>
+</li>
+<li><strong>Permissions</strong><ul>
+<li><strong>Account</strong> / <strong>Cloudflare Pages</strong> / <strong>Edit</strong></li>
+<li><strong>Account</strong> / <strong>D1</strong> / <strong>Edit</strong></li>
+<li><strong>User</strong> / <strong>User Details</strong> / <strong>Read</strong></li>
 </ul>
-<p>作成されたトークンをコピーしておく。</p>
+</li>
+<li><strong>Account Resource</strong><ul>
+<li>自分のアカウントのみに設定する。デフォルトの <strong>All accounts</strong> は不要なスコープを与えるため推奨しない</li>
+</ul>
+</li>
+</ul>
+<p>作成されたトークンをコピーしておく（一度しか表示されない）。</p>
 <h3 id="githubsecrets">GitHubにSecretsを登録</h3>
-<p>GitHubリポジトリ → Settings → Secrets and variables → Actions → <strong>New repository secret</strong></p>
+<p>GitHubリポジトリ → <strong>Settings</strong> → <strong>Secrets and variables</strong> → <strong>Actions</strong> → <strong>New repository secret</strong></p>
 <table>
 <thead>
 <tr>
@@ -164,9 +153,8 @@
 </table>
 <hr />
 <h2 id="3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</h2>
-<p>Node.js と Wrangler はローカルでの開発・D1操作、そしてGitHub Actionsでの自動デプロイ、すべての基盤となるツールである。</p>
+<p>この章ではローカルマシンに Wrangler をインストールする。Wrangler は初期セットアップ（D1データベースの作成・Cloudflareへのログインなど）や、開発中のローカルプレビュー・データベース操作に使う。なお、Wrangler は Node.js 上で動くため、Node.js も合わせてインストールする。</p>
 <h3 id="nodejs">Node.js のインストール</h3>
-<p>Wrangler は Node.js 上で動くため、先にインストールしておく。</p>
 <pre><code class="language-bash"># インストール済みか確認
 node -v
 </code></pre>
@@ -211,7 +199,7 @@ migrations_dir = &quot;migrations&quot;
 <p>作成後、5章で <code>wrangler d1 create</code> を実行したら表示される <code>database_id</code> を Claude Code に伝えて書き換えてもらう。</p>
 <pre><code>wrangler.toml の database_id を「xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx」に書き換えてください。
 </code></pre>
-<p><strong>package.json も作成する：</strong></p>
+<p><strong><code>package.json</code> も作成する：</strong></p>
 <pre><code>以下の内容で package.json を作成してください。
 アプリ名は「○○」としてください。
 
@@ -225,7 +213,7 @@ migrations_dir = &quot;migrations&quot;
 }
 ---
 </code></pre>
-<p>package.json を作成したら、<code>npm install</code> を実行する。<code>package-lock.json</code> が生成される。Claude Code にpushを依頼すれば自動でコミットに含まれる。</p>
+<p><code>package.json</code> を作成したら、<code>npm install</code> を実行する。<code>package-lock.json</code> が生成される。Claude Code にpushを依頼すれば自動でコミットに含まれる。</p>
 <pre><code class="language-bash">npm install
 </code></pre>
 <p><code>npm install</code> を実行すると <code>node_modules/</code> というフォルダが生成される。Wranglerの実体が入っている大容量フォルダで、コミットは不要。Claude Code が自動で <code>.gitignore</code> に追加してくれることが多いが、念のため <code>.gitignore に node_modules/ を追加して</code> と依頼してもよい。</p>
@@ -235,7 +223,7 @@ migrations_dir = &quot;migrations&quot;
 # 表示された database_id を wrangler.toml に記入
 </code></pre>
 <blockquote>
-<p><strong>Database IDについて</strong> データベースの識別子です。仮に外部に漏れても、API Tokenがなければ操作できないため問題ありません。</p>
+<p><strong>Database ID（<code>database_id</code>）とは？</strong> データベースの識別子です。仮に外部に漏れても、API Tokenがなければ操作できないため問題ありません。</p>
 </blockquote>
 <hr />
 <h2 id="6">6. 【データベース】スキーマ設計とマイグレーションファイル</h2>
@@ -254,11 +242,11 @@ migrations_dir = &quot;migrations&quot;
 <blockquote>
 <p><strong>スキーマとは？</strong> データベースの構造定義のことです。どんなテーブルがあり、それぞれどんな列（カラム）を持つかを定めたもので、建物で言えば「設計図」にあたります。</p>
 </blockquote>
-<p>合意したら「このスキーマでマイグレーションファイルを作成して」と依頼すると
-<code>migrations/0001_init.sql</code> を生成してくれる。</p>
+<p>納得したら、以下のように依頼する。</p>
 <pre><code>このスキーマでマイグレーションファイルを作成してください。
 ファイルは migrations/0001_init.sql に保存してください。
 </code></pre>
+<p><code>migrations/0001_init.sql</code> が生成される。</p>
 <blockquote>
 <p><strong>マイグレーションとは？</strong> データベースの構造変更（テーブルの作成・変更・削除など）をSQLファイルとして管理する仕組みです。変更をファイルに記録しておくことで、「どの変更がいつ適用されたか」を追跡でき、本番環境への反映も自動化できます。</p>
 </blockquote>
@@ -343,12 +331,12 @@ jobs:
 <p><strong>ワークフローの流れ：</strong></p>
 <p>pushをトリガーに、以下の順で実行される。</p>
 <ol>
-<li><strong>コードを取得</strong>（actions/checkout） — GitHubのファイルをCI環境に展開する</li>
-<li><strong>Node.jsをセットアップ</strong>（actions/setup-node） — Wranglerの実行に必要</li>
-<li><strong>Wranglerをインストール</strong>（npm ci） — package.jsonに記載したWranglerをインストール</li>
-<li><strong>D1マイグレーションを適用</strong>（d1 migrations apply --remote） — 未適用のSQLファイルを本番DBに適用する</li>
-<li><strong>Pagesプロジェクトを作成</strong>（pages project create） — 初回のみ実行。2回目以降は失敗するが <code>continue-on-error: true</code> で無視される</li>
-<li><strong>Pagesにデプロイ</strong>（pages deploy） — フロントエンド・Pages Functionsを本番環境に反映する</li>
+<li><strong>コードを取得</strong>（<code>actions/checkout</code>） — GitHubのファイルをCI環境に展開する</li>
+<li><strong>Node.jsをセットアップ</strong>（<code>actions/setup-node</code>） — Wranglerの実行に必要</li>
+<li><strong>Wranglerをインストール</strong>（<code>npm ci</code>） — <code>package.json</code>に記載したWranglerをインストール</li>
+<li><strong>D1マイグレーションを適用</strong>（<code>d1 migrations apply --remote</code>） — 未適用のSQLファイルを本番DBに適用する</li>
+<li><strong>Pagesプロジェクトを作成</strong>（<code>pages project create</code>） — 初回のみ実行。2回目以降は失敗するが <code>continue-on-error: true</code> で無視される</li>
+<li><strong>Pagesにデプロイ</strong>（<code>pages deploy</code>） — フロントエンド・Pages Functionsを本番環境に反映する</li>
 </ol>
 <p>各ステップでCloudflareの操作が必要なものは、GitHubのSecrets（<code>CLOUDFLARE_API_TOKEN</code>・<code>CLOUDFLARE_ACCOUNT_ID</code>）を使って認証する。</p>
 <hr />
@@ -388,7 +376,7 @@ Claude Codeデスクトップアプリを使っている場合はアプリ内ブ
 <li>CIが自動でやるためダッシュボードでの手動操作は不要：Cloudflare Pages プロジェクトの作成・D1バインディング設定</li>
 <li>Cloudflare Pages プロジェクトの手動作成は不要（ワークフローの「Create Pages project」ステップが初回のみ自動で作成。2回目以降は失敗するが <code>continue-on-error: true</code> で無視される）</li>
 <li><code>package.json</code>（<code>wrangler: "^4"</code> を devDependencies に含む）がないと <code>npm ci</code> が失敗する</li>
-<li><code>package-lock.json</code> がないと <code>npm ci</code> が失敗する → package.json 作成後に <code>npm install</code> を実行してコミットに含める</li>
+<li><code>package-lock.json</code> がないと <code>npm ci</code> が失敗する → <code>package.json</code> 作成後に <code>npm install</code> を実行してコミットに含める</li>
 <li><code>wranglerVersion: "4"</code> を wrangler-action の各ステップに指定しないと古いバージョン（3.90.0 等）にフォールバックすることがある</li>
 <li><code>compatibility_date</code> は UTC 基準なので JST の今日の日付は未来になる場合がある → 前日以前の日付を指定する</li>
 </ul>
