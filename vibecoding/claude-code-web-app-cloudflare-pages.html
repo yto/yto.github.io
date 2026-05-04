@@ -110,7 +110,7 @@
 </ol>
 <h3 id="3-3">3-3. デプロイ設定をして初回デプロイ</h3>
 <p>「Set up your application」の画面が表示される。</p>
-<p><a href="images/cf-pages-3-cfsetup.jpg" target="_blank"><img src="images/cf-pages-3-cf-setup.jpg" alt="Set up your application" width="400"></a></p>
+<p><a href="images/cf-pages-3-cfsetup.jpg" target="_blank"><img src="images/cf-pages-3-cfsetup.jpg" alt="Set up your application" width="400"></a></p>
 <p>以下のとおりに設定する。</p>
 <table>
 <thead>
@@ -136,12 +136,9 @@
 </table>
 <p><code>Deploy</code> をクリックすると初回デプロイが始まる。</p>
 <h3 id="3-4-url">3-4. 公開URLを確認する</h3>
-<p>デプロイ完了後、公開URLが発行されたのを <code>Compute</code> → <code>Workers &amp; Pages</code> → <code>my-first-site</code> で確認する。
+<p>デプロイ完了後、<code>Compute</code> → <code>Workers &amp; Pages</code> → <code>my-first-site</code> で公開URLを確認する。
 URLの形式は、<code>https://my-first-site（＝プロジェクト名）.アカウントID.workers.dev</code> である。</p>
 <p>ブラウザでそのURLにアクセスし、GitHubのリポジトリにある <code>index.html</code> の内容が表示されているかを確認する。</p>
-<blockquote>
-<p>以降はGitHubにpushするたびCloudflareが自動でデプロイする。ターミナルからデプロイコマンドを叩く必要はない。</p>
-</blockquote>
 <h2 id="4-claude-code-web">4. Claude Code でWebアプリを作成</h2>
 <p>デスクトップ版Claudeアプリを起動。</p>
 <p>「Code」(Claude Code) を選択 → 「New session」をクリック → 作業ディレクトリを指定 (<code>~/Desktop/claude/my-first-site</code>)</p>
