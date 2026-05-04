@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloudflare Pagesで静的ファイルをアップロードしてWebページとして公開する</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
+    .topnav { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; font-size: 0.875rem; }
+    .topnav a { color: #6b7280; text-decoration: none; }
+    .topnav a:hover { color: #1f2937; text-decoration: none; }
+    .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 4px; }
+    .subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 1.5em; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
+    h3, h4, h5, h6 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
+    p { margin: 0.5em 0 0.8em; }
+    ul, ol { margin: 0.4em 0 0.8em; padding-left: 1.6em; }
+    li { margin: 0.3em 0; }
+    code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.88em; background: #e5e7eb; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #1f2937; color: #f3f4f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 0.6em 0 1em; }
+    pre code { background: none; padding: 0; font-size: 0.875rem; color: inherit; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    blockquote { background: #fff; border-left: 3px solid #d1d5db; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 0.8em 0; color: #4b5563; font-size: 0.93em; }
+    blockquote p { margin: 0; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
+    hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 1em 0; }
+    .toc { background: #eef2ff; border-radius: 8px; padding: 12px 18px; margin: 1.5em 0 2em; font-size: 0.82rem; line-height: 1.5; }
+    .toc ul { margin: 0.15em 0; padding-left: 1.3em; }
+    .toc > ul { padding-left: 0; list-style: none; }
+    .toc li { margin: 0.15em 0; }
+    .toc a { color: #4b5563; }
+    .toc a:hover { color: #1f2937; text-decoration: underline; }
+  </style>
+</head>
+<body>
+<nav class="topnav"><a href="./">← 一覧</a></nav>
+<div class="container">
+
+<h1 id="cloudflare-pagesweb">Cloudflare Pagesで静的ファイルをアップロードしてWebページとして公開する</h1>
+<p>Cloudflare PagesでHTML・CSS・JavaScriptなどの静的ファイルをそのままアップロードして簡易デプロイする。</p>
+<nav class="toc">
+<ul><li><a href="#1-cloudflare-pagesweb">1. Cloudflare PagesにWebページをサクッと公開する</a><ul><li><a href="#1-1-cloudflare">1-1. Cloudflareアカウントを作る</a></li><li><a href="#1-2">1-2. アップするファイルを準備する</a></li><li><a href="#1-3-cloudflare-pages">1-3. Cloudflare Pagesにアップロードしてデプロイ</a></li></ul></li><li><a href="#2-claude-code-web">2. 【発展編】Claude Code で簡単なWebアプリを作成してサクッと公開する</a></li><li><a href="#3">3. 次のステップ</a></li></ul>
+</nav>
+<h2 id="1-cloudflare-pagesweb">1. Cloudflare PagesにWebページをサクッと公開する</h2>
+<p><a href="images/cf-pages-3-cftop.jpg" target="_blank"><img src="images/cf-pages-3-cftop.jpg" alt="Cloudflare サイトトップ" width="400"></a></p>
+<h3 id="1-1-cloudflare">1-1. Cloudflareアカウントを作る</h3>
+<ul>
+<li><a href="https://www.cloudflare.com/ja-jp/">Cloudflareのサイト</a>にアクセスして <strong>無料で始める</strong> をクリック、または右上の <strong>ログイン</strong> → <strong>Sign up</strong></li>
+<li>Googleアカウントがあればそれでサインアップすると楽</li>
+</ul>
+<p><a href="images/cf-pages-3-signup.jpg" target="_blank"><img src="images/cf-pages-3-signup.jpg" alt="Sign up by Google" width="400"></a></p>
+<h3 id="1-2">1-2. アップするファイルを準備する</h3>
+<ul>
+<li>Finderでデスクトップに作業用フォルダ（例えば "cf"）を作成する。</li>
+<li>そこに新規ファイル <code>index.html</code> を作る。</li>
+<li><code>index.html</code> をテキストエディタで開く<ul>
+<li>例えば、<code>index.html</code> を二本指タップ（右クリック）して、<strong>このアプリケーションで開く</strong> → <strong>テキストエディット</strong></li>
+</ul>
+</li>
+<li>下記を貼り付けて保存する</li>
+</ul>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;ja&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;My First Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;Hello World!&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="1-3-cloudflare-pages">1-3. Cloudflare Pagesにアップロードしてデプロイ</h3>
+<ul>
+<li>Cloudflareのダッシュボードの左メニューの <strong>Compute</strong> → <strong>Workers &amp; Pages</strong> をクリック</li>
+<li>右上にある <strong>Create application</strong> をクリック</li>
+<li><strong>Upload your static files</strong> をクリック</li>
+</ul>
+<p><a href="images/cf-static-ship.jpg" target="_blank"><img src="images/cf-static-ship.jpg" alt="Upload your static files" width="400"></a></p>
+<ul>
+<li><strong>Drag in or click to upload a file or folder</strong> と書かれたエリアに、さっき作った <code>index.html</code> をドラッグ＆ドロップする</li>
+</ul>
+<p><a href="images/cf-static-dd.jpg" target="_blank"><img src="images/cf-static-dd.jpg" alt="drag and drop area" width="400"></a></p>
+<ul>
+<li><strong>Deploy</strong> をクリックする</li>
+</ul>
+<p><a href="images/cf-static-deploy.jpg" target="_blank"><img src="images/cf-static-deploy.jpg" alt="Deploy" width="400"></a></p>
+<ul>
+<li>プロジェクトページになる。上に公開URLが出ている。URLの形式は、<code>https://プロジェクト名.アカウントID.workers.dev</code> である。</li>
+</ul>
+<p><a href="images/cf-static-kanri.jpg" target="_blank"><img src="images/cf-static-kanri.jpg" alt="管理画面" width="400"></a></p>
+<ul>
+<li>そのページに行ってみると、Hello World! と表示されているのが確認できる</li>
+</ul>
+<p>なお、ファイルだけでなく、フォルダごとアップロードもできる。
+画像ファイルもアップできるのでウェブサイトがまるっとホスティングできる。</p>
+<p>サイトを更新するには:</p>
+<ul>
+<li>プロジェクトページの右上の <strong>New deployment</strong> ボタンをクリック</li>
+<li>アップロードのページが開くのでまたそこにドラッグ＆ドロップ</li>
+<li><strong>Deploy</strong> をクリックすれば完了</li>
+</ul>
+<p>更新時の注意:</p>
+<ul>
+<li>これまでのファイルは消えて、新たにアップロードしたものが入る</li>
+<li>過去のものにロールバックはできる（プロジェクトページのタブ <strong>Deployments</strong> をクリック）</li>
+</ul>
+<h2 id="2-claude-code-web">2. 【発展編】Claude Code で簡単なWebアプリを作成してサクッと公開する</h2>
+<p><strong>必要なもの:</strong> Claude Desktop アプリ, Claude の有料プラン（Claude Pro でOK）</p>
+<p>デスクトップ版Claudeアプリを起動。</p>
+<p><strong>Code</strong>（Claude Code）を選択 → <strong>New session</strong> をクリック → 作業ディレクトリを指定（<code>~/Desktop/cf</code>）</p>
+<p>あとはプロンプトを入力して、<code>index.html</code> を編集する。</p>
+<p>プロンプト例:</p>
+<ul>
+<li><code>HTML+JavaScriptでポモドーロタイマーを作って！ 1つのファイルにしてindex.htmlに上書きして。</code></li>
+<li><code>複利計算機をHTML+JavaScriptで作って！ 構成はHTMLファイル(index.html)が1つ。</code></li>
+</ul>
+<p><a href="images/cf-static-app.jpg" target="_blank"><img src="images/cf-static-app.jpg" alt="Claude Desktop App" width="400"></a></p>
+<p>なお、途中でファイル操作の許可を求められることがあるので、その都度許可する。</p>
+<p>完成した <code>index.html</code> を「1-3. Cloudflare Pagesにアップロードしてデプロイ」の手順でデプロイして、公開URLを確認する。</p>
+<p><a href="images/cf-static-cc.jpg" target="_blank"><img src="images/cf-static-cc.jpg" alt="複利計算機" width="400"></a></p>
+<h2 id="3">3. 次のステップ</h2>
+<p>このハンズオンでは、静的ファイルを手動でアップロードしてデプロイする方法を学んだ。さらに進みたい場合は以下を参考に。</p>
+<ul>
+<li><a href="github-guide-first-step.html">GitHub初心者ガイド</a> — コードをGitHubで管理する方法を学ぶ。バージョン管理の基本から始めたい人向け。</li>
+<li><a href="claude-code-web-app-cloudflare-pages.html">Claude CodeでWebアプリを作ってCloudflare Pagesで公開するバイブコーディングハンズオン</a> — GitHubと連携した本格的なデプロイフローにステップアップ。</li>
+</ul>
+<hr />
+<p>2026-05-04 (last updated: 2026-05-05)　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
+
+</div>
+</body>
+</html>

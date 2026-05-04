@@ -410,4 +410,4 @@ Claude Codeデスクトップアプリを使っている場合はアプリ内ブ
 
 ---
 
-2026-05-02 (last updated: 2026-05-03)　タツヲ ([yto](https://x.com/yto))
+2026-05-02 (last updated: 2026-05-04)　タツヲ ([yto](https://x.com/yto))
