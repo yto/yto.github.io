@@ -1,6 +1,6 @@
 # Cloudflare Pagesで静的ファイルをアップロードしてWebページとして公開する
 
-Cloudflare PagesでHTML・CSS・JavaScriptなどの静的ファイルをそのままアップロードして簡易デプロイする。
+Cloudflare PagesでHTML・CSS・JavaScriptなどの静的ファイルをそのままアップロードして簡易デプロイ（本番環境への公開・反映）する。
 
 ## 1. Cloudflare PagesにWebページをサクッと公開する
 
