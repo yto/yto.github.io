@@ -146,6 +146,7 @@
 <li><code>複利計算機をHTML+JavaScriptで作って！ 構成はHTMLファイル(index.html)が1つ。</code></li>
 </ul>
 <p>右上のところからプレビューを選ぶと表示される（自動で表示されることも）。</p>
+<p><a href="images/claude-github-4-a.jpg" target="_blank"><img src="images/claude-github-4-a.jpg" alt="claude-github-4-a.jpg" width="400"></a></p>
 <p>なお、途中いろいろ許可を求めてくるので対応する。</p>
 <h2 id="5-web">5. 作ったWebアプリをアップして公開する（デプロイ）</h2>
 <p>Claude Codeに依頼する：<code>変更をgitでコミットしてpushして（初回のため git push -u origin main で）</code></p>
@@ -170,6 +171,12 @@
 <h2 id="7">7. その先のこと</h2>
 <h3 id="7-1-pwaweb">7-1. PWA（スマホアプリのように使えるWebアプリ）にする</h3>
 <p>作ったWebアプリをPWA（Progressive Web App）にすると、スマートフォンのホーム画面に追加してネイティブアプリのように起動できるようになる。</p>
+<p><a href="images/claude-github-7-1-a.jpg" target="_blank"><img src="images/claude-github-7-1-a.jpg" alt="claude-github-7-1-a.jpg" width="320"></a></p>
+<p>PWAの動作方式は色々あるが、たとえばこのような方式がおすすめ：</p>
+<ul>
+<li>アクセスするたびに新しいバージョンがあるか確認し、あれば自動更新</li>
+<li>ネットに繋がっていないときはキャッシュ（前回読み込んだデータ）を使って動作</li>
+</ul>
 <p>「manifest.json」と「Service Worker」というファイルを追加するだけで実現できる。Claude Codeに <code>このWebアプリをPWAにしたい。アクセスのたびにバージョンチェックして更新し、オフラインはキャッシュで動くようにしたい。</code> と相談してみよう。</p>
 <h3 id="7-2">7-2. みんなで使う（共有型）アプリを作る</h3>
 <p>チャットやランキング機能など、データを保存・共有するアプリを作る場合はサーバーやデータベースが必要。
