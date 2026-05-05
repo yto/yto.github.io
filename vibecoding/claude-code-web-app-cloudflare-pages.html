@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude CodeでWebアプリを作ってGitHub連携でCloudflare Pagesに公開する</title>
+  <title>Claude CodeでWebアプリを作ってGitHub連携でCloudflareに公開する</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
@@ -43,8 +43,11 @@
 <nav class="topnav"><a href="./">← 一覧</a></nav>
 <div class="container">
 
-<h1 id="claude-codewebgithubcloudflare-pages">Claude CodeでWebアプリを作ってGitHub連携でCloudflare Pagesに公開する</h1>
+<h1 id="claude-codewebgithubcloudflare">Claude CodeでWebアプリを作ってGitHub連携でCloudflareに公開する</h1>
 <p>今回のハンズオンでは、一人完結型Webアプリ（<a href="webapp-two-types.html">参考</a>）を作ります。シンプルな構成なので、ゼロから公開まで一気に進められます。</p>
+<blockquote>
+<p><strong>注意:</strong> Cloudflare Pages は現在移行期にあり、画面上の用語や公開URLの形式が本文と異なる場合があります。Workers と表示されたり、<code>workers.dev</code> のURLが発行されたりしても、実装や公開自体は通常どおり行えます。Cloudflare側の情報が明確になり次第、この文書は書き換える予定です。</p>
+</blockquote>
 <nav class="toc">
 <ul><li><a href="#1-githubgit">1. GitHub・Gitの準備</a></li><li><a href="#2-cloudflare-pages">2. Cloudflare Pagesの設定</a><ul><li><a href="#2-1-cloudflare">2-1. Cloudflareアカウントを作る</a></li><li><a href="#2-2-cloudflare-pagesgithub">2-2. Cloudflare PagesとGitHubを連携する</a></li><li><a href="#2-3">2-3. デプロイ設定をして初回デプロイ</a></li><li><a href="#2-4-url">2-4. 公開URLを確認する</a></li></ul></li><li><a href="#3-claude-code-web">3. Claude Code でWebアプリを作成</a></li><li><a href="#4-web">4. 作ったWebアプリをアップして公開する（デプロイ）</a></li><li><a href="#5-web">5. Webアプリの修正と反映</a></li><li><a href="#6-tips">6. Tips</a><ul><li><a href="#_1">プロンプトの工夫</a></li><li><a href="#pwaweb">PWA（スマホアプリのように使えるWebアプリ）にする</a></li></ul></li><li><a href="#7">7. 次のステップ</a></li></ul>
 </nav>

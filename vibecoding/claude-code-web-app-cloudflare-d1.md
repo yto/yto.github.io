@@ -2,6 +2,8 @@
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
+> 本資料の Cloudflare Pages / Pages Functions という表現は、今後 Workers 側の表現に変わる可能性があります。
+
 このハンズオンを始める前に、[Cloudflare構成ガイド](cloudflare-architecture-guide.html)を必ず読んでおくこと。また、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)も完了しておくこと。
 
 

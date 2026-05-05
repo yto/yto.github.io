@@ -1,6 +1,8 @@
-# Cloudflare PagesにHTMLファイルをアップロードしてWebアプリとして公開する
+# CloudflareにHTMLファイルをアップロードしてWebアプリとして公開する
 
 Cloudflare PagesでHTML・CSS・JavaScriptなどの静的ファイルをそのままアップロードして簡易デプロイ（本番環境への公開・反映）する。
+
+> **注意:** Cloudflare Pages は現在移行期にあり、画面上の用語や公開URLの形式が本文と異なる場合があります。Workers と表示されたり、`workers.dev` のURLが発行されたりしても、実装や公開自体は通常どおり行えます。Cloudflare側の情報が明確になり次第、この文書は書き換える予定です。
 
 ## 1. Cloudflare PagesにWebページをサクッと公開する
 

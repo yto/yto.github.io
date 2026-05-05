@@ -7,6 +7,8 @@
 
 この文書では、そのようなWebアプリを個人・小規模で作るためにおすすめの構成を紹介する。構成の全体像と、それぞれの役割を理解することが目的。実際の設定手順や導入方法は、別途[ハンズオン資料](claude-code-web-app-cloudflare-d1.html)で説明する。
 
+> 本資料の Cloudflare Pages / Pages Functions という表現は、今後 Workers 側の表現に変わる可能性があります。
+
 この文書を読む前に、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)を読んでおくことをおすすめする。
 
 

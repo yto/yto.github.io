@@ -1,6 +1,8 @@
-# Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する
+# Claude CodeでWebアプリを作ってWranglerでCloudflareに公開する
 
 [前回のハンズオン](cloudflare-pages-static-files.html)では、Cloudflareに静的ファイルをドラッグ＆ドロップしてWebページをデプロイ（本番環境への公開・反映）した。今回はその発展として、コマンド操作（CLI）でデプロイできるようになることを目指す。これにより、Claude Codeにデプロイ依頼ができ、開発作業がはかどる。
+
+> **注意:** Cloudflare Pages は現在移行期にあり、画面上の用語や公開URLの形式が本文と異なる場合があります。Workers と表示されたり、`workers.dev` のURLが発行されたりしても、実装や公開自体は通常どおり行えます。Cloudflare側の情報が明確になり次第、この文書は書き換える予定です。
 
 ## 1. Node.js と Wrangler のセットアップ
 

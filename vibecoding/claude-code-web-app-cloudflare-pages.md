@@ -1,6 +1,8 @@
-# Claude CodeでWebアプリを作ってGitHub連携でCloudflare Pagesに公開する
+# Claude CodeでWebアプリを作ってGitHub連携でCloudflareに公開する
 
 今回のハンズオンでは、一人完結型Webアプリ（[参考](webapp-two-types.html)）を作ります。シンプルな構成なので、ゼロから公開まで一気に進められます。
+
+> **注意:** Cloudflare Pages は現在移行期にあり、画面上の用語や公開URLの形式が本文と異なる場合があります。Workers と表示されたり、`workers.dev` のURLが発行されたりしても、実装や公開自体は通常どおり行えます。Cloudflare側の情報が明確になり次第、この文書は書き換える予定です。
 
 ## 1. GitHub・Gitの準備
 

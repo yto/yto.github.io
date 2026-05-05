@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する</title>
+  <title>Claude CodeでWebアプリを作ってWranglerでCloudflareに公開する</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
@@ -43,8 +43,11 @@
 <nav class="topnav"><a href="./">← 一覧</a></nav>
 <div class="container">
 
-<h1 id="claude-codewebwranglercloudflare-pages">Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する</h1>
+<h1 id="claude-codewebwranglercloudflare">Claude CodeでWebアプリを作ってWranglerでCloudflareに公開する</h1>
 <p><a href="cloudflare-pages-static-files.html">前回のハンズオン</a>では、Cloudflareに静的ファイルをドラッグ＆ドロップしてWebページをデプロイ（本番環境への公開・反映）した。今回はその発展として、コマンド操作（CLI）でデプロイできるようになることを目指す。これにより、Claude Codeにデプロイ依頼ができ、開発作業がはかどる。</p>
+<blockquote>
+<p><strong>注意:</strong> Cloudflare Pages は現在移行期にあり、画面上の用語や公開URLの形式が本文と異なる場合があります。Workers と表示されたり、<code>workers.dev</code> のURLが発行されたりしても、実装や公開自体は通常どおり行えます。Cloudflare側の情報が明確になり次第、この文書は書き換える予定です。</p>
+</blockquote>
 <nav class="toc">
 <ul><li><a href="#1-nodejs-wrangler">1. Node.js と Wrangler のセットアップ</a><ul><li><a href="#nodejs">Node.js のインストール</a></li><li><a href="#wrangler">Wrangler のインストールとログイン</a></li></ul></li><li><a href="#2">2. 作業場所を確保する</a></li><li><a href="#3-claude-codeweb">3. Claude CodeでWebアプリを作る</a></li><li><a href="#4-cloudflare-pages">4. Cloudflare Pagesにデプロイ</a></li><li><a href="#5">5. 修正して再デプロイ</a></li><li><a href="#6">6. 次のステップ</a></li></ul>
 </nav>

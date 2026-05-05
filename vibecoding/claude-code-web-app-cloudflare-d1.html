@@ -46,6 +46,9 @@
 <h1 id="claude-codedbwebcloudflare">Claude CodeでDB付きWebアプリを作ってCloudflareで公開する</h1>
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
+<blockquote>
+<p>本資料の Cloudflare Pages / Pages Functions という表現は、今後 Workers 側の表現に変わる可能性があります。</p>
+</blockquote>
 <p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおくこと。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておくこと。</p>
 <nav class="toc">
 <ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作る</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">全体構成の復習</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</a></li><li><a href="#4-wranglertoml-packagejson">4. wrangler.toml と package.json の作成</a></li><li><a href="#5-d1">5. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#6">6. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#7-pages-functionsapi">7. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#8">8. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#9-github-actions">9. GitHub Actions ワークフローの作成</a></li><li><a href="#10">10. 初回デプロイ</a></li><li><a href="#11">11. 日常の開発フロー</a></li><li><a href="#12">12. 備忘録</a></li></ul>
