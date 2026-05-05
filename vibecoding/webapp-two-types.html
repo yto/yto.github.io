@@ -50,18 +50,24 @@
 </nav>
 <h2 id="2">データの置き場所で決まる2つのタイプ</h2>
 <h3 id="_1">一人完結型</h3>
-<p>データはブラウザの中（端末ごと）に保存される。自分一人で使うことを前提としたシンプルな構成で、URLを共有すれば他の人も同じアプリを使えるが、お互いのデータは完全に独立している。「アプリを共有する」ことと「データを共有する」ことは別の話だ。</p>
+<p>データは端末（スマホやPC）ごとにブラウザの中に保存される。自分一人で使うことを前提としたシンプルな構成で、URLを共有すれば他の人も同じアプリを使えるが、お互いのデータは完全に独立している。「アプリを共有する」ことと「データを共有する」ことは別の話だ。</p>
 <p>例：TODOリスト、メモ帳、家計簿、ポモドーロタイマー、単語帳</p>
 <h3 id="_2">共有型</h3>
 <p>データはインターネット上の外部システムに保存される。複数のユーザーや端末からアクセスでき、データを共有・参照できる。</p>
 <p>例：チャット、SNS、ランキング、共同編集ツール</p>
 <hr />
 <h2 id="_3">必要な技術要素の違い</h2>
-<p>この2つのタイプは、データの置き場所の違いによって、必要な技術要素が大きく変わる。</p>
+<p>この2つのタイプは、データの置き場所が異なるため、必要な技術要素が大きく変わる。</p>
+<blockquote>
+<p><strong>フロントエンド</strong> — ブラウザ上で動く、ユーザーが直接見て触る部分。HTML / CSS / JavaScript で作られる。
+<strong>バックエンド</strong> — データの受け取り・処理・保存を担う仕組み。ユーザーからは見えない。
+<strong>API</strong> — フロントエンドとバックエンドがデータをやり取りするための窓口。
+<strong>ホスティング</strong> — Webアプリのファイルをインターネット上に公開・配信すること。</p>
+</blockquote>
 <h3 id="_4">一人完結型</h3>
 <ul>
 <li><strong>フロントエンド</strong>: HTML / CSS / JavaScript のみ</li>
-<li><strong>データ保存</strong>: ブラウザの <code>localStorage</code> または <code>IndexedDB</code></li>
+<li><strong>データ保存</strong>: ブラウザに内蔵された保存機能（localStorage / IndexedDB）を使う</li>
 <li><strong>ホスティング</strong>: 静的ファイルを置くだけでよい（Cloudflare Pages など）</li>
 </ul>
 <p>バックエンド（データの処理や保存を担う仕組み）が不要なため、構成はシンプルだ。Claude Codeに頼んで作ったファイルをそのままデプロイ（本番環境への公開・反映）すれば動く。</p>
@@ -89,7 +95,7 @@
 <a href="https://yto.github.io/vibecoding/">本サイト</a>のハンズオンを上から順番に進めていくのがおすすめ。
 例として、一人完結型と共有型のハンズオンを一つずつあげておく。</p>
 <ul>
-<li><a href="claude-code-cloudflare-pages-wrangler.html">Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する</a> — 一人完結型の典型的なパターン</li>
+<li><a href="cloudflare-pages-static-files.html">Cloudflare PagesにHTMLファイルをアップロードしてWebアプリとして公開する</a> — 一人完結型の一番簡単なパターン</li>
 <li><a href="claude-code-web-app-cloudflare-d1.html">Claude CodeでDB付きWebアプリを作ってCloudflareで公開する</a> — 共有型にステップアップ</li>
 </ul>
 <hr />

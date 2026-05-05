@@ -2,42 +2,42 @@
 
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
-このハンズオンを始める前に、[Cloudflare構成ガイド](cloudflare-architecture-guide.html)を必ず読んでおいてください。また、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)も完了しておいてください。
+このハンズオンを始める前に、[Cloudflare構成ガイド](cloudflare-architecture-guide.html)を必ず読んでおくこと。また、[GitHub初心者ガイド](github-guide-first-step.html)と[Cloudflare Pagesハンズオン](claude-code-web-app-cloudflare-pages.html)も完了しておくこと。
 
 
 ## 1. このハンズオンで作るもの
 
-Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開します。みんなが一緒に使えるアプリです。
+Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開する。みんなが一緒に使えるアプリだ。
 
-### 匿名一行掲示板を作ります
+### 匿名一行掲示板を作る
 
-このハンズオンではサンプルとして、**匿名一行掲示板**を作っていきます。   
+このハンズオンではサンプルとして、**匿名一行掲示板**を作っていく。   
 仕様：
 
-- 名前の入力不要。書き込むだけで投稿できます
-- 書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られます
-- 同じブラウザから書き込むと、次回以降も同じ会員番号が使われます
-- みんなの投稿を一覧表示します
+- 名前の入力不要。書き込むだけで投稿できる
+- 書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られる
+- 同じブラウザから書き込むと、次回以降も同じ会員番号が使われる
+- みんなの投稿を一覧表示する
 
 <a href="images/cf-d1-bbs.jpg" target="_blank"><img src="images/cf-d1-bbs.jpg" alt="匿名一行掲示板 作例" width="400"></a>
 
 
 ### Claude Codeに丸投げせず、理解しながら進める
 
-「みんなが書き込める匿名掲示板を作って」の一言でコードはほぼできます。試しに作ってみる練習作や使い捨てならそれで十分です。
+「みんなが書き込める匿名掲示板を作って」の一言でコードはほぼできる。試しに作ってみる練習作や使い捨てならそれで十分。
 
-ただ、実際に使い続けるものを作るとなると、DBやAPIが絡んでくるので全体像の理解が欠かせません。
+ただ、実際に使い続けるものを作るとなると、DBやAPIが絡んでくるので全体像の理解が欠かせない。
 
-まず、全体像を理解していないと、Claude Codeに頼めない手作業——GitHubのSecrets登録などのダッシュボード操作——が何のためのものかわからなくなり、トラブルの時に困ります。
+まず、全体像を理解していないと、Claude Codeに頼めない手作業——GitHubのSecrets登録などのダッシュボード操作——が何のためのものかわからなくなり、トラブル時に困る。
 
-逆に、全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できます。
+逆に、全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できる。
 
-ということで、このハンズオンの方針は「Claude Codeに丸投げせず、理解しながら進める」です。
+ということで、「Claude Codeに丸投げせず、理解しながら進める」がこのハンズオンの方針である。
 
 
 ### 全体構成の復習
 
-このハンズオンで使う構成を整理しておきます（詳細は[Cloudflare構成ガイド](cloudflare-architecture-guide.html)）。
+このハンズオンで使う構成を整理しておく（詳細は[Cloudflare構成ガイド](cloudflare-architecture-guide.html)）。
 
 | 役割 | Cloudflareのサービス |
 |---|---|
@@ -45,11 +45,11 @@ Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudfl
 | バックエンド（API処理） | Cloudflare Pages Functions |
 | データベース | Cloudflare D1 |
 
-GitHubにpushすると、**GitHub Actions**がD1のマイグレーション（データベース構造の管理）からPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行します。
+GitHubにpushすると、**GitHub Actions**がD1のマイグレーション（データベース構造の管理）からPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行する。
 
-**Wrangler**はCloudflare公式のCLIツールで、ローカルとGitHub Actionsの両方で使われます。ローカルではD1データベースの作成・ログイン・開発プレビューに使い、GitHub Actionsではpushのたびにマイグレーションとデプロイを自動実行します。
+**Wrangler**はCloudflare公式のCLIツールで、ローカルとGitHub Actionsの両方で使われる。ローカルではD1データベースの作成・ログイン・開発プレビューに使い、GitHub Actionsではpushのたびにマイグレーションとデプロイを自動実行する。
 
-この構成を念頭に置いて進めると、各章で「今何をやっているのか」がわかりやすくなります：
+この構成を念頭に置いて進めると、各章で「今何をやっているのか」がわかりやすくなる：
 
 - **2章**：GitHub ActionsがCloudflareを操作するための認証情報（APIトークン）を用意
 - **3章**：Node.js と Wrangler をインストールしてログイン。ローカル開発・D1操作・GitHub Actions、すべての基盤

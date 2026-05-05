@@ -46,30 +46,30 @@
 <h1 id="claude-codedbwebcloudflare">Claude CodeでDB付きWebアプリを作ってCloudflareで公開する</h1>
 <p class="subtitle">Cloudflare Pages + Pages Functions + D1 実践ガイド</p>
 
-<p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
+<p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおくこと。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておくこと。</p>
 <nav class="toc">
-<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作ります</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">全体構成の復習</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</a></li><li><a href="#4-wranglertoml-packagejson">4. wrangler.toml と package.json の作成</a></li><li><a href="#5-d1">5. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#6">6. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#7-pages-functionsapi">7. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#8">8. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#9-github-actions">9. GitHub Actions ワークフローの作成</a></li><li><a href="#10">10. 初回デプロイ</a></li><li><a href="#11">11. 日常の開発フロー</a></li><li><a href="#12">12. 備忘録</a></li></ul>
+<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作る</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">全体構成の復習</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</a></li><li><a href="#4-wranglertoml-packagejson">4. wrangler.toml と package.json の作成</a></li><li><a href="#5-d1">5. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#6">6. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#7-pages-functionsapi">7. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#8">8. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#9-github-actions">9. GitHub Actions ワークフローの作成</a></li><li><a href="#10">10. 初回デプロイ</a></li><li><a href="#11">11. 日常の開発フロー</a></li><li><a href="#12">12. 備忘録</a></li></ul>
 </nav>
 <h2 id="1">1. このハンズオンで作るもの</h2>
-<p>Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開します。みんなが一緒に使えるアプリです。</p>
-<h3 id="_1">匿名一行掲示板を作ります</h3>
-<p>このハンズオンではサンプルとして、<strong>匿名一行掲示板</strong>を作っていきます。 <br />
+<p>Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開する。みんなが一緒に使えるアプリだ。</p>
+<h3 id="_1">匿名一行掲示板を作る</h3>
+<p>このハンズオンではサンプルとして、<strong>匿名一行掲示板</strong>を作っていく。 <br />
 仕様：</p>
 <ul>
-<li>名前の入力不要。書き込むだけで投稿できます</li>
-<li>書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られます</li>
-<li>同じブラウザから書き込むと、次回以降も同じ会員番号が使われます</li>
-<li>みんなの投稿を一覧表示します</li>
+<li>名前の入力不要。書き込むだけで投稿できる</li>
+<li>書き込んだ人には自動的に「会員1号」「会員2号」と番号が割り振られる</li>
+<li>同じブラウザから書き込むと、次回以降も同じ会員番号が使われる</li>
+<li>みんなの投稿を一覧表示する</li>
 </ul>
 <p><a href="images/cf-d1-bbs.jpg" target="_blank"><img src="images/cf-d1-bbs.jpg" alt="匿名一行掲示板 作例" width="400"></a></p>
 <h3 id="claude-code">Claude Codeに丸投げせず、理解しながら進める</h3>
-<p>「みんなが書き込める匿名掲示板を作って」の一言でコードはほぼできます。試しに作ってみる練習作や使い捨てならそれで十分です。</p>
-<p>ただ、実際に使い続けるものを作るとなると、DBやAPIが絡んでくるので全体像の理解が欠かせません。</p>
-<p>まず、全体像を理解していないと、Claude Codeに頼めない手作業——GitHubのSecrets登録などのダッシュボード操作——が何のためのものかわからなくなり、トラブルの時に困ります。</p>
-<p>逆に、全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できます。</p>
-<p>ということで、このハンズオンの方針は「Claude Codeに丸投げせず、理解しながら進める」です。</p>
+<p>「みんなが書き込める匿名掲示板を作って」の一言でコードはほぼできる。試しに作ってみる練習作や使い捨てならそれで十分。</p>
+<p>ただ、実際に使い続けるものを作るとなると、DBやAPIが絡んでくるので全体像の理解が欠かせない。</p>
+<p>まず、全体像を理解していないと、Claude Codeに頼めない手作業——GitHubのSecrets登録などのダッシュボード操作——が何のためのものかわからなくなり、トラブル時に困る。</p>
+<p>逆に、全体像を理解した上でClaude Codeと一緒にステップバイステップで進めると、構成のパターンが身につき、「次は〇〇を作りたい」となったときにも応用できる。</p>
+<p>ということで、「Claude Codeに丸投げせず、理解しながら進める」がこのハンズオンの方針である。</p>
 <h3 id="_2">全体構成の復習</h3>
-<p>このハンズオンで使う構成を整理しておきます（詳細は<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>）。</p>
+<p>このハンズオンで使う構成を整理しておく（詳細は<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>）。</p>
 <table>
 <thead>
 <tr>
@@ -92,9 +92,9 @@
 </tr>
 </tbody>
 </table>
-<p>GitHubにpushすると、<strong>GitHub Actions</strong>がD1のマイグレーション（データベース構造の管理）からPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行します。</p>
-<p><strong>Wrangler</strong>はCloudflare公式のCLIツールで、ローカルとGitHub Actionsの両方で使われます。ローカルではD1データベースの作成・ログイン・開発プレビューに使い、GitHub Actionsではpushのたびにマイグレーションとデプロイを自動実行します。</p>
-<p>この構成を念頭に置いて進めると、各章で「今何をやっているのか」がわかりやすくなります：</p>
+<p>GitHubにpushすると、<strong>GitHub Actions</strong>がD1のマイグレーション（データベース構造の管理）からPages・Pages Functionsのデプロイ（本番環境への公開・反映）まで一括で実行する。</p>
+<p><strong>Wrangler</strong>はCloudflare公式のCLIツールで、ローカルとGitHub Actionsの両方で使われる。ローカルではD1データベースの作成・ログイン・開発プレビューに使い、GitHub Actionsではpushのたびにマイグレーションとデプロイを自動実行する。</p>
+<p>この構成を念頭に置いて進めると、各章で「今何をやっているのか」がわかりやすくなる：</p>
 <ul>
 <li><strong>2章</strong>：GitHub ActionsがCloudflareを操作するための認証情報（APIトークン）を用意</li>
 <li><strong>3章</strong>：Node.js と Wrangler をインストールしてログイン。ローカル開発・D1操作・GitHub Actions、すべての基盤</li>
