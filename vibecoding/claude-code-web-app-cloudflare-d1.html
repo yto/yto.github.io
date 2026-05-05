@@ -48,7 +48,7 @@
 
 <p>このハンズオンを始める前に、<a href="cloudflare-architecture-guide.html">Cloudflare構成ガイド</a>を必ず読んでおいてください。また、<a href="github-guide-first-step.html">GitHub初心者ガイド</a>と<a href="claude-code-web-app-cloudflare-pages.html">Cloudflare Pagesハンズオン</a>も完了しておいてください。</p>
 <nav class="toc">
-<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作ります</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">全体構成の復習</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</a><ul><li><a href="#nodejs">Node.js のインストール</a></li><li><a href="#wrangler">Wrangler のインストールとログイン</a></li></ul></li><li><a href="#4-wranglertoml-packagejson">4. wrangler.toml と package.json の作成</a></li><li><a href="#5-d1">5. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#6">6. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#7-pages-functionsapi">7. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#8">8. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#9-github-actions">9. GitHub Actions ワークフローの作成</a></li><li><a href="#10">10. 初回デプロイ</a></li><li><a href="#11">11. 日常の開発フロー</a></li><li><a href="#12">12. 備忘録</a></li></ul>
+<ul><li><a href="#1">1. このハンズオンで作るもの</a><ul><li><a href="#_1">匿名一行掲示板を作ります</a></li><li><a href="#claude-code">Claude Codeに丸投げせず、理解しながら進める</a></li><li><a href="#_2">全体構成の復習</a></li></ul></li><li><a href="#2">2. 事前準備（初回のみ・ブラウザ操作）</a><ul><li><a href="#github">GitHubでリポジトリを作成</a></li><li><a href="#cloudflareaccount-id">CloudflareでAccount IDを確認</a></li><li><a href="#cloudflareapi">CloudflareでAPIトークンを作成</a></li><li><a href="#githubsecrets">GitHubにSecretsを登録</a></li></ul></li><li><a href="#3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</a></li><li><a href="#4-wranglertoml-packagejson">4. wrangler.toml と package.json の作成</a></li><li><a href="#5-d1">5. 【データベース】D1データベースを作成（初回のみ）</a></li><li><a href="#6">6. 【データベース】スキーマ設計とマイグレーションファイル</a></li><li><a href="#7-pages-functionsapi">7. 【バックエンド】Pages Functions（API）の作成</a></li><li><a href="#8">8. 【フロントエンド】フロントエンドの作成</a></li><li><a href="#9-github-actions">9. GitHub Actions ワークフローの作成</a></li><li><a href="#10">10. 初回デプロイ</a></li><li><a href="#11">11. 日常の開発フロー</a></li><li><a href="#12">12. 備忘録</a></li></ul>
 </nav>
 <h2 id="1">1. このハンズオンで作るもの</h2>
 <p>Claude Codeで、DB付きのWebアプリをフルスタック開発してCloudflareで公開します。みんなが一緒に使えるアプリです。</p>
@@ -153,25 +153,9 @@
 </table>
 <hr />
 <h2 id="3-nodejs-wrangler">3. Node.js と Wrangler のセットアップ</h2>
-<p>この章ではローカルマシンに Wrangler をインストールする。Wrangler は初期セットアップ（D1データベースの作成・Cloudflareへのログインなど）や、開発中のローカルプレビュー・データベース操作に使う。なお、Wrangler は Node.js 上で動くため、Node.js も合わせてインストールする。</p>
-<h3 id="nodejs">Node.js のインストール</h3>
-<pre><code class="language-bash"># インストール済みか確認
-node -v
-</code></pre>
-<p>v22以上が表示されればOK（Homebrewなど他の方法で入れていても問題なし）。なにもせずに次に進む。</p>
-<p><code>command not found</code> またはv21以下の場合はインストールが必要となる。
-<a href="https://nodejs.org">Node.js 公式サイト</a>を開き、<strong>LTS版</strong> の <strong>macOS 64-bit Installer</strong>（<code>.pkg</code>ファイル）をダウンロードしてインストールする。インストール後に <code>npm</code> と <code>npx</code> が使えるようになる。</p>
-<p><a href="images/cf-d1-nodejs.jpg" target="_blank"><img src="images/cf-d1-nodejs.jpg" alt="Node.js インストーラー" width="400"></a></p>
-<blockquote>
-<p><strong>LTS（Long Term Support）とは？</strong> 「安定版」のこと。公式サイトに「LTS」と「最新/Current」の2種類があるが、LTS を選ぶのが定番。</p>
-</blockquote>
-<h3 id="wrangler">Wrangler のインストールとログイン</h3>
-<p>WranglerはCloudflareが公式に提供するCLIツール（コマンドラインツール）。
-Cloudflareのセットアップと開発に使う。</p>
-<p>インストール：</p>
-<pre><code class="language-bash">npm install -g wrangler
-</code></pre>
-<p>WranglerでCloudflareにログイン：</p>
+<p>Wrangler は初期セットアップ（D1データベースの作成・Cloudflareへのログインなど）や、開発中のローカルプレビュー・データベース操作に使う。Wrangler は Node.js 上で動くため、Node.js も必要となる。</p>
+<p>インストールされてなければ、<a href="claude-code-cloudflare-pages-wrangler.html">こちらの手順</a>でインストールする。</p>
+<p>完了したら、WranglerでCloudflareにログイン：</p>
 <pre><code class="language-bash">wrangler login
 </code></pre>
 <p>ブラウザが開いてCloudflareのOAuth認証画面が表示される。承認するとCLIから操作できるようになる。</p>

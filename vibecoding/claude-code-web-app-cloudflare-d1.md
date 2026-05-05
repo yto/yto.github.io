@@ -102,36 +102,11 @@ GitHubリポジトリ → **Settings** → **Secrets and variables** → **Actio
 
 ## 3. Node.js と Wrangler のセットアップ
 
-この章ではローカルマシンに Wrangler をインストールする。Wrangler は初期セットアップ（D1データベースの作成・Cloudflareへのログインなど）や、開発中のローカルプレビュー・データベース操作に使う。なお、Wrangler は Node.js 上で動くため、Node.js も合わせてインストールする。
+Wrangler は初期セットアップ（D1データベースの作成・Cloudflareへのログインなど）や、開発中のローカルプレビュー・データベース操作に使う。Wrangler は Node.js 上で動くため、Node.js も必要となる。
 
-### Node.js のインストール
+インストールされてなければ、[こちらの手順](claude-code-cloudflare-pages-wrangler.html)でインストールする。
 
-```bash
-# インストール済みか確認
-node -v
-```
-
-v22以上が表示されればOK（Homebrewなど他の方法で入れていても問題なし）。なにもせずに次に進む。
-
-`command not found` またはv21以下の場合はインストールが必要となる。
-[Node.js 公式サイト](https://nodejs.org)を開き、**LTS版** の **macOS 64-bit Installer**（`.pkg`ファイル）をダウンロードしてインストールする。インストール後に `npm` と `npx` が使えるようになる。
-
-<a href="images/cf-d1-nodejs.jpg" target="_blank"><img src="images/cf-d1-nodejs.jpg" alt="Node.js インストーラー" width="400"></a>
-
-> **LTS（Long Term Support）とは？** 「安定版」のこと。公式サイトに「LTS」と「最新/Current」の2種類があるが、LTS を選ぶのが定番。
-
-### Wrangler のインストールとログイン
-
-WranglerはCloudflareが公式に提供するCLIツール（コマンドラインツール）。
-Cloudflareのセットアップと開発に使う。
-
-インストール：
-
-```bash
-npm install -g wrangler
-```
-
-WranglerでCloudflareにログイン：
+完了したら、WranglerでCloudflareにログイン：
 
 ```bash
 wrangler login

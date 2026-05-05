@@ -1,4 +1,4 @@
-# Claude CodeでWebページを作ってWranglerでCloudflare Pagesに公開する
+# Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する
 
 [前回のハンズオン](cloudflare-pages-static-files.html)では、Cloudflareに静的ファイルをドラッグ＆ドロップしてWebページをデプロイ（本番環境への公開・反映）した。今回はその発展として、コマンド操作（CLI）でデプロイできるようになることを目指す。これにより、Claude Codeにデプロイ依頼ができ、開発作業がはかどる。
 
@@ -61,13 +61,13 @@ cd ~/Desktop/my-site
 
 > `cd` はフォルダを移動するコマンド
 
-## 3. Claude CodeでWebページを作る
+## 3. Claude CodeでWebアプリを作る
 
 デスクトップ版Claudeアプリを起動。
 
 **Code**（Claude Code）を選択 → **New session** をクリック → 作業ディレクトリを指定（`~/Desktop/my-site`）
 
-下記のプロンプトを実行する:
+下記のプロンプトを実行して、時計Webアプリを作る:
 
 ```
 このフォルダに ./public フォルダを作ってください。
