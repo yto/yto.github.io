@@ -44,27 +44,7 @@
 <div class="container">
 
 <h1 id="claude-codewebgithubcloudflare-pages">Claude CodeでWebアプリを作ってGitHub連携でCloudflare Pagesに公開する</h1>
-<p>AIに話しかけてコードを作る「バイブコーディング」でWebアプリを作ります。<br />
-そして、全世界に公開します。<br />
-アカウント作成からWebアプリ公開まで一気にやりきるのが今回のハンズオンの目標です。</p>
-<p>Webアプリとは、ブラウザで動くアプリのこと。インストール不要で、URLを開くだけで使えます。</p>
-<p>Webアプリには大きく2つのタイプがあります。</p>
-<ul>
-<li>一人完結型<ul>
-<li>データはブラウザ内（端末ごと）に保存されます。自分一人で使うのはもちろん、URLを共有すれば他の人も使えますが、お互いのデータは独立していて見えません。</li>
-<li>例：TODO、メモ帳、個人用ツール、オフライン対応アプリ</li>
-</ul>
-</li>
-<li>共有型<ul>
-<li>データはサーバーに保存されます。基本的にみんなで使う前提です。複数のユーザーや端末からアクセスでき、お互いのデータを共有・参照できます。</li>
-<li>例：SNS、チャット、共同編集、ランキング</li>
-</ul>
-</li>
-</ul>
-<p>違いは「データの本体がどこにあるか」で、この違いによって、アプリの作りやすさも大きく変わります。
-一人完結型はシンプルに作れますが、共有型はデータ管理や通信処理が必要になり、構成が複雑になります。</p>
-<p>今回のハンズオンでは、一人完結型（まずは自分一人が使うアプリ）を作ります。
-シンプルな構成なので、ゼロから公開まで一気に進められます。</p>
+<p>今回のハンズオンでは、一人完結型Webアプリ（<a href="webapp-two-types.html">参考</a>）を作ります。シンプルな構成なので、ゼロから公開まで一気に進められます。</p>
 <nav class="toc">
 <ul><li><a href="#1-githubgit">1. GitHub・Gitの準備</a></li><li><a href="#2-cloudflare-pages">2. Cloudflare Pagesの設定</a><ul><li><a href="#2-1-cloudflare">2-1. Cloudflareアカウントを作る</a></li><li><a href="#2-2-cloudflare-pagesgithub">2-2. Cloudflare PagesとGitHubを連携する</a></li><li><a href="#2-3">2-3. デプロイ設定をして初回デプロイ</a></li><li><a href="#2-4-url">2-4. 公開URLを確認する</a></li></ul></li><li><a href="#3-claude-code-web">3. Claude Code でWebアプリを作成</a></li><li><a href="#4-web">4. 作ったWebアプリをアップして公開する（デプロイ）</a></li><li><a href="#5-web">5. Webアプリの修正と反映</a></li><li><a href="#6">6. その先のこと</a><ul><li><a href="#6-1-pwaweb">6-1. PWA（スマホアプリのように使えるWebアプリ）にする</a></li><li><a href="#6-2">6-2. みんなで使う（共有型）アプリを作る</a></li></ul></li><li><a href="#7-tips">7. Tips</a></li></ul>
 </nav>
