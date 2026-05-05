@@ -412,4 +412,4 @@ echo "node_modules/" >> .gitignore
 macOSでは `.DS_Store` が頻繁に生成されるので、最初から除外しておくと良い。
 
 ---
-2026-04-23 (last updated: 2026-05-04)　タツヲ ([yto](https://x.com/yto))
+2026-04-23 (last updated: 2026-05-05)　タツヲ ([yto](https://x.com/yto))
