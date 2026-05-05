@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>バイブコーディングで知っておきたいWebアプリの2つのタイプ</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2937; background: #f6f7fb; line-height: 1.7; }
+    .topnav { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 10px 20px; font-size: 0.875rem; }
+    .topnav a { color: #6b7280; text-decoration: none; }
+    .topnav a:hover { color: #1f2937; text-decoration: none; }
+    .container { max-width: 720px; margin: 0 auto; padding: 40px 20px 80px; }
+    h1 { font-size: 1.5rem; font-weight: 700; line-height: 1.4; margin: 0 0 4px; }
+    .subtitle { font-size: 0.95rem; color: #6b7280; margin: 0 0 1.5em; }
+    h2 { font-size: 1.15rem; font-weight: 700; margin: 2.2em 0 0.5em; padding-bottom: 4px; border-bottom: 2px solid #e5e7eb; }
+    h3, h4, h5, h6 { font-size: 1rem; font-weight: 600; margin: 1.5em 0 0.4em; color: #374151; }
+    p { margin: 0.5em 0 0.8em; }
+    ul, ol { margin: 0.4em 0 0.8em; padding-left: 1.6em; }
+    li { margin: 0.3em 0; }
+    code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 0.88em; background: #e5e7eb; padding: 1px 5px; border-radius: 4px; }
+    pre { background: #1f2937; color: #f3f4f6; padding: 14px 16px; border-radius: 8px; overflow-x: auto; margin: 0.6em 0 1em; }
+    pre code { background: none; padding: 0; font-size: 0.875rem; color: inherit; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    blockquote { background: #fff; border-left: 3px solid #d1d5db; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 0.8em 0; color: #4b5563; font-size: 0.93em; }
+    blockquote p { margin: 0; }
+    hr { border: none; border-top: 1px solid #e5e7eb; margin: 2em 0 0; }
+    hr + p { font-size: 0.875rem; color: #6b7280; margin-top: 0.5em; }
+    table { border-collapse: collapse; width: 100%; margin: 0.6em 0 1em; }
+    th, td { border: 1px solid #e5e7eb; padding: 8px 12px; text-align: left; }
+    th { background: #f3f4f6; font-weight: 600; }
+    .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px 16px; border-radius: 0 6px 6px 0; margin: 1em 0; }
+    .toc { background: #eef2ff; border-radius: 8px; padding: 12px 18px; margin: 1.5em 0 2em; font-size: 0.82rem; line-height: 1.5; }
+    .toc ul { margin: 0.15em 0; padding-left: 1.3em; }
+    .toc > ul { padding-left: 0; list-style: none; }
+    .toc li { margin: 0.15em 0; }
+    .toc a { color: #4b5563; }
+    .toc a:hover { color: #1f2937; text-decoration: underline; }
+  </style>
+</head>
+<body>
+<nav class="topnav"><a href="./">← 一覧</a></nav>
+<div class="container">
+
+<h1 id="web2">バイブコーディングで知っておきたいWebアプリの2つのタイプ</h1>
+<p>バイブコーディングでWebアプリを作るとき、「データをどこに置くか」を最初に意識しておくと、設計の見通しがよくなる。</p>
+<nav class="toc">
+<ul><li><a href="#2">データの置き場所で決まる2つのタイプ</a><ul><li><a href="#_1">一人完結型</a></li><li><a href="#_2">共有型</a></li></ul></li><li><a href="#_3">必要な技術要素の違い</a><ul><li><a href="#_4">一人完結型</a></li><li><a href="#_5">共有型</a></li></ul></li><li><a href="#_6">一人完結型から始めて、共有型へ</a></li><li><a href="#_7">次のステップ</a></li><li><a href="#_8">付録：カテゴリ別マトリクス</a></li></ul>
+</nav>
+<h2 id="2">データの置き場所で決まる2つのタイプ</h2>
+<h3 id="_1">一人完結型</h3>
+<p>データはブラウザの中（端末ごと）に保存される。自分一人で使うことを前提としたシンプルな構成で、URLを共有すれば他の人も同じアプリを使えるが、お互いのデータは完全に独立している。「アプリを共有する」ことと「データを共有する」ことは別の話だ。</p>
+<p>例：TODOリスト、メモ帳、家計簿、ポモドーロタイマー、単語帳</p>
+<h3 id="_2">共有型</h3>
+<p>データはインターネット上の外部システムに保存される。複数のユーザーや端末からアクセスでき、データを共有・参照できる。</p>
+<p>例：チャット、SNS、ランキング、共同編集ツール</p>
+<hr />
+<h2 id="_3">必要な技術要素の違い</h2>
+<p>この2つのタイプは、データの置き場所の違いによって、必要な技術要素が大きく変わる。</p>
+<h3 id="_4">一人完結型</h3>
+<ul>
+<li><strong>フロントエンド</strong>: HTML / CSS / JavaScript のみ</li>
+<li><strong>データ保存</strong>: ブラウザの <code>localStorage</code> または <code>IndexedDB</code></li>
+<li><strong>ホスティング</strong>: 静的ファイルを置くだけでよい（Cloudflare Pages など）</li>
+</ul>
+<p>バックエンド（データの処理や保存を担う仕組み）が不要なため、構成はシンプルだ。Claude Codeに頼んで作ったファイルをそのままデプロイ（本番環境への公開・反映）すれば動く。</p>
+<h3 id="_5">共有型</h3>
+<ul>
+<li><strong>フロントエンド</strong>: HTML / CSS / JavaScript（一人完結型と同じ）</li>
+<li><strong>バックエンド</strong>: Cloudflare Pages Functions / Workers など</li>
+<li><strong>データベース</strong>: Cloudflare D1 など</li>
+<li><strong>ホスティング</strong>: フロントエンドに加えてバックエンドも動かせる環境が必要（一人完結型とは異なる）</li>
+</ul>
+<p>フロントエンドに加えて、データを受け取り・返すAPIと、データを永続的に保存するデータベースが必要になる。構成が複雑になる分、考えることも増える。また、データが複数人に見える分、「誰がアクセスできるか」を制御する仕組みが必要になることも多く、セキュリティへの配慮が求められる。</p>
+<hr />
+<h2 id="_6">一人完結型から始めて、共有型へ</h2>
+<p>多くのWebアプリは、一人完結型として始まり、必要に応じて共有型へ進化する。</p>
+<ul>
+<li>TODOリスト → チームTODO</li>
+<li>メモ帳 → 共同メモ</li>
+<li>スコアアタックゲーム → ランキング付きゲーム</li>
+<li>家計簿 → 家族で共有する家計簿</li>
+</ul>
+<p>バイブコーディングでWebアプリを作るときも、まず一人完結型で動くものを作り、そこから必要な部分だけ共有化していく順番がおすすめだ。一人完結型はシンプルに作れるので、アイデアを形にする最初のステップとして最適だ。何を作るか迷ったときも、まず一人完結型で試してみよう。共有機能は後からでも追加できる。</p>
+<hr />
+<h2 id="_7">次のステップ</h2>
+<p>実際に手を動かしてみよう。
+<a href="https://yto.github.io/vibecoding/">本サイト</a>のハンズオンを上から順番に進めていくのがおすすめ。
+例として、一人完結型と共有型のハンズオンを一つずつあげておく。</p>
+<ul>
+<li><a href="claude-code-cloudflare-pages-wrangler.html">Claude CodeでWebアプリを作ってWranglerでCloudflare Pagesに公開する</a> — 一人完結型の典型的なパターン</li>
+<li><a href="claude-code-web-app-cloudflare-d1.html">Claude CodeでDB付きWebアプリを作ってCloudflareで公開する</a> — 共有型にステップアップ</li>
+</ul>
+<hr />
+<h2 id="_8">付録：カテゴリ別マトリクス</h2>
+<p>Webアプリを目的ごとに分類したうえで、一人完結型と共有型の例を並べた。</p>
+<table>
+<thead>
+<tr>
+<th>カテゴリ</th>
+<th>一人完結型</th>
+<th>共有型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>記録</td>
+<td>TODO / 日記 / 習慣トラッカー / 体重記録 / 支出メモ / 読書ログ / 作業ログ / 旅行ログ / 睡眠ログ / 食事記録 / 運動記録 / 体調メモ / アイデアログ / 買い物メモ / 観た映画ログ</td>
+<td>チームTODO / 公開日記 / 共有家計簿 / 読書レビュー共有 / 旅行ログ共有 / 勉強記録ランキング / 食事投稿 / 映画レビューサイト / ライフログSNS</td>
+</tr>
+<tr>
+<td>思考・整理</td>
+<td>メモ帳 / マインドマップ / アウトライナー / アイデア帳 / プロンプト管理 / タスク分解 / KJ法ツール / 思考ログ / 意思決定メモ / 目標管理 / WBS簡易版</td>
+<td>共同メモ / 共同マインドマップ / アイデア投稿 / プロンプト共有 / ナレッジベース / FAQ / 企画ブレスト / ドキュメント共有</td>
+</tr>
+<tr>
+<td>可視化</td>
+<td>グラフ / 学習時間可視化 / ヒートマップ / ライフログ可視化 / 時間分析 / 睡眠可視化 / 気分トラッカー / 進捗バー</td>
+<td>ランキング / 学習時間ランキング / 全体ヒートマップ / 推移グラフ / トレンド分析 / 投稿数ランキング / 活動量ランキング</td>
+</tr>
+<tr>
+<td>ツール</td>
+<td>JSON整形 / 文字数カウント / 日付計算 / 色変換 / 正規表現 / Base64 / パスワード生成 / URLエンコード / QRコード / UUID / diff / CSV整形 / 抽選 / ルーレット</td>
+<td>テキスト共有 / URL短縮 / 共有リンク / 画像アップ / ファイル共有 / コード共有 / QR共有 / 抽選共有 / フォーム投稿</td>
+</tr>
+<tr>
+<td>学習</td>
+<td>単語帳 / クイズ / 暗記カード / ポモドーロ / 問題演習 / タイピング / 計算ドリル / 英単語 / 資格対策 / 音声学習</td>
+<td>クイズランキング / 単語帳共有 / 問題投稿 / 学習SNS / 勉強時間ランキング / 模試共有 / 解説投稿</td>
+</tr>
+<tr>
+<td>ゲーム</td>
+<td>パズル / タイピング / 反射神経 / 放置ゲーム / スライドパズル / ソリティア / 神経衰弱 / 数独 / 脳トレ / 迷路 / クリック連打</td>
+<td>スコアランキング / 対戦（麻雀・オセロ・将棋・トランプ） / 協力ゲーム / デイリーランキング / イベント / タイムアタック / ゴースト対戦</td>
+</tr>
+<tr>
+<td>コミュニケーション</td>
+<td>—</td>
+<td>チャット / 掲示板 / SNS / Q&amp;A / コメント / いいね / DM / スタンプ</td>
+</tr>
+<tr>
+<td>収集・キュレーション</td>
+<td>ブックマーク / お気に入り / リンク集 / レシピ / 商品メモ / 行きたい場所</td>
+<td>ブックマーク共有 / レシピ共有 / 商品レビュー / リンク投稿 / まとめサイト / お店レビュー</td>
+</tr>
+<tr>
+<td>生成・クリエイティブ</td>
+<td>ランダム生成 / おみくじ / 名前生成 / 画像生成 / 詩 / コピー生成</td>
+<td>作品投稿 / 画像共有 / AI生成共有 / 小説投稿 / お題投稿 / ランキング</td>
+</tr>
+<tr>
+<td>イベント・管理</td>
+<td>カレンダー / 予定管理 / リマインダー / タイムライン</td>
+<td>出欠管理 / 共有カレンダー / ミートアップ / 参加者管理 / 掲示板</td>
+</tr>
+<tr>
+<td>ビジネス（業務）</td>
+<td>レシート管理 / 経費メモ / 簡易帳簿 / 売上記録 / 請求メモ / 顧客メモ / 案件メモ / 在庫メモ / 作業時間 / タスク管理 / 進捗管理</td>
+<td>会計 / 請求管理 / CRM / 案件管理 / 在庫管理 / プロジェクト管理 / チームタスク / 工数管理</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>2026-05-05　タツヲ (<a href="https://x.com/yto">yto</a>)</p>
+
+</div>
+</body>
+</html>
