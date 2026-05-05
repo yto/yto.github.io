@@ -65,7 +65,7 @@
 [本サイト](https://yto.github.io/vibecoding/)のハンズオンを上から順番に進めていくのがおすすめ。
 例として、一人完結型と共有型のハンズオンを一つずつあげておく。
 
-- [Cloudflare PagesにHTMLファイルをアップロードしてWebアプリとして公開する](cloudflare-pages-static-files.html) — 一人完結型の一番簡単なパターン
+- [CloudflareにHTMLファイルをアップロードしてWebアプリとして公開する](cloudflare-pages-static-files.html) — 一人完結型の一番簡単なパターン
 - [Claude CodeでDB付きWebアプリを作ってCloudflareで公開する](claude-code-web-app-cloudflare-d1.html) — 共有型にステップアップ
 
 ---
